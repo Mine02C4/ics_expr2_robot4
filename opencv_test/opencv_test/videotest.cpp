@@ -26,6 +26,9 @@ int VideoTest::Init()
 
 void VideoTest::ReadFrame()
 {
-  cap_.read(frame_);
+  if (cap_.grab() == false)
+    return;
+  if (cap_.retrieve(frame_, 0) == false)
+    return;
   cv::imshow("VideoTest", frame_);
 }
