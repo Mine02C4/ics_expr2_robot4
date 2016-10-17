@@ -1,8 +1,10 @@
 # Configuration area
 CXX = g++
-CXXFLAGS = -O0
+LDFLAGS = -lopencv_legacy -lopencv_highgui -lopencv_core -lopencv_ml -lopencv_video
+CXXFLAGS = -O0 $(LDFLAGS)
 PROJ_DIR := opencv_test
-OUTPUT := opencv_test
+OUTPUT := ocbin
+
 
 objects := $(patsubst %.cpp,%.o,$(wildcard $(PROJ_DIR)/*.cpp))
 
@@ -11,7 +13,7 @@ objects := $(patsubst %.cpp,%.o,$(wildcard $(PROJ_DIR)/*.cpp))
 all: $(OUTPUT)
 
 $(OUTPUT): $(objects)
-	$(CXX) $(objects) -o $@
+	$(CXX) $(CXXFLAGS) $(objects) -o $@
 
 clean:
 	rm $(PROJ_DIR)/*.o
