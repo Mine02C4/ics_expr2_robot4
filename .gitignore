@@ -11,6 +11,9 @@
 ## Temporary files
 *.o
 
+## Output binary
+*.out
+
 ## OpenCV
 /opencv/
 

@@ -3,7 +3,7 @@ CXX = g++
 LDFLAGS = -lopencv_legacy -lopencv_highgui -lopencv_core -lopencv_ml -lopencv_video
 CXXFLAGS = -O0 $(LDFLAGS)
 PROJ_DIR := opencv_test
-OUTPUT := ocbin
+OUTPUT := test.out
 
 
 objects := $(patsubst %.cpp,%.o,$(wildcard $(PROJ_DIR)/*.cpp))
