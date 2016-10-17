@@ -2,6 +2,8 @@
 #include <opencv2/highgui/highgui.hpp>
 #include <iostream>
 
+#include "videotest.h"
+
 using namespace cv;
 using namespace std;
 
@@ -19,6 +21,18 @@ int main(int argc, char** argv)
   namedWindow("Display window", WINDOW_AUTOSIZE); // Create a window for display.
   imshow("Display window", image); // Show our image inside it.
 
-  waitKey(0); // Wait for a keystroke in the window
+  VideoTest* vt = new VideoTest();
+  vt->Init();
+
+  while (1) {
+    vt->ReadFrame();
+    int key = waitKey(1000);
+    if (key >= 0) {
+      break;
+    }
+  }
+
+  delete vt;
+
   return 0;
 }

@@ -112,9 +112,13 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="test.cpp" />
+    <ClCompile Include="videotest.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="yuiyui.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="videotest.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
