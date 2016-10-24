@@ -47,9 +47,8 @@ int main(int argc, char **argv)
 #endif
   cmd.dout = 0;
 
-  cmd.selout = SET_SELECT | CH0 | CH1 | CH2 | CH3; /* EEPROM データが正しければ不要 */
+  cmd.selout = SET_SELECT | CH0 | CH1 | CH2 | CH3;
 
-  /*---各チャンネルのオフセット値の設定---*/
 #if __BYTE_ORDER ==  __LITTLE_ENDIAN
   cmd.offset[0] = cmd.offset[1] = cmd.offset[2] = cmd.offset[3] = 0x7fff;
   cmd.counter[0] = cmd.counter[1] = cmd.counter[2] = cmd.counter[3] = 0;
@@ -65,15 +64,12 @@ int main(int argc, char **argv)
 
   cmd.wrrom = 0; /* WR_MAGIC | WR_OFFSET | WR_SELOUT;*/
 
-  /*---ccmdのモードに切り替える---*/
-  /*---以後，ccmdモードに切り替えられるまで，モードは維持される---*/
   if (ioctl(fd, URBTC_COUNTER_SET) < 0){
     fprintf(stderr, "ioctl: URBTC_COUNTER_SET error\n");
     exit(1);
   }
   // printf("sizeof(cmd) %d\n", sizeof(cmd));
 
-  /*---ccmdの値をH8に書き込む---*/
   if (write(fd, &cmd, sizeof(cmd)) < 0) {
     fprintf(stderr, "write error\n");
     exit(1);
@@ -114,7 +110,6 @@ int main(int argc, char **argv)
     unsigned short a = 300.0*sin(i*3.14/655.360) + 512.0;
     a <<= 5;
 
-    /*---各チャンネルのオフセット値の設定---*/
     cmd.offset[0] = cmd.offset[1] = cmd.offset[2] = cmd.offset[3] = a;
 
     if (ioctl(fd, URBTC_COUNTER_SET) < 0){
@@ -122,7 +117,6 @@ int main(int argc, char **argv)
       exit(1);
     }
 
-    /*---ccmdの値をH8に書き込む---*/
     if (write(fd, &cmd, sizeof(cmd)) > 0) {
       i += 1;
     } else {
@@ -147,8 +141,4 @@ char *addr;
   quit_flag = 0;
   fprintf(stderr, "kill signal is received\n");
 }
-
-
-
-
 
