@@ -10,6 +10,7 @@
 
 ## Temporary files
 *.o
+*.d
 
 ## Output binary
 *.out
