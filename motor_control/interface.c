@@ -136,7 +136,29 @@ motor_test_loop()
 }
 
 void
-motor_exit()
+motor_set_by_double(double val)
+{
+  unsigned short a = val * 300.0 + 512.0;
+#if __BYTE_ORDER == __LITTLE_ENDIAN
+  obuf.ch[2].x = obuf.ch[3].x = a;
+#else
+  obuf.ch[2].x = obuf.ch[3].x = ((a & 0xff) << 8 | (a & 0xff00) >> 8);
+#endif
+  printf("%x\r\n",obuf.ch[3].x);
+  if (write(fds, &obuf, sizeof(obuf)) > 0) {
+  } else {
+    printf("write err\n");
+  }
+}
+
+void
+motor_finalize()
+{
+  close(fds);
+}
+
+void
+motor_exit_loop()
 {
   motor_quit_flag = 0;
 }
