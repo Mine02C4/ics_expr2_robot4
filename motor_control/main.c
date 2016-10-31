@@ -26,5 +26,6 @@ static void exit_program(int sig)
   motor_set_by_double(0.0);
   fprintf(stderr, "kill signal is received\n");
   motor_finalize();
+  exit(0);
 }
 
