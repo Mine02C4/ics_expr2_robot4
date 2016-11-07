@@ -116,6 +116,7 @@ int main(int argc, char **argv)
 
     /*---各チャンネルのオフセット値の設定---*/
     cmd.offset[0] = cmd.offset[1] = cmd.offset[2] = cmd.offset[3] = a;
+//    cmd.offset[3] = 512;
 
     if (ioctl(fd, URBTC_COUNTER_SET) < 0){
       fprintf(stderr, "ioctl: URBTC_COUNTER_SET error\n");

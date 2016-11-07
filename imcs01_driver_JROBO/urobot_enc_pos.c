@@ -129,12 +129,15 @@ int main(int argc, char **argv)
     for (j=0; j<numOfControllers; j++) {
 
 #if __BYTE_ORDER == __LITTLE_ENDIAN
-      obuf[j].ch[2].x = obuf[j].ch[3].x = a;
+      //obuf[j].ch[1].x = obuf[j].ch[2].x = 512 << 5;
+	obuf[j].ch[3].x = a;
+	obuf[j].ch[1].x = a;
 #else
       obuf[j].ch[2].x = obuf[j].ch[3].x = ((a & 0xff) << 8 | (a & 0xff00) >> 8);
 #endif
-	printf("%x\r\n",obuf[j].ch[3].x);
 
+	printf("CHANNEL0: %x\r\n", obuf[j].ch[0].x);
+	printf("CHANNEL2: %x\r\n",obuf[j].ch[2].x);
       if (write(fds[j], &obuf[j], sizeof(obuf[j])) > 0) {
 	i++;
       } else {

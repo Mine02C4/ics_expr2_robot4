@@ -117,12 +117,12 @@ int main(int argc, char **argv)
       buf.ad[i] >>= 5;
     }
 
-    printf("current=%d, delta=%d\n", buf.ad[3], x_d - buf.ad[3]);
+    printf("current=%d, delta=%d\n", buf.ad[0], x_d - buf.ad[0]);
 
     x_d <<= 5;
 
     /*---各チャンネルの目標値をセット---*/
-    obuf.ch[0].x = obuf.ch[1].x = obuf.ch[2].x = obuf.ch[3].x = x_d;
+    obuf.ch[0].x = obuf.ch[1].x = obuf.ch[2].x = obuf.ch[3].x = 512 << 5;
 
     /*---scmdモードでobufの値を書き込む---*/
     if (write(fd, &obuf, sizeof(obuf)) > 0) {

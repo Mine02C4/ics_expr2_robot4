@@ -107,10 +107,11 @@ int main(int argc, char **argv)
 
   i = 0;
   while(quit_flag) {
-    unsigned short a = 300.0*sin(i*3.14/655.360) + 512.0;
+    unsigned short a = 400.0*sin(i*3.14/655.360) + 512.0;
     a <<= 5;
 
-    cmd.offset[0] = cmd.offset[1] = cmd.offset[2] = cmd.offset[3] = a;
+ //   cmd.offset[0] = cmd.offset[1] = cmd.offset[2] = cmd.offset[3] = a;
+    cmd.offset[0] = cmd.offset[1] = a;
 
     if (ioctl(fd, URBTC_COUNTER_SET) < 0){
       fprintf(stderr, "ioctl: URBTC_COUNTER_SET error\n");

@@ -1,5 +1,6 @@
 CC = gcc
-CFLAGS = -o -Wall
+CFLAGS = -Wall
+LDFLAGS = -lm
 
 urobotm: urobotm.c
 	$(CC) $(CFLAGS) -o $@ $< -lm

@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include <signal.h>
-
+#include <stdlib.h>
 #include "interface.h"
 
 static void exit_program(int);
@@ -9,7 +9,7 @@ int
 main()
 {
   signal(SIGINT, exit_program);
-  motor_init();
+  motor_init();  // initialize mortor
   //motor_test_loop();
   while (1) {
     double val;
@@ -26,5 +26,7 @@ static void exit_program(int sig)
   motor_set_by_double(0.0);
   fprintf(stderr, "kill signal is received\n");
   motor_finalize();
+  fprintf(stderr, "exiting...\n");
+  exit(0);
 }
 

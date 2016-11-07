@@ -135,9 +135,19 @@ motor_test_loop()
   close(fds);
 }
 
+int motor_set(struct mstat *statp) {
+	
+	return 0;
+}
+
+int chkstat (unsigned short currstat, unsigned short statbit) {
+	return ((currstat & statbit) == statbit);
+}
+
 void
 motor_set_by_double(double val)
 {
+	/* set mortor  by double */
   unsigned short a = val * 300.0 + 512.0;
 #if __BYTE_ORDER == __LITTLE_ENDIAN
   obuf.ch[2].x = obuf.ch[3].x = a;
