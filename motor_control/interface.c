@@ -135,8 +135,37 @@ motor_test_loop()
   close(fds);
 }
 
+void set_stat (struct mstat *statp) {
+	/* set status */
+
+	statp -> stat &= ~(STAT_TL | STAT_TR | STAT_MVF)
+	if (statp -> lm < rm) {
+		statp -> stat |= STAT_TL;	// turning left
+	} else if (statp -> lm < rm) {
+		statp -> stat  |= STAT_TR; // turning right
+	} else {
+		statp -> stat |= STAT_MF; // fwd
+	}
+	return;
+}
+
 int motor_set(struct mstat *statp) {
-	
+	/* todo one of the motor is reversed */
+	short rotl = statp -> lm;	// rounds
+	short rotr = statp -> rm;	// 512
+#if __BYTE_ORDER == __LITTLE_ENDIAN
+	obuf.ch[MRIGHT].x = rotr;	// set right rounds
+	obuf.ch[MLEFT].x = rotl + 1024; // set left rounds
+#else
+	obuf.ch[MRIGHT].x = ((rotr & 0xff) << 8 | (rotr & 0xff00) >> 8);
+	obuf.ch[MLEFT].x = ((rotl & 0xff) << 8 | (rotl & 0xff00) >> 8);
+#endif
+	if (write(fds, &obuf, sizeof(obuf)) > 0) {
+		printf("MRIGHT: %x MLEFT: %x\r\n", 
+				obuf.ch[MRIGHT].x, obuf.ch[MLEFT].x);
+	} else {
+	  printf("write err\n");
+	}
 	return 0;
 }
 

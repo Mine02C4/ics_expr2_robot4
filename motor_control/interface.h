@@ -27,5 +27,7 @@ struct mstat {
 	unsigned short stat;
 	unsigned short rstat;
 	unsigned short lstat;
+	/* +- 0 - 1024 */
+	short lm, rm;	// left motor
 };
 #endif  // MOTOR_CTRL_INTERFACE_H_
