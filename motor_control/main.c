@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <stdlib.h>
 #include <signal.h>
 #include <stdlib.h>
 #include "interface.h"
@@ -26,7 +27,10 @@ static void exit_program(int sig)
   motor_set_by_double(0.0);
   fprintf(stderr, "kill signal is received\n");
   motor_finalize();
+<<<<<<< HEAD
   fprintf(stderr, "exiting...\n");
+=======
+>>>>>>> 7932a32c033c9eb053cf9e83e88087c80d7e85db
   exit(0);
 }
 
