@@ -136,47 +136,47 @@ motor_test_loop()
 }
 
 void set_stat (struct mstat *statp) {
-	/* set status */
+  /* set status */
 
-	statp -> stat &= ~(STAT_TL | STAT_TR | STAT_MVF)
-	if (statp -> lm < rm) {
-		statp -> stat |= STAT_TL;	// turning left
-	} else if (statp -> lm < rm) {
-		statp -> stat  |= STAT_TR; // turning right
-	} else {
-		statp -> stat |= STAT_MF; // fwd
-	}
-	return;
+  statp -> stat &= ~(STAT_TL | STAT_TR | STAT_MVF)
+  if (statp -> lm < rm) {
+    statp -> stat |= STAT_TL; // turning left
+  } else if (statp -> lm < rm) {
+    statp -> stat  |= STAT_TR; // turning right
+  } else {
+    statp -> stat |= STAT_MF; // fwd
+  }
+  return;
 }
 
 int motor_set(struct mstat *statp) {
-	/* todo one of the motor is reversed */
-	short rotl = statp -> lm;	// rounds
-	short rotr = statp -> rm;	// 512
+  /* todo one of the motor is reversed */
+  short rotl = statp -> lm; // rounds
+  short rotr = statp -> rm; // 512
 #if __BYTE_ORDER == __LITTLE_ENDIAN
-	obuf.ch[MRIGHT].x = rotr;	// set right rounds
-	obuf.ch[MLEFT].x = rotl + 1024; // set left rounds
+  obuf.ch[MRIGHT].x = rotr; // set right rounds
+  obuf.ch[MLEFT].x = rotl + 1024; // set left rounds
 #else
-	obuf.ch[MRIGHT].x = ((rotr & 0xff) << 8 | (rotr & 0xff00) >> 8);
-	obuf.ch[MLEFT].x = ((rotl & 0xff) << 8 | (rotl & 0xff00) >> 8);
+  obuf.ch[MRIGHT].x = ((rotr & 0xff) << 8 | (rotr & 0xff00) >> 8);
+  obuf.ch[MLEFT].x = ((rotl & 0xff) << 8 | (rotl & 0xff00) >> 8);
 #endif
-	if (write(fds, &obuf, sizeof(obuf)) > 0) {
-		printf("MRIGHT: %x MLEFT: %x\r\n", 
-				obuf.ch[MRIGHT].x, obuf.ch[MLEFT].x);
-	} else {
-	  printf("write err\n");
-	}
-	return 0;
+  if (write(fds, &obuf, sizeof(obuf)) > 0) {
+    printf("MRIGHT: %x MLEFT: %x\r\n", 
+        obuf.ch[MRIGHT].x, obuf.ch[MLEFT].x);
+  } else {
+    printf("write err\n");
+  }
+  return 0;
 }
 
 int chkstat (unsigned short currstat, unsigned short statbit) {
-	return ((currstat & statbit) == statbit);
+  return ((currstat & statbit) == statbit);
 }
 
 void
 motor_set_by_double(double val)
 {
-	/* set mortor  by double */
+  /* set mortor  by double */
   unsigned short a = val * 300.0 + 512.0;
   a <<= 5;
 #if __BYTE_ORDER == __LITTLE_ENDIAN

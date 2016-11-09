@@ -1,7 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <signal.h>
-#include <stdlib.h>
 #include "interface.h"
 
 static void exit_program(int);
