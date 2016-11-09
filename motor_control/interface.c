@@ -138,13 +138,13 @@ motor_test_loop()
 void set_stat (struct mstat *statp) {
   /* set status */
 
-  statp -> stat &= ~(STAT_TL | STAT_TR | STAT_MVF)
-  if (statp -> lm < rm) {
-    statp -> stat |= STAT_TL; // turning left
-  } else if (statp -> lm < rm) {
-    statp -> stat  |= STAT_TR; // turning right
+  statp->stat &= ~(STAT_TL | STAT_TR | STAT_MVF);
+  if (statp->lm < statp->rm) {
+    statp->stat |= STAT_TL; // turning left
+  } else if (statp->lm < statp->rm) {
+    statp->stat |= STAT_TR; // turning right
   } else {
-    statp -> stat |= STAT_MF; // fwd
+    statp->stat |= STAT_MVF; // fwd
   }
   return;
 }
