@@ -23,6 +23,8 @@ extern void motor_exit_loop(); // MUST CALL before closing program!!!
 extern void motor_finalize(); // MUST CALL before closing program!!!
 extern void motor_set_by_double(double);
 
+enum wheel { LEFT, RIGHT };
+
 struct mstat {
   unsigned short stat;
   unsigned short rstat;
