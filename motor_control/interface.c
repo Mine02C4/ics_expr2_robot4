@@ -177,7 +177,7 @@ void
 motor_set_by_double(double val)
 {
   /* set mortor  by double */
-  unsigned short a = val * 300.0 + 512.0;
+  unsigned short a = val * 300.0;// + 512.0;
   a <<= 6;
 #if __BYTE_ORDER == __LITTLE_ENDIAN
   obuf.ch[2].x = obuf.ch[3].x = a;
@@ -203,4 +203,16 @@ motor_exit_loop()
   motor_quit_flag = 0;
 }
 
+static int
+ifn_by_wheel(enum wheel w)
+{
+  switch (w) {
+    case LEFT:
+      return 2;
+    case RIGHT:
+      return 3;
+    default:
+      return -1; // Assertion error!
+  }
+}
 
