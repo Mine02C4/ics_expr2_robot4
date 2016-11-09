@@ -178,7 +178,7 @@ motor_set_by_double(double val)
 {
   /* set mortor  by double */
   unsigned short a = val * 300.0 + 512.0;
-  a <<= 5;
+  a <<= 6;
 #if __BYTE_ORDER == __LITTLE_ENDIAN
   obuf.ch[2].x = obuf.ch[3].x = a;
 #else
