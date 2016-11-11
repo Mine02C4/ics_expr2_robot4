@@ -2,7 +2,7 @@
 #define OPENCV_TEST_VIDEOTEST_H_
 
 #include <opencv2/highgui/highgui.hpp>
-#include <opencv2/features2d.hpp>
+#include <opencv2/features2d/features2d.hpp>
 
 class VideoTest {
 public:

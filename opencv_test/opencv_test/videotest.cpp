@@ -54,7 +54,7 @@ void VideoTest::TrackFeatures()
 
   // 特徴点マッチング
   cv::BFMatcher matcher;
-  std::vector<std::vector<cv::DMatch>> knn_matches;
+  std::vector<std::vector<cv::DMatch> > knn_matches;
   matcher.knnMatch(prev_desc_, desc, knn_matches, 2);
 
   const auto match_par = .6f;
