@@ -23,5 +23,5 @@ $(BUILD_DIR)/%.o: $(PROJ_DIR)/%.cpp
 -include $(DEPS)
 
 clean:
-	rm $(PROJ_DIR)/*.o
+	rm $(BUILD_DIR)/*
 
