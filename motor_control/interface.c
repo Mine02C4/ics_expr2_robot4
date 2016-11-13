@@ -21,6 +21,16 @@ static int fd, fds;
 
 static int motor_quit_flag = 1;
 
+void mstat_init(struct mstat *mstp) {
+	/* initialize motor status */
+	mstp -> stat = STAT_DEFAULT;
+	mstp -> rstat = STAT_DEFAULT;
+	mstp -> lstat = STAT_DEFAULT;
+	mstp -> motor_l = 0; 	/* set rotation */
+	mstp -> motor_r = 0;
+	return;
+}
+
 void
 motor_init()
 {
@@ -138,10 +148,10 @@ motor_test_loop()
 void set_stat (struct mstat *statp) {
   /* set status */
 
-  statp->stat &= ~(STAT_TL | STAT_TR | STAT_MVF);
-  if (statp->lm < statp->rm) {
+  statp -> stat &= ~(STAT_TL | STAT_TR | STAT_MVF);
+  if (statp->motor_l < statp->motor_r) {
     statp->stat |= STAT_TL; // turning left
-  } else if (statp->lm < statp->rm) {
+  } else if (statp->motor_l < statp->motor_r) {
     statp->stat |= STAT_TR; // turning right
   } else {
     statp->stat |= STAT_MVF; // fwd
@@ -149,10 +159,23 @@ void set_stat (struct mstat *statp) {
   return;
 }
 
-int motor_set(struct mstat *statp) {
-  /* todo one of the motor is reversed */
-  short rotl = statp -> lm; // rounds
-  short rotr = statp -> rm; // 512
+void motor_set(struct mstat *mstp, short rotl, short rotr){
+	/* set both right and left rotation */
+	if (((-1023 < rotl) && (rotl < 1023)) && 
+			((-1023 < rotr) && (rotr < 1023))) {
+		// if valid input
+		mstp -> lstat = rotl;
+		mstp -> rstat = rotr;
+	} else {
+		fprintf(stderr, "Invalid rot input. Rot should be between -1023 and 1023\n");
+	}
+	return;
+}
+
+int motor_write (struct mstat *statp) {
+  /* todo one of the motor should be reversed */
+  short rotl = statp -> motor_l; // left motor rotation
+  short rotr = statp -> motor_r; // 512
 #if __BYTE_ORDER == __LITTLE_ENDIAN
   obuf.ch[MRIGHT].x = rotr; // set right rounds
   obuf.ch[MLEFT].x = rotl + 1024; // set left rounds
@@ -169,8 +192,9 @@ int motor_set(struct mstat *statp) {
   return 0;
 }
 
-int chkstat (unsigned short currstat, unsigned short statbit) {
-  return ((currstat & statbit) == statbit);
+int is_stat (unsigned short currstat, unsigned short statbit) {
+  	/* return True or False */
+	return ((currstat & statbit) == statbit);
 }
 
 void

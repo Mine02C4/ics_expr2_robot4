@@ -8,14 +8,16 @@ static void exit_program(int);
 int
 main()
 {
+  struct mstat mst;
   signal(SIGINT, exit_program);
-  motor_init();  // initialize mortor
-  //motor_test_loop();
+  motor_init();  // initialize motor
+  mstat_init(&mst); // initialize motorstat
+  short left, right;
   while (1) {
-    double val;
-    printf("Input double [-1.0, 1.0]: ");
-    scanf("%lf", &val);
-    motor_set_by_double(val);
+    printf("Input [-1.0, 1.0]: ");
+    scanf("%d %d", &left, &right);
+	motor_set(&mst, left, right);
+	motor_write(&mst);
   }
   return 0;
 }

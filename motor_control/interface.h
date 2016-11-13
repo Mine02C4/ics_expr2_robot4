@@ -17,11 +17,14 @@
 #define STAT_TL 0x0080    // turning left
 #define STAT_ERR 0x8000   // error
 
+struct mstat;
 extern void motor_init();
 extern void motor_test_loop();
 extern void motor_exit_loop(); // MUST CALL before closing program!!!
 extern void motor_finalize(); // MUST CALL before closing program!!!
 extern void motor_set_by_double(double);
+extern int motor_write(struct mstat *);
+extern void motor_set(struct mstat *, short, short);
 
 enum wheel { LEFT, RIGHT };
 
@@ -29,7 +32,8 @@ struct mstat {
   unsigned short stat;
   unsigned short rstat;
   unsigned short lstat;
-  /* +- 0 - 1024 */
-  short lm, rm; // left motor
+  
+  /* -1023 to +1023 */
+  short motor_l, motor_r; // left motor right motor
 };
 #endif  // MOTOR_CTRL_INTERFACE_H_
