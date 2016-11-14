@@ -1,6 +1,6 @@
 # Configuration area
 CXX = g++
-LDFLAGS = -lopencv_legacy -lopencv_highgui -lopencv_core -lopencv_ml -lopencv_video
+LDFLAGS = `pkg-config --libs opencv`
 CXXFLAGS = -O2 -std=c++11
 >>>>>>> 6f7c000bb6c934a9840805b56dab2027151a4662
 PROJ_DIR := opencv_test
