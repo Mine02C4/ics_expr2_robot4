@@ -17,6 +17,9 @@ private:
   cv::Mat frame_, disp_features_;
   std::vector<cv::KeyPoint> prev_keypts_;
   cv::Mat prev_desc_;
+  cv::Mat target_img_;
+  std::vector<cv::KeyPoint> target_keypts_;
+  cv::Mat target_desc_;
 };
 
 #endif  // OPENCV_TEST_VIDEOTEST_H_
