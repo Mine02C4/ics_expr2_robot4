@@ -2,6 +2,8 @@
 
 #include <iostream>
 
+#include <opencv2/imgproc/imgproc.hpp>
+
 VideoTest::VideoTest()
 {
 }
@@ -39,8 +41,8 @@ void VideoTest::ReadFrame()
 void VideoTest::TrackFeatures()
 {
   cv::Ptr<cv::Feature2D> detector, extractor;
-  detector = cv::FeatureDetector::create("ORB");
-  extractor = cv::FeatureDetector::create("ORB");
+  detector = cv::ORB::create();;
+  extractor = cv::ORB::create();;
   std::vector<cv::KeyPoint> kpts;
   cv::Mat desc;
 
