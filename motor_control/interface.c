@@ -7,6 +7,10 @@
 #include <fcntl.h>
 #include <math.h>
 
+// set motor channel
+#define MRIGHT 0
+#define MLEFT 2
+
 #include "../imcs01_driver_JROBO/driver/urbtc.h"
 #include "../imcs01_driver_JROBO/driver/urobotc.h"
 
@@ -228,13 +232,13 @@ motor_exit_loop()
 }
 
 static int
-ifn_by_wheel(enum wheel w)
+ifn_by_wheel(enum wheel w) // interface number
 {
   switch (w) {
     case LEFT:
-      return 2;
+      return MRIGHT;
     case RIGHT:
-      return 3;
+      return MLEFT;
     default:
       return -1; // Assertion error!
   }

@@ -1,10 +1,6 @@
 #ifndef MOTOR_CTRL_INTERFACE_H_
 #define MOTOR_CTRL_INTERFACE_H_
 
-// set motor channel
-#define MRIGHT 2
-#define MLEFT 3
-
 // motor status
 #define STAT_DEFAULT 0x0000 // default
 #define STAT_STPG 0x0001  // stopping
