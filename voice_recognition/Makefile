@@ -1,8 +1,14 @@
 LIBSENT=../libsent
 LIBJULIUS=../libjulius
 
+<<<<<<< HEAD
 CC=g++
 CFLAGS=-g -O2 
+=======
+CC=gcc
+CFLAGS=-g -O2 -Wall
+MAIN := main
+>>>>>>> 6f7c000bb6c934a9840805b56dab2027151a4662
 
 ####
 #### When using system-installed libraries
@@ -18,7 +24,14 @@ LDFLAGS= -L$(LIBJULIUS) `$(LIBJULIUS)/libjulius-config --libs` -L$(LIBSENT) `$(L
 
 ############################################################
 
+.PHONY: all mod stub
+
 all: julius-simple
+
+mod: mod.o
+
+mod.o: $(filter-out $(MAIN).o, $(OBJS))
+	ar ruv mod.o $^
 
 julius-simple: julius-simple.c
 	$(CC) $(CFLAGS) $(CPPFLAGS) -o julius-simple julius-simple.c $(LDFLAGS)

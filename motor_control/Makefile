@@ -5,13 +5,22 @@ OUTPUT := motor.out
 SRCS := $(wildcard *.c)
 OBJS := $(patsubst %.c,%.o,$(SRCS))
 DEPS := $(patsubst %.c,%.d,$(SRCS))
+MAIN := main
+STUB := stub
 
-.PHONY: all clean
+.PHONY: all mod stub clean
 
 all: $(OUTPUT)
 
-$(OUTPUT): $(OBJS)
-	$(CC) $(CFLAGS) $(OBJS) -lm -o $@
+mod: mod.o
+
+mod.o: $(filter-out $(MAIN).o $(STUB).o, $(OBJS))
+	ar ruv mod.o $^
+
+stub: stub.o
+
+$(OUTPUT): $(filter-out $(STUB).o, $(OBJS))
+	$(CC) $(CFLAGS) $^ -lm -o $@
 
 %.o: %.c
 	$(CC) $(CFLAGS) -c -MMD -o $@ $<
@@ -19,5 +28,5 @@ $(OUTPUT): $(OBJS)
 -include $(DEPS)
 
 clean:
-	rm *.o *.d $(OUTPUT)
+	rm -f *.o *.d $(OUTPUT)
 

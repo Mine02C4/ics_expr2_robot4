@@ -14,6 +14,7 @@ int main(int argc, char** argv)
 
   while (1) {
     vt->ReadFrame();
+    vt->TrackFeatures();
     int key = waitKey(1);
     if (key >= 0) {
       break;
