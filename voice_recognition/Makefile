@@ -1,15 +1,8 @@
 LIBSENT=../libsent
 LIBJULIUS=../libjulius
 
-<<<<<<< HEAD
 CC=g++
 CFLAGS=-g -O2 
-=======
-CC=gcc
-CFLAGS=-g -O2 -Wall
-MAIN := main
->>>>>>> 6f7c000bb6c934a9840805b56dab2027151a4662
-
 ####
 #### When using system-installed libraries
 ####
