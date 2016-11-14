@@ -1,7 +1,7 @@
 LIBSENT=../libsent
 LIBJULIUS=../libjulius
 
-CC=gcc
+CC=g++
 CFLAGS=-g -O2 
 
 ####
