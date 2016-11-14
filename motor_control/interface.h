@@ -19,12 +19,14 @@
 
 struct mstat;
 extern void motor_init();
+extern void mstat_init(struct mstat *);
 extern void motor_test_loop();
 extern void motor_exit_loop(); // MUST CALL before closing program!!!
 extern void motor_finalize(); // MUST CALL before closing program!!!
 extern void motor_set_by_double(double);
 extern int motor_write(struct mstat *);
 extern void motor_set(struct mstat *, short, short);
+
 
 enum wheel { LEFT, RIGHT };
 

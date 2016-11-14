@@ -15,7 +15,7 @@ main()
   short left, right;
   while (1) {
     printf("Input [-1.0, 1.0]: ");
-    scanf("%d %d", &left, &right);
+    scanf("%hd %hd", &left, &right);
 	motor_set(&mst, left, right);
 	motor_write(&mst);
   }
