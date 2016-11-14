@@ -6,10 +6,11 @@
 #include <sys/stat.h>
 #include <fcntl.h>
 #include <math.h>
+#define DEBUG
 
 // set motor channel
-#define MRIGHT 0
-#define MLEFT 2
+#define MLEFT 1
+#define MRIGHT 2
 
 #include "../imcs01_driver_JROBO/driver/urbtc.h"
 #include "../imcs01_driver_JROBO/driver/urobotc.h"
@@ -67,7 +68,7 @@ motor_init()
   cmd.setcounter = CH0 | CH1 | CH2 | CH3;
   cmd.resetint   = CH0 | CH1 | CH2 | CH3;
 
-  cmd.selin = CH0 | CH1 | SET_SELECT; /* AD in:ch0,ch1    ENC in:ch2,ch3*/
+  cmd.selin = CH2 | CH1 | SET_SELECT; /* AD in:ch0,ch1    ENC in:ch2,ch3*/
   cmd.selout = SET_SELECT | CH0 | CH1 | CH2 | CH3; /*  PWM out:ch0,ch1,ch2,ch3*/
 
 #if __BYTE_ORDER == __LITTLE_ENDIAN
@@ -116,38 +117,14 @@ motor_init()
 #endif
   }
 #if __BYTE_ORDER == __LITTLE_ENDIAN
-  obuf.ch[2].kp = 0x10;
-  obuf.ch[3].kp = 0x10;
+  obuf.ch[MLEFT].kp = 0x10;
+  obuf.ch[MRIGHT].kp = 0x10;
 #else
-  obuf.ch[2].kp = 0x1000;
-  obuf.ch[3].kp = 0x1000;
+  obuf.ch[MLEFT].kp = 0x1000;
+  obuf.ch[MRIGHT].kp = 0x1000;
 #endif
 }
 
-void
-motor_test_loop()
-{
-  int i = 0;
-  while(motor_quit_flag) {
-    unsigned short a = 300.0*sin(i*3.14/655.360);// + 512.0;
-    a <<= 5;
-
-#if __BYTE_ORDER == __LITTLE_ENDIAN
-    obuf.ch[2].x = obuf.ch[3].x = a;
-#else
-    obuf.ch[2].x = obuf.ch[3].x = ((a & 0xff) << 8 | (a & 0xff00) >> 8);
-#endif
-    printf("%x\r\n",obuf.ch[3].x);
-
-    if (write(fds, &obuf, sizeof(obuf)) > 0) {
-      i++;
-    } else {
-      printf("write err\n");
-      break;
-    }
-  }
-  close(fds);
-}
 
 void set_stat (struct mstat *statp) {
   /* set status */
@@ -168,8 +145,8 @@ void motor_set(struct mstat *mstp, short rotl, short rotr){
 	if (((-1023 < rotl) && (rotl < 1023)) && 
 			((-1023 < rotr) && (rotr < 1023))) {
 		// if valid input
-		mstp -> lstat = rotl;
-		mstp -> rstat = rotr;
+		mstp -> motor_l = rotl;
+		mstp -> motor_r = rotr;
 	} else {
 		fprintf(stderr, "Invalid rot input. Rot should be between -1023 and 1023\n");
 	}
@@ -180,15 +157,16 @@ int motor_write (struct mstat *statp) {
   /* todo one of the motor should be reversed */
   short rotl = statp -> motor_l; // left motor rotation
   short rotr = statp -> motor_r; // 512
+  unsigned short test = 512;
 #if __BYTE_ORDER == __LITTLE_ENDIAN
-  obuf.ch[MRIGHT].x = rotr; // set right rounds
-  obuf.ch[MLEFT].x = rotl + 1024; // set left rounds
+  obuf.ch[MRIGHT].x = rotr << 5; // set right rounds
+  obuf.ch[MLEFT].x = rotl << 5; // set left rounds
 #else
   obuf.ch[MRIGHT].x = ((rotr & 0xff) << 8 | (rotr & 0xff00) >> 8);
   obuf.ch[MLEFT].x = ((rotl & 0xff) << 8 | (rotl & 0xff00) >> 8);
 #endif
-  if (write(fds, &obuf, sizeof(obuf)) > 0) {
-    printf("MRIGHT: %x MLEFT: %x\r\n", 
+  if (write(fd, &obuf, sizeof(obuf)) > 0) {
+    printf("MRIGHT: %hd MLEFT: %hd\r\n", 
         obuf.ch[MRIGHT].x, obuf.ch[MLEFT].x);
   } else {
     printf("write err\n");
@@ -201,23 +179,6 @@ int is_stat (unsigned short currstat, unsigned short statbit) {
 	return ((currstat & statbit) == statbit);
 }
 
-void
-motor_set_by_double(double val)
-{
-  /* set mortor  by double */
-  unsigned short a = val * 300.0;// + 512.0;
-  a <<= 6;
-#if __BYTE_ORDER == __LITTLE_ENDIAN
-  obuf.ch[2].x = obuf.ch[3].x = a;
-#else
-  obuf.ch[2].x = obuf.ch[3].x = ((a & 0xff) << 8 | (a & 0xff00) >> 8);
-#endif
-  printf("%x\r\n",obuf.ch[3].x);
-  if (write(fds, &obuf, sizeof(obuf)) > 0) {
-  } else {
-    printf("write err\n");
-  }
-}
 
 void
 motor_finalize()
