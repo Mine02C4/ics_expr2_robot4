@@ -26,7 +26,7 @@ mod: mod.o
 mod.o: $(filter-out $(MAIN).o, $(OBJS))
 	ar ruv mod.o $^
 
-julius-simple: julius-simple.cpp
+julius-simple: testhost.cpp
 	$(CXX) $(CXXFLAGS) $(CPPFLAGS) -o $@ $^ $(LDFLAGS)
 
 clean:

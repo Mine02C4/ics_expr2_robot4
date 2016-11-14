@@ -1,7 +1,9 @@
 #include <iostream>
-#include <julius-simple.cpp>
-int main(int argc, char const *argv[])
+#include "julius-simple.cpp"
+void test(char *word);
+int main(int argc, char *argv[])
 {
+	init_julius(argc, argv);
 	register_callback(test);
 	while(1) {}
 	return 0;

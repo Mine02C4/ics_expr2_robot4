@@ -7,7 +7,7 @@ FUNCTYPE1 fp1;
 Jconf *jconf;
 Recog *recog;
 void output_result(Recog * recog, void * dummy);
-int init(int argc, char *argv[]) {
+int init_julius(int argc, char *argv[]) {
   //Initialize
   jlog_set_output(NULL);
   if (argc == 1) {    // -Cオプションで指定する.jconfファイルは必要なので確認する
