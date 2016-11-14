@@ -26,8 +26,8 @@ mod: mod.o
 mod.o: $(filter-out $(MAIN).o, $(OBJS))
 	ar ruv mod.o $^
 
-julius-simple: julius-simple.c
-	$(CXX) $(CXXFLAGS) $(CPPFLAGS) -o julius-simple julius-simple.c $(LDFLAGS)
+julius-simple: julius-simple.cpp
+	$(CXX) $(CXXFLAGS) $(CPPFLAGS) -o $@ $^ $(LDFLAGS)
 
 clean:
 	$(RM) *.o *.bak *~ core TAGS
