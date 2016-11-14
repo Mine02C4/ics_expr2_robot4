@@ -2,7 +2,6 @@
 CXX = g++
 LDFLAGS = `pkg-config --libs opencv`
 CXXFLAGS = -O2 -std=c++11
->>>>>>> 6f7c000bb6c934a9840805b56dab2027151a4662
 PROJ_DIR := opencv_test
 BUILD_DIR := build
 OUTPUT := test.out
