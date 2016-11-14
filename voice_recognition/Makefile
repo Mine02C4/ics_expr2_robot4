@@ -1,8 +1,8 @@
 LIBSENT=../libsent
 LIBJULIUS=../libjulius
 
-CC=g++
-CFLAGS=-g -O2 
+CXX=g++
+CXXFLAGS=-g -O2 
 ####
 #### When using system-installed libraries
 ####
@@ -27,7 +27,7 @@ mod.o: $(filter-out $(MAIN).o, $(OBJS))
 	ar ruv mod.o $^
 
 julius-simple: julius-simple.c
-	$(CC) $(CFLAGS) $(CPPFLAGS) -o julius-simple julius-simple.c $(LDFLAGS)
+	$(CXX) $(CXXFLAGS) $(CPPFLAGS) -o julius-simple julius-simple.c $(LDFLAGS)
 
 clean:
 	$(RM) *.o *.bak *~ core TAGS
