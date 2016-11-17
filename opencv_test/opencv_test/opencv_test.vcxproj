@@ -111,6 +111,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="recognition.cpp" />
     <ClCompile Include="test.cpp" />
     <ClCompile Include="videotest.cpp" />
   </ItemGroup>
@@ -118,6 +119,7 @@
     <Image Include="yuiyui.jpg" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="recognition.h" />
     <ClInclude Include="videotest.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
