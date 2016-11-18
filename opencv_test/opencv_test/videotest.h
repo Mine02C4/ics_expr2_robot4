@@ -4,6 +4,8 @@
 #include <opencv2/highgui/highgui.hpp>
 #include <opencv2/features2d/features2d.hpp>
 
+#include "recognition.h"
+
 class VideoTest {
 public:
   VideoTest();
@@ -15,11 +17,9 @@ private:
   cv::Mat gray_img_;
   cv::VideoCapture cap_;
   cv::Mat frame_, disp_features_;
-  std::vector<cv::KeyPoint> prev_keypts_;
-  cv::Mat prev_desc_;
+  FeatureDescription prev_fd_;
   cv::Mat target_img_;
-  std::vector<cv::KeyPoint> target_keypts_;
-  cv::Mat target_desc_;
+  FeatureDescription target_fd_;
 };
 
 #endif  // OPENCV_TEST_VIDEOTEST_H_

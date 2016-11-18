@@ -1,11 +1,10 @@
 #include "videotest.h"
 
 #include <iostream>
+#include <tuple>
 
 #include <opencv2/imgproc/imgproc.hpp>
 #include <opencv2/calib3d/calib3d.hpp>
-
-#include "recognition.h"
 
 VideoTest::VideoTest()
 {
@@ -28,18 +27,9 @@ int VideoTest::Init()
   cv::namedWindow("VideoTest", CV_WINDOW_AUTOSIZE);
   cv::namedWindow("Output", CV_WINDOW_AUTOSIZE);
   cap_.read(frame_);
-  //disp_img_.create(cv::Size(320, 240), CV_8UC3);
 
   cv::resize(cv::imread("target.jpg"), target_img_, cv::Size(), 1, 1);
-  cv::Ptr<cv::Feature2D> detector, extractor;
-  detector = cv::AKAZE::create();;
-  extractor = cv::AKAZE::create();;
-  detector->detect(target_img_, target_keypts_);
-  extractor->compute(target_img_, target_keypts_, target_desc_);
-  for (int i = 0; i < target_keypts_.size(); ++i) {
-    cv::circle(target_img_, target_keypts_[i].pt, 2, cv::Scalar(0, 200, 0), 1, CV_AA);
-  }
-  cv::imshow("Origin", target_img_);
+  Recognition::DescribeFeatures(target_img_, target_fd_);
   return 0;
 }
 
@@ -54,27 +44,19 @@ void VideoTest::ReadFrame()
 
 void VideoTest::TrackFeatures()
 {
-  cv::Ptr<cv::Feature2D> detector, extractor;
-  detector = cv::AKAZE::create();;
-  extractor = cv::AKAZE::create();;
-  std::vector<cv::KeyPoint> kpts;
-  cv::Mat desc;
-
-  // 特徴点検出と特徴量記述
-  detector->detect(frame_, kpts);
-  extractor->compute(frame_, kpts, desc);
-  if (desc.rows == 0) {
+  FeatureDescription fd;
+  Recognition::DescribeFeatures(frame_, fd);
+  if (std::get<1>(fd).rows == 0) {
     std::cout << "No feature." << std::endl;
     return;
   }
 
-
   std::vector<cv::Point2f> match_point1;
   std::vector<cv::Point2f> match_point2;
-  Recognition::MatchKeyPoints(target_keypts_, target_desc_, kpts, desc, match_point1, match_point2);
+  std::vector<cv::DMatch> good_matches;
+  Recognition::MatchKeyPoints(target_fd_, fd, good_matches, match_point1, match_point2);
 
-  prev_keypts_ = kpts;
-  prev_desc_ = desc;
+  prev_fd_ = fd;
 
   //ホモグラフィ行列推定
   cv::Mat masks;
@@ -84,13 +66,8 @@ void VideoTest::TrackFeatures()
   }
 
   disp_features_ = frame_;
-  for (int i = 0; i < kpts.size(); ++i) {
-    cv::circle(disp_features_, kpts[i].pt, 2, cv::Scalar(200, 0, 0), 1, CV_AA);
-  }
-  for (int i = 0; i < match_point1.size(); i++) {
-    //cv::line(disp_features_, match_point1[i], match_point2[i], cv::Scalar(0, 200, 0), 2, CV_AA);
-    cv::circle(disp_features_, match_point2[i], 4, cv::Scalar(0, 200, 0), 1, CV_AA);
-  }
+  cv::drawMatches(target_img_, std::get<0>(target_fd_), frame_, std::get<0>(fd), good_matches, disp_features_,
+    cv::Scalar::all(-1), cv::Scalar::all(-1), std::vector< char >(), cv::DrawMatchesFlags::DRAW_RICH_KEYPOINTS);
   std::cout << match_point1.size() << std::endl;
 
   if (!H.empty()) {

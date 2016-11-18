@@ -2,16 +2,19 @@
 #define OPENCV_TEST_RECOGNITION_H_
 
 #include <vector>
+#include <tuple>
 
 #include <opencv2/features2d/features2d.hpp>
 
+typedef std::tuple<std::vector<cv::KeyPoint>, cv::Mat> FeatureDescription;
+
 class Recognition {
 public:
+  static void DescribeFeatures(cv::Mat &image, FeatureDescription &fd);
   static void MatchKeyPoints(
-    std::vector<cv::KeyPoint>&,
-    cv::Mat&,
-    std::vector<cv::KeyPoint>&,
-    cv::Mat&,
+    FeatureDescription &fd1,
+    FeatureDescription &fd2,
+    std::vector<cv::DMatch> &good_matches,
     std::vector<cv::Point2f>&,
     std::vector<cv::Point2f>&
   );
