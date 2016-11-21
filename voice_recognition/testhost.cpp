@@ -1,14 +1,13 @@
 #include <iostream>
-#include "julius-simple.cpp"
-void test(char *word);
+#include "julius-simple.h"
+void test(std::string word);
 int main(int argc, char *argv[])
 {
+  	register_callback(test);
 	init_julius(argc, argv);
-	register_callback(test);
-	while(1) {}
 	return 0;
 }
-void test(char * word) {
-	printf("testok! %s¥n", word);
+void test(std::string word) {
+  std::cout << word;
 	return;
 }
