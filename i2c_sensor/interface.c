@@ -30,7 +30,8 @@ void sensor_init()
   }
 }
 
-int get_distance(enum sensor s)
+int
+get_distance(enum sensor s)
 {
   int id, i;
   switch (s) {
