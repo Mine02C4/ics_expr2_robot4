@@ -1,6 +1,6 @@
 #include "recognition.h"
 
-void Recognition::DescribeFeatures(cv::Mat & image, FeatureDescription & fd)
+void Recognition::DescribeFeatures(cv::Mat &image, FeatureDescription &fd)
 {
   cv::Ptr<cv::Feature2D> detector, extractor;
   detector = cv::AKAZE::create();;

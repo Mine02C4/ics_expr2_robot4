@@ -15,8 +15,8 @@ public:
     FeatureDescription &fd1,
     FeatureDescription &fd2,
     std::vector<cv::DMatch> &good_matches,
-    std::vector<cv::Point2f>&,
-    std::vector<cv::Point2f>&
+    std::vector<cv::Point2f> &match_point1,
+    std::vector<cv::Point2f> &match_point2
   );
 private:
 };
