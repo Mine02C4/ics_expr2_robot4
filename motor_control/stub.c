@@ -28,6 +28,22 @@ run_forward(double seconds)
 }
 
 void
+turn_right(double seconds)
+{
+  printf("Start turn right\n");
+  usleep(seconds * 1000000);
+  printf("Stop turn right\n");
+}
+
+void
+turn_left(double seconds)
+{
+  printf("Start turn left\n");
+  usleep(seconds * 1000000);
+  printf("Stop turn left\n");
+}
+
+void
 motor_finalize()
 {
   finalize_flag = 1;
