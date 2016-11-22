@@ -14,7 +14,7 @@ DEPS := $(patsubst %.o,%.d, $(OBJS))
 all: $(OUTPUT)
 
 $(OUTPUT): $(OBJS)
-	$(CXX) $(CXXFLAGS) $(LDFLAGS) -o $@ $(OBJS)
+	$(CXX) $(CXXFLAGS) -o $@ $(OBJS) $(LDFLAGS)
 
 $(BUILD_DIR)/%.o: $(PROJ_DIR)/%.cpp
 	mkdir -p $(dir $@)
