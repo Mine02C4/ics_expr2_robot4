@@ -18,17 +18,27 @@ extern "C" {
 #define STAT_ERR 0x8000   // error
 
 struct mstat;
+enum wheel { LEFT, RIGHT };
+
+/* Init API */
 extern void motor_init();
+
+/* Control API */
+extern void run_forward(double seconds);
+extern void turn_right(double seconds);
+extern void turn_left(double seconds);
+
+/* Finalize API */
+extern void motor_finalize(); // MUST CALL before closing program!!!
+
+/* Not API */
+
 extern void mstat_init(struct mstat *);
 extern void motor_test_loop();
 extern void motor_exit_loop(); // MUST CALL before closing program!!!
-extern void motor_finalize(); // MUST CALL before closing program!!!
 extern void motor_set_by_double(double);
 extern int motor_write(struct mstat *);
 extern void motor_set(struct mstat *, short, short);
-
-
-enum wheel { LEFT, RIGHT };
 
 struct mstat {
   unsigned short stat;
