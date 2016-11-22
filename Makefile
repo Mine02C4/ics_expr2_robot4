@@ -1,4 +1,4 @@
-MODULES := motor_control #voice_recognition
+MODULES := motor_control i2c_sensor
 
 CXX := g++
 CXXFLAGS := -O2 -std=c++11 -Wall

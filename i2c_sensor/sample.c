@@ -14,7 +14,7 @@
 #include <stdlib.h> 
 #include "/usr/include/linux/i2c-dev.h"
 
-int main( void ) {
+int sample_main( void ) {
 	
 	int fd1, fd2;
 	char filename[ 20 ];
