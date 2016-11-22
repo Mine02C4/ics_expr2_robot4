@@ -1,6 +1,10 @@
 #ifndef MOTOR_CTRL_INTERFACE_H_
 #define MOTOR_CTRL_INTERFACE_H_
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 // motor status
 #define STAT_DEFAULT 0x0000 // default
 #define STAT_STPG 0x0001  // stopping
@@ -34,4 +38,10 @@ struct mstat {
   /* -1023 to +1023 */
   short motor_l, motor_r; // left motor right motor
 };
+
+#ifdef __cplusplus
+}
+#endif
+
 #endif  // MOTOR_CTRL_INTERFACE_H_
+

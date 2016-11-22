@@ -1,7 +1,7 @@
 MODULES := motor_control #voice_recognition
 
-CXX = g++
-CXXFLAGS = -O2 -std=c++11 -Wall
+CXX := g++
+CXXFLAGS := -O2 -std=c++11 -Wall
 CORE_DIR := core
 BUILD_DIR := build
 OUTPUT := core.out
@@ -12,7 +12,7 @@ DEPS := $(patsubst %.o,%.d, $(OBJS))
 MOD_OBJS := $(addsuffix /mod.o,$(MODULES))
 MOD_STUBS := $(addsuffix /stub.o,$(MODULES))
 
-.PHONY: all test clean subclean fclean motor_control/stub.o
+.PHONY: all test clean subclean fclean $(MOD_OBJS) $(MOD_STUBS)
 
 all: $(OUTPUT)
 
@@ -24,11 +24,11 @@ $(OUTPUT): $(OBJS) $(MOD_OBJS)
 $(TESTELF): $(OBJS) $(MOD_STUBS)
 	$(CXX) $(CXXFLAGS) -o $@ $^
 
-%/mod.o:
-	$(MAKE) -C $(dir $@) mod
+%(MOD_OBJS):
+	$(MAKE) -C $(@D) mod
 
-%/stub.o:
-	$(MAKE) -C $(dir $@) stub
+$(MOD_STUBS):
+	$(MAKE) -C $(@D) stub
 
 $(BUILD_DIR)/%.o: $(CORE_DIR)/%.cpp
 	mkdir -p $(dir $@)
