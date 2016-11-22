@@ -84,3 +84,12 @@ int get_distance(enum sensor s)
   return range;
 }
 
+void
+sensor_finalize()
+{
+  int i;
+  for (i = 0; i < SENSOR_NUM; i++) {
+    close(fd[i]);
+  }
+}
+
