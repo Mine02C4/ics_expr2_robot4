@@ -3,7 +3,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <assert.h>
-#include <unistd.h>
+
+#include "../stub_library/common.h"
 
 static int init_flag = 0;
 static int finalize_flag = 0;
@@ -23,7 +24,7 @@ void
 run_forward(double seconds)
 {
   printf("Start run forward\n");
-  usleep(seconds * 1000000);
+  sleep_seconds(seconds);
   printf("Stop run forward\n");
 }
 
@@ -31,7 +32,7 @@ void
 turn_right(double seconds)
 {
   printf("Start turn right\n");
-  usleep(seconds * 1000000);
+  sleep_seconds(seconds);
   printf("Stop turn right\n");
 }
 
@@ -39,7 +40,7 @@ void
 turn_left(double seconds)
 {
   printf("Start turn left\n");
-  usleep(seconds * 1000000);
+  sleep_seconds(seconds);
   printf("Stop turn left\n");
 }
 

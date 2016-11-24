@@ -3,7 +3,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <assert.h>
-#include <unistd.h>
 
 static int init_flag = 0;
 static int finalize_flag = 0;
