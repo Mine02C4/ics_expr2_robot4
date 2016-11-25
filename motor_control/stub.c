@@ -9,7 +9,7 @@
 static int init_flag = 0;
 static int finalize_flag = 0;
 
-void check_finalize();
+static void check_finalize(void);
 
 void
 motor_init()
@@ -53,8 +53,8 @@ motor_finalize()
   finalize_flag = 1;
 }
 
-void
-check_finalize()
+static void
+check_finalize(void)
 {
   if (init_flag == 1 && finalize_flag == 0) {
     fprintf(stderr, "Error: Not finalized\n");

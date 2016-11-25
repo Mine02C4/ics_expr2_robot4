@@ -16,7 +16,7 @@ extern "C" {
 #include <Windows.h>
 
   static void sleep_seconds(double seconds) {
-    Sleep(seconds * 1000);
+    Sleep((DWORD)(seconds * 1000));
   }
 
 #endif

@@ -7,7 +7,7 @@
 static int init_flag = 0;
 static int finalize_flag = 0;
 
-static void check_finalize();
+static void check_finalize(void);
 
 void
 sensor_init()
@@ -46,7 +46,7 @@ sensor_finalize()
 }
 
 static void
-check_finalize()
+check_finalize(void)
 {
   if (init_flag == 1 && finalize_flag == 0) {
     fprintf(stderr, "Error: i2c_sensor not finalized\n");

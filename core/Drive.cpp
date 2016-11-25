@@ -7,9 +7,19 @@ void Drive::Init()
   motor_init();
 }
 
-void Drive::RunForward(double seconds)
+void Drive::RunForwardPeriodInSeconds(double seconds)
 {
   run_forward(seconds);
+}
+
+void Drive::TurnRightPeriodInSeconds(double seconds)
+{
+  turn_right(seconds);
+}
+
+void Drive::TurnLeftPeriodInSeconds(double seconds)
+{
+  turn_left(seconds);
 }
 
 Drive::Drive()

@@ -9,7 +9,9 @@ public:
     return singleton;
   }
   void Init();
-  void RunForward(double seconds);
+  void RunForwardPeriodInSeconds(double seconds);
+  void TurnRightPeriodInSeconds(double seconds);
+  void TurnLeftPeriodInSeconds(double seconds);
   void Finalize();
 private:
   Drive();
