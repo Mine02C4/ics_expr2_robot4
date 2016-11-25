@@ -3,8 +3,8 @@
 #include <cstdio>
 
 MainLogic::MainLogic() :
-  Sensor(Sensor::getInstance()),
-  Drive(Drive::getInstance())
+  drive_(Drive::getInstance()),
+  sensor_(Sensor::getInstance())
 {
 }
 
@@ -21,5 +21,5 @@ void MainLogic::Launch()
 {
   int dist = Sensor::getInstance().GetDistance(SensorID::RightFront);
   printf("Distance S1 d = %d\n", dist);
-  Drive.RunForward(1.5);
+  drive_.RunForward(1.5);
 }

@@ -12,8 +12,8 @@ public:
   void Init();
   void Launch();
 private:
-  Drive &Drive;
-  Sensor &Sensor;
+  Drive &drive_;
+  Sensor &sensor_;
 };
 
 #endif  // ROBOT_CORE_MAIN_LOGIC_H_
