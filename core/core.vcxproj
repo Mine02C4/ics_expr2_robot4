@@ -110,7 +110,10 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Drive.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="MainLogic.cpp" />
+    <ClCompile Include="Sensor.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\i2c_sensor\i2c_sensor.vcxproj">
@@ -119,6 +122,11 @@
     <ProjectReference Include="..\motor_control\motor_control.vcxproj">
       <Project>{387cb56c-4259-4ace-a22f-55b43cc9c83f}</Project>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Drive.h" />
+    <ClInclude Include="MainLogic.h" />
+    <ClInclude Include="Sensor.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

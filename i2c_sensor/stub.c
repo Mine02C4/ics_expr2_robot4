@@ -21,6 +21,7 @@ sensor_init()
 int
 get_distance(enum sensor s)
 {
+  assert(init_flag == 1);
   int id;
   switch (s) {
     case S1:
