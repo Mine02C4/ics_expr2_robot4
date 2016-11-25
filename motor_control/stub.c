@@ -23,6 +23,7 @@ motor_init()
 void
 run_forward(double seconds)
 {
+  assert(init_flag == 1);
   printf("Start run forward\n");
   sleep_seconds(seconds);
   printf("Stop run forward\n");
@@ -31,6 +32,7 @@ run_forward(double seconds)
 void
 turn_right(double seconds)
 {
+  assert(init_flag == 1);
   printf("Start turn right\n");
   sleep_seconds(seconds);
   printf("Stop turn right\n");
@@ -39,6 +41,7 @@ turn_right(double seconds)
 void
 turn_left(double seconds)
 {
+  assert(init_flag == 1);
   printf("Start turn left\n");
   sleep_seconds(seconds);
   printf("Stop turn left\n");
