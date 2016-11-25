@@ -7,9 +7,11 @@ extern "C" {
 
 #ifdef __linux__
 #include <unistd.h>
+
   static void sleep_seconds(double seconds) {
     usleep(seconds * 1000000);
   }
+
 #elif _MSC_VER
 #include <Windows.h>
 
