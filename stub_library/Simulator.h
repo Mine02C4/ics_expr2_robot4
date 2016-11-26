@@ -6,6 +6,8 @@
 #include <mutex>
 #include <thread>
 
+#include <opencv2/core/core.hpp>
+
 #include "VirtualObject.h"
 
 namespace stub {
@@ -26,6 +28,8 @@ private:
 
   Simulator();
   void Render();
+  void RenderRobot(cv::Mat scene);
+  static void AffineTransformVector(std::vector<cv::Vec2i> &vec, cv::Mat mat);
 };
 
 };  // namespace stub
