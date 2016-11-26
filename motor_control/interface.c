@@ -12,8 +12,8 @@
 #define MLEFT 1
 #define MRIGHT 2
 
-#include "../imcs01_driver_JROBO/driver/urbtc.h"
-#include "../imcs01_driver_JROBO/driver/urobotc.h"
+#include "./driver/urbtc.h"
+#include "./driver/urobotc.h"
 
 #include "interface.h"
 
@@ -52,9 +52,6 @@ motor_init()
     fprintf(stderr, "Read size mismatch.\n");
     exit(1);
   }
-#if __BYTE_ORDER == __BIG_ENDIAN
-  ibuf.magicno = (0xff & ibuf.magicno)<<8 | (0xff00 & ibuf.magicno)>>8;
-#endif
   if (ibuf.magicno == 0) {
     fds = fd;
     fprintf(stderr, "Found controller #0.\n");
@@ -71,13 +68,8 @@ motor_init()
   cmd.selin = CH2 | CH1 | SET_SELECT; /* AD in:ch0,ch1    ENC in:ch2,ch3*/
   cmd.selout = SET_SELECT | CH0 | CH1 | CH2 | CH3; /*  PWM out:ch0,ch1,ch2,ch3*/
 
-#if __BYTE_ORDER == __LITTLE_ENDIAN
   cmd.offset[0] = cmd.offset[1] = cmd.offset[2] = cmd.offset[3] = 0x7fff;
   cmd.counter[0] = cmd.counter[1] = cmd.counter[2] = cmd.counter[3] = 0;
-#else
-  cmd.offset[0] = cmd.offset[1] = cmd.offset[2] = cmd.offset[3] = 0xff7f;
-  cmd.counter[0] = cmd.counter[1] = cmd.counter[2] = cmd.counter[3] = 0;
-#endif
 
   cmd.posneg = SET_POSNEG | CH0| CH1 | CH2 | CH3; /*POS PWM out*/
   cmd.breaks = SET_BREAKS | CH0 | CH1 | CH2 | CH3; /*No Brake*/
@@ -96,7 +88,6 @@ motor_init()
   }
 
   for (i=0; i<4; i++) {
-#if __BYTE_ORDER == __LITTLE_ENDIAN
     obuf.ch[i].x = 0;
     obuf.ch[i].d = 0;
     obuf.ch[i].kp = 0;
@@ -105,24 +96,9 @@ motor_init()
     obuf.ch[i].kdx = 1;
     obuf.ch[i].ki = 0;
     obuf.ch[i].kix = 1;
-#else
-    obuf.ch[i].x = 0;
-    obuf.ch[i].d = 0;
-    obuf.ch[i].kp = 0;
-    obuf.ch[i].kpx = 0x0100;
-    obuf.ch[i].kd = 0;
-    obuf.ch[i].kdx = 0x0100;
-    obuf.ch[i].ki = 0;
-    obuf.ch[i].kix = 0x0100;
-#endif
   }
-#if __BYTE_ORDER == __LITTLE_ENDIAN
   obuf.ch[MLEFT].kp = 0x10;
   obuf.ch[MRIGHT].kp = 0x10;
-#else
-  obuf.ch[MLEFT].kp = 0x1000;
-  obuf.ch[MRIGHT].kp = 0x1000;
-#endif
 }
 
 
