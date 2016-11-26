@@ -34,7 +34,7 @@ turn_right(double seconds)
 {
   assert(init_flag == 1);
   printf("Start turn right\n");
-  sleep_seconds(seconds);
+  TurnRightPeriodInSeconds(1.0);
   printf("Stop turn right\n");
 }
 
@@ -43,7 +43,7 @@ turn_left(double seconds)
 {
   assert(init_flag == 1);
   printf("Start turn left\n");
-  sleep_seconds(seconds);
+  TurnLeftPeriodInSeconds(1.0);
   printf("Stop turn left\n");
 }
 

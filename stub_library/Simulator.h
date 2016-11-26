@@ -1,8 +1,10 @@
 #ifndef STUB_LIBRARY_SIMULATOR_H_
 #define STUB_LIBRARY_SIMULATOR_H_
 
-#include <mutex>
 #include <list>
+#include <memory>
+#include <mutex>
+#include <thread>
 
 #include "VirtualObject.h"
 
@@ -15,13 +17,14 @@ public:
     static Simulator singleton;
     return singleton;
   }
+  double direction_ = 0.0; // in degree
+  double x = 100.0, y = 100.0;
+  std::mutex mtx_;
 private:
-  std::mutex mtx;
-  Rectangle &playground_;
+  Rectangle playground_;
   std::list<std::shared_ptr<VirtualObject>> vobjects_;
 
   Simulator();
-  static Rectangle& InitPlayground();
   void Render();
 };
 

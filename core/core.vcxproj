@@ -63,9 +63,11 @@
   </ImportGroup>
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="..\OpenCV_Debug.props" />
   </ImportGroup>
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="..\OpenCV_Release.props" />
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup />
@@ -121,6 +123,9 @@
     </ProjectReference>
     <ProjectReference Include="..\motor_control\motor_control.vcxproj">
       <Project>{387cb56c-4259-4ace-a22f-55b43cc9c83f}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\stub_library\stub_library.vcxproj">
+      <Project>{5e87711b-2174-4b28-875c-21b4990a62b3}</Project>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

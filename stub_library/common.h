@@ -21,6 +21,12 @@ extern "C" {
 
 #endif
 
+  const double RotationRate = 45.0; // Degree per seconds
+
+  extern void RunForwardViaNumberOfRotations(double num);
+  extern void TurnRightPeriodInSeconds(double seconds);
+  extern void TurnLeftPeriodInSeconds(double seconds);
+
 #ifdef __cplusplus
 }
 #endif

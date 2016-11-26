@@ -2,6 +2,7 @@ MODULES := motor_control i2c_sensor
 
 CXX := g++
 CXXFLAGS := -O2 -std=c++11 -Wall
+STUBLDFLAGS = `pkg-config --libs opencv`
 CORE_DIR := core
 BUILD_DIR := build
 OUTPUT := core.out
@@ -22,7 +23,7 @@ $(OUTPUT): $(OBJS) $(MOD_OBJS)
 	$(CXX) $(CXXFLAGS) -o $@ $^
 
 $(TESTELF): $(OBJS) $(MOD_STUBS)
-	$(CXX) $(CXXFLAGS) -o $@ $^
+	$(CXX) $(CXXFLAGS) -o $@ $^ -Lstub_library -lstub $(STUBLDFLAGS)
 
 %(MOD_OBJS):
 	$(MAKE) -C $(@D) mod
@@ -41,4 +42,5 @@ clean:
 
 fclean: clean
 	$(foreach c,$(MODULES),$(MAKE) -C $(c) clean && )true
+	$(MAKE) -C stub_library clean
 

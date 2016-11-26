@@ -117,6 +117,7 @@
     <ClInclude Include="VirtualObject.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="common.cpp" />
     <ClCompile Include="Simulator.cpp" />
     <ClCompile Include="VirtualObject.cpp" />
   </ItemGroup>
