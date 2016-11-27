@@ -156,6 +156,19 @@ int is_stat (unsigned short currstat, unsigned short statbit) {
 }
 
 
+// TODO: implement
+void
+run_forward(double seconds);
+
+// TODO: implement
+void
+turn_right(double seconds);
+
+// TODO: implement
+void
+turn_left(double seconds);
+
+
 void
 motor_finalize()
 {
