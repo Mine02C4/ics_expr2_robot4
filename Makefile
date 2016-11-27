@@ -25,7 +25,7 @@ $(OUTPUT): $(OBJS) $(MOD_OBJS)
 $(TESTELF): $(OBJS) $(MOD_STUBS)
 	$(CXX) $(CXXFLAGS) -o $@ $^ -Lstub_library -lstub $(STUBLDFLAGS)
 
-%(MOD_OBJS):
+$(MOD_OBJS):
 	$(MAKE) -C $(@D) mod
 
 $(MOD_STUBS):
