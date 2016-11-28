@@ -34,7 +34,7 @@ void Simulator::Render()
     itr->get()->Render(scene);
   }
   RenderRobot(scene);
-
+  RenderSensorVis(scene);
   cv::imshow("Simulator", scene);
 }
 
@@ -58,6 +58,15 @@ void Simulator::RenderRobot(cv::Mat scene)
   AffineTransformVector(dist_sensor, mat);
   cv::circle(scene, dist_sensor[0], 5.0, cv::Scalar(0, 0, 200));
   cv::circle(scene, dist_sensor[1], 5.0, cv::Scalar(0, 0, 200));
+}
+
+void Simulator::RenderSensorVis(cv::Mat scene)
+{
+  for (auto lp : vsensors_) {
+    if (lp != 0) {
+      cv::line(scene, lp->first, lp->second, cv::Scalar(0, 255, 0));
+    }
+  }
 }
 
 void Simulator::AffineTransformVector(std::vector<cv::Vec2i> &vec, cv::Mat mat)
@@ -88,16 +97,21 @@ cv::Mat Simulator::GetTransformMatrix()
   return mat;
 }
 
-double Simulator::GetDistance(int sensor_id)
+Line Simulator::GetSensorDetectionLine(int sensor_id)
 {
-  std::lock_guard<std::mutex> lock(mtx_);
-  double dist = INFINITY;
-  const double max_range = 1000.0;
   auto v = cv::Vec3d(sensors_[sensor_id].position[0], sensors_[sensor_id].position[1], 1.0);
   cv::Vec2d spos = cv::Mat1d(GetTransformMatrix() * cv::Mat(v));
   auto direction = (sensors_[sensor_id].direction + direction_) * M_PI / 180.0;
-  auto dpos = spos + (cv::Vec2d(sin(direction), cos(direction)) * max_range);
-  Line dline = Line(spos, dpos);
+  auto dpos = spos + (cv::Vec2d(sin(direction), cos(direction)) * sensor_max_range);
+  return Line(spos, dpos);
+}
+
+double Simulator::GetDistance(int sensor_id)
+{
+  std::lock_guard<std::mutex> lock(mtx_);
+  double dist = INFINITY;  
+  Line dline = GetSensorDetectionLine(sensor_id);
+  vsensors_[sensor_id].reset(new Line(dline));
   auto edges = playground_.GetEdges();
   for (auto edge : edges) {
     if (CrossingDetection(dline, edge)) {
