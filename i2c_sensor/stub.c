@@ -4,6 +4,8 @@
 #include <stdlib.h>
 #include <assert.h>
 
+#include "../stub_library/common.h"
+
 static int init_flag = 0;
 static int finalize_flag = 0;
 
@@ -27,11 +29,11 @@ get_distance(enum sensor s)
   switch (s) {
   case S1:
     id = 0;
-    range = 5;
+    range = GetDistance(RIGHT_FRONT);
     break;
   case S2:
     id = 1;
-    range = 20;
+    range = GetDistance(LEFT_FRONT);
     break;
   default:
     fprintf(stderr, "Error: Unknown distance sensor.\n");

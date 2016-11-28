@@ -21,11 +21,12 @@ extern "C" {
 
 #endif
 
-  const double RotationRate = 45.0; // Degree per seconds
+  enum SensorPosition { LEFT_FRONT, RIGHT_FRONT };
 
   extern void RunForwardViaNumberOfRotations(double num);
   extern void TurnRightPeriodInSeconds(double seconds);
   extern void TurnLeftPeriodInSeconds(double seconds);
+  extern double GetDistance(enum SensorPosition sensor);
 
 #ifdef __cplusplus
 }

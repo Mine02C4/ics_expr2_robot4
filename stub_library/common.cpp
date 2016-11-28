@@ -4,6 +4,10 @@
 
 #include "Simulator.h"
 
+const double RotationRate = 45.0; // Degree per seconds
+
+#define SIM(sim) stub::Simulator &sim = stub::Simulator::getInstance()
+
 void AnimateSimulator(double duration, std::function<void(double)> func)
 {
   auto start = std::chrono::system_clock::now();
@@ -22,7 +26,7 @@ void RunForwardViaNumberOfRotations(double num) {
 
 void TurnRightPeriodInSeconds(double seconds)
 {
-  stub::Simulator &sim = stub::Simulator::getInstance();
+  SIM(sim);
   double init_dir = sim.direction_;
   AnimateSimulator(seconds, [&sim, init_dir](double elapsed) {
     std::lock_guard<std::mutex> lock(sim.mtx_);
@@ -32,10 +36,24 @@ void TurnRightPeriodInSeconds(double seconds)
 
 void TurnLeftPeriodInSeconds(double seconds)
 {
-  stub::Simulator &sim = stub::Simulator::getInstance();
+  SIM(sim);
   double init_dir = sim.direction_;
   AnimateSimulator(seconds, [&sim, init_dir](double elapsed) {
     std::lock_guard<std::mutex> lock(sim.mtx_);
     sim.direction_ = init_dir + elapsed * RotationRate;
   });
+}
+
+double GetDistance(SensorPosition sensor)
+{
+  SIM(sim);
+  switch (sensor)
+  {
+  case LEFT_FRONT:
+    return sim.GetDistance(0);
+  case RIGHT_FRONT:
+    return sim.GetDistance(1);
+  default:
+    return -1.0;
+  }
 }
