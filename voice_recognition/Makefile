@@ -1,8 +1,9 @@
-LIBSENT=../libsent
-LIBJULIUS=../libjulius
+JULIUSDIR := ../julius-4.2.3
+LIBSENT := $(JULIUSDIR)/libsent
+LIBJULIUS := $(JULIUSDIR)/libjulius
 
-CXX=g++
-CXXFLAGS=-g -O2 
+CXX := g++
+CXXFLAGS = -g -O2
 OUTPUT := voice_recog.out
 SRCS := $(wildcard *.cpp)
 OBJS := $(patsubst %.cpp,%.o,$(SRCS))
