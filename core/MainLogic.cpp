@@ -27,13 +27,11 @@ void MainLogic::Launch()
     printf("Distance RightFront = %d\n", rdist);
     printf("Distance LeftFront = %d\n", ldist);
     if (rdist - ldist > 5) {
-      drive_.TurnLeftPeriodInSeconds(1);
+      drive_.TurnLeftPeriodInSeconds(0.5);
     }
     else if (ldist - rdist > 5) {
-      drive_.TurnRightPeriodInSeconds(1);
+      drive_.TurnRightPeriodInSeconds(0.5);
     }
-    else {
-      sleep_seconds(1);
-    }
+    drive_.RunForwardPeriodInSeconds(1.5);
   }
 }

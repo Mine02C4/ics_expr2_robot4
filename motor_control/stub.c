@@ -25,7 +25,7 @@ run_forward(double seconds)
 {
   assert(init_flag == 1);
   printf("Start run forward\n");
-  sleep_seconds(seconds);
+  RunForwardViaNumberOfRotations(0.8 * seconds);
   printf("Stop run forward\n");
 }
 
@@ -34,7 +34,7 @@ turn_right(double seconds)
 {
   assert(init_flag == 1);
   printf("Start turn right\n");
-  TurnRightPeriodInSeconds(1.0);
+  TurnRightPeriodInSeconds(seconds);
   printf("Stop turn right\n");
 }
 
@@ -43,7 +43,7 @@ turn_left(double seconds)
 {
   assert(init_flag == 1);
   printf("Start turn left\n");
-  TurnLeftPeriodInSeconds(1.0);
+  TurnLeftPeriodInSeconds(seconds);
   printf("Stop turn left\n");
 }
 

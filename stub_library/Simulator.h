@@ -26,7 +26,7 @@ public:
     static Simulator singleton;
     return singleton;
   }
-  double direction_ = 30.0; // in degree
+  double direction_ = 240.0; // in degree
   double x = 100.0, y = 100.0;
   std::mutex mtx_;
   double GetDistance(int sensor_id);
