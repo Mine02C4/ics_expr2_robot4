@@ -37,6 +37,24 @@ void mstat_init(struct mstat *mstp) {
 	return;
 }
 
+void print_fbk() {
+	int i;
+    if ((i = read(fd, &ibuf, sizeof(ibuf))) != sizeof(ibuf)) {
+      fprintf(stderr,
+			  "Warning: read size mismatch (%d!=%d).\n",
+			  i, sizeof(ibuf));
+    }
+    for (i=0; i<4; i++) {
+      ibuf.ad[i] = ibuf.ad[i] >> 5;
+    }
+
+    printf("[time: %d][ad: %d %d]\n [ct: %d %d %d %d] [da: %d %d %d %d] [din: %x] [dout: %x] [imax: %d] [intv: %d]\r\n",
+	   ibuf.time,  ibuf.ad[2], ibuf.ad[3],
+	   ibuf.ct[2], ibuf.ct[3],
+	   ibuf.da[0], ibuf.da[1], ibuf.da[2], ibuf.da[3],
+	   ibuf.din, ibuf.dout, ibuf.intmax, ibuf.interval);
+}
+
 void
 motor_init()
 {
@@ -89,19 +107,16 @@ motor_init()
   }
 
   for (i=0; i<4; i++) {
-    obuf.ch[i].x = 1;	// x
-    obuf.ch[i].d = 1; 	// v
-    obuf.ch[i].kp = 1;
+    obuf.ch[i].x = 0;	// x
+    obuf.ch[i].d = 0; 	// v
+    obuf.ch[i].kp = 10;
     obuf.ch[i].kpx = 1;
-    obuf.ch[i].kd = 0;
-    obuf.ch[i].kdx = 1;
+    obuf.ch[i].kd = 1;
+    obuf.ch[i].kdx = 5;
     obuf.ch[i].ki = 0;
     obuf.ch[i].kix = 1;
   }
-  /*
-  obuf.ch[MLEFT].kp = 0x10;
-  obuf.ch[MRIGHT].kp = 0x10;
-  */
+  	obuf.ch[MRIGHT].kp = -10;
 }
 
 
@@ -146,15 +161,19 @@ int motor_write (struct mstat *statp) {
   /* todo one of the motor should be reversed */
   short rotl = statp -> motor_l; // left motor rotation
   short rotr = statp -> motor_r; // 512
-  rotr = -rotr;
-  unsigned short test = 512;
-  obuf.ch[MRIGHT].kp = rotr << 5; // set right rounds
-  obuf.ch[MLEFT].kp = rotl << 5; // set left rounds
+//  rotr = -rotr;
+  obuf.ch[MRIGHT].x = (rotr + 512) << 5; // set right rounds
+  obuf.ch[MLEFT].x = (rotl + 512) << 5; // set left rounds
   if (write(fd, &obuf, sizeof(obuf)) > 0) {
     printf("MRIGHT: %hd MLEFT: %hd\r\n", 
         obuf.ch[MRIGHT].x, obuf.ch[MLEFT].x);
   } else {
     printf("write err\n");
+  }
+  int i;
+  for (i = 0; i < 10; i++) {
+  	print_fbk();
+	usleep(1000000);
   }
   return 0;
 }
