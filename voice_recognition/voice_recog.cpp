@@ -2,7 +2,7 @@
 #include <string>
 #include <julius/juliuslib.h>
 #include <iconv.h>
-#include "voice_recog.h"
+#include "voice_recog.hpp"
 #define STR_OUT 100
 static FUNCTYPE1 fp1;
 static Jconf *jconf;
