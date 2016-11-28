@@ -32,7 +32,7 @@ extern void turn_left(double seconds);
 extern void motor_finalize(); // MUST CALL before closing program!!!
 
 /* Not API */
-
+extern void print_obuf();
 extern void mstat_init(struct mstat *);
 extern void motor_test_loop();
 extern void motor_exit_loop(); // MUST CALL before closing program!!!

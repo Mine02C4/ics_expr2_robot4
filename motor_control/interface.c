@@ -23,6 +23,7 @@ static struct uin ibuf;
 static struct uout obuf;
 static struct ccmd cmd;
 static int fd, fds;
+static struct mstat mst;
 
 static int motor_quit_flag = 1;
 
@@ -88,17 +89,19 @@ motor_init()
   }
 
   for (i=0; i<4; i++) {
-    obuf.ch[i].x = 0;
-    obuf.ch[i].d = 0;
-    obuf.ch[i].kp = 0;
+    obuf.ch[i].x = 1;	// x
+    obuf.ch[i].d = 1; 	// v
+    obuf.ch[i].kp = 1;
     obuf.ch[i].kpx = 1;
     obuf.ch[i].kd = 0;
     obuf.ch[i].kdx = 1;
     obuf.ch[i].ki = 0;
     obuf.ch[i].kix = 1;
   }
+  /*
   obuf.ch[MLEFT].kp = 0x10;
   obuf.ch[MRIGHT].kp = 0x10;
+  */
 }
 
 
@@ -112,6 +115,16 @@ void set_stat (struct mstat *statp) {
     statp->stat |= STAT_TR; // turning right
   } else {
     statp->stat |= STAT_MVF; // fwd
+  }
+  return;
+}
+
+void print_obuf() {
+	int i;
+  for (i=0; i<4; i++) {
+	  fprintf(stderr, "[ID: %d][x: %hd][kp: %hd][kpx: %hd][kd: %hd][kdx: %hd][ki: %hd][kix: %hd]\n",
+			  i, obuf.ch[i].x, obuf.ch[i].kp, obuf.ch[i].kd, obuf.ch[i].kdx, obuf.ch[i].ki,
+			  obuf.ch[i].kix);
   }
   return;
 }
@@ -133,14 +146,10 @@ int motor_write (struct mstat *statp) {
   /* todo one of the motor should be reversed */
   short rotl = statp -> motor_l; // left motor rotation
   short rotr = statp -> motor_r; // 512
+  rotr = -rotr;
   unsigned short test = 512;
-#if __BYTE_ORDER == __LITTLE_ENDIAN
-  obuf.ch[MRIGHT].x = rotr << 5; // set right rounds
-  obuf.ch[MLEFT].x = rotl << 5; // set left rounds
-#else
-  obuf.ch[MRIGHT].x = ((rotr & 0xff) << 8 | (rotr & 0xff00) >> 8);
-  obuf.ch[MLEFT].x = ((rotl & 0xff) << 8 | (rotl & 0xff00) >> 8);
-#endif
+  obuf.ch[MRIGHT].kp = rotr << 5; // set right rounds
+  obuf.ch[MLEFT].kp = rotl << 5; // set left rounds
   if (write(fd, &obuf, sizeof(obuf)) > 0) {
     printf("MRIGHT: %hd MLEFT: %hd\r\n", 
         obuf.ch[MRIGHT].x, obuf.ch[MLEFT].x);
@@ -158,15 +167,37 @@ int is_stat (unsigned short currstat, unsigned short statbit) {
 
 // TODO: implement
 void
-run_forward(double seconds);
+run_forward(double seconds){
+	motor_set(&mst, 100, 100);
+	motor_write(&mst);
+	usleep(seconds * 1000000);
+	motor_set(&mst, 0, 0);
+	motor_write(&mst);
+	return;
+}
 
 // TODO: implement
 void
-turn_right(double seconds);
+turn_right(double seconds) {
+	motor_set(&mst, 100, -100);
+	motor_write(&mst);
+	usleep(seconds * 1000000);
+	motor_set(&mst, 0, 0);
+	motor_write(&mst);
+	return;
+}
 
 // TODO: implement
 void
-turn_left(double seconds);
+turn_left(double seconds) {
+	motor_set(&mst, -100, 100);
+	motor_write(&mst);
+	usleep(seconds * 1000000);
+	motor_set(&mst, 0, 0);
+	motor_write(&mst);
+	return;
+
+}
 
 
 void

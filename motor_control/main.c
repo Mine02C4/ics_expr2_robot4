@@ -18,6 +18,7 @@ main()
     scanf("%hd %hd", &left, &right);
 	motor_set(&mst, left, right);
 	motor_write(&mst);
+	print_obuf();
   }
   return 0;
 }
