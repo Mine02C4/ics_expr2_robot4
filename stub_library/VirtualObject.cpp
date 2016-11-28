@@ -1,4 +1,4 @@
-#include "VirtualObject.h"
+#include "VirtualObject.hpp"
 
 #include <opencv2/imgproc/imgproc.hpp>
 

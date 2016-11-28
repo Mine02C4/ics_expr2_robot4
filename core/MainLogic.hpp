@@ -1,8 +1,8 @@
 #ifndef ROBOT_CORE_MAIN_LOGIC_H_
 #define ROBOT_CORE_MAIN_LOGIC_H_
 
-#include "Drive.h"
-#include "Sensor.h"
+#include "Drive.hpp"
+#include "Sensor.hpp"
 
 class MainLogic
 {

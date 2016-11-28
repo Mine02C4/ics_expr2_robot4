@@ -5,7 +5,7 @@
 
 #include <chrono>
 
-#include "Simulator.h"
+#include "Simulator.hpp"
 
 const double RotationRate = 45.0; // Degree per seconds
 const double WRotationPerSeconds = 0.8;
