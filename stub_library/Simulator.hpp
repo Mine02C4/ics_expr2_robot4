@@ -10,7 +10,7 @@
 
 #include <opencv2/core/core.hpp>
 
-#include "VirtualObject.h"
+#include "VirtualObject.hpp"
 
 namespace stub {
 

@@ -113,8 +113,8 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="common.h" />
-    <ClInclude Include="Simulator.h" />
-    <ClInclude Include="VirtualObject.h" />
+    <ClInclude Include="Simulator.hpp" />
+    <ClInclude Include="VirtualObject.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="common.cpp" />
