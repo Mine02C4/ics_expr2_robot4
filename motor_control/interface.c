@@ -9,8 +9,8 @@
 #define DEBUG
 
 // set motor channel
-#define MLEFT 1
-#define MRIGHT 2
+#define MLEFT 2
+#define MRIGHT 3
 
 #include "./driver/urbtc.h"
 #include "./driver/urobotc.h"
@@ -94,8 +94,7 @@ motor_init()
   cmd.resetint   = CH0 | CH1 | CH2 | CH3;
 
 
-//  cmd.selin = CH0 | CH1 | SET_SELECT; /* AD in:ch0,ch1    ENC in:ch2,ch3*/
-	cmd.selin = MRIGHT | MLEFT | SET_SELECT;
+	cmd.selin =  MLEFT | MRIGHT | SET_SELECT;
   cmd.selout = SET_SELECT | CH0 | CH1 | CH2 | CH3; /*  PWM out:ch0,ch1,ch2,ch3*/
 
   cmd.offset[0] = cmd.offset[1] = cmd.offset[2] = cmd.offset[3] = 0x7fff;
@@ -118,14 +117,10 @@ motor_init()
     obuf.ch[i].kpx = 1;
     obuf.ch[i].kd = 1;
     obuf.ch[i].kdx = 1;
-    obuf.ch[i].ki = 1;
-    obuf.ch[i].kix = 1;
+    obuf.ch[i].ki = 0;
+    obuf.ch[i].kix = 10;
   }
-	/*
-		obuf.ch[LEFT].kp = -obuf.ch[LEFT].kp;
-		obuf.ch[LEFT].kd = -obuf.ch[LEFT].kd;
-		obuf.ch[LEFT].ki = -obuf.ch[LEFT].ki;
-	*/
+  if (write(fd, &obuf, sizeof(obuf)) < 0) report_error_and_exit("init: write_error", 6);
 }
 
 
@@ -155,8 +150,8 @@ void print_obuf() {
 
 void motor_set(struct mstat *mstp, short rotl, short rotr){
 	/* set both right and left rotation */
-	if (((-1023 < rotl) && (rotl < 1023)) && 
-			((-1023 < rotr) && (rotr < 1023))) {
+	if (((-10230 < rotl) && (rotl < 10230)) && 
+			((-10230 < rotr) && (rotr < 10230))) {
 		// if valid input
 		mstp -> motor_l = rotl;
 		mstp -> motor_r = rotr;
@@ -171,14 +166,13 @@ int motor_write (struct mstat *statp) {
   /* todo one of the motor should be reversed */
   short rotl = statp -> motor_l; // left motor rotation
   short rotr = statp -> motor_r; // 512
-  obuf.ch[MRIGHT].d = (rotr + 512) << 5; // set right rounds
-  obuf.ch[MLEFT].d = (rotl + 512) << 5; // set left rounds
-/*
-	cmd.offset[MRIGHT] = 0xffff; 
-  cmd.offset[MLEFT] = 0xffff;
-  if (ioctl(fd, URBTC_COUNTER_SET) < 0) report_error_and_exit("motor_write_ioctl", 4);
+	obuf.ch[MRIGHT].x = rotr;
+	obuf.ch[MLEFT].x = rotl;
+  obuf.ch[MRIGHT].d = rotr << 5; // set right rounds
+  obuf.ch[MLEFT].d = rotl << 5; // set left rounds
+  
+	if (ioctl(fd, URBTC_COUNTER_SET) < 0) report_error_and_exit("motor_write_ioctl", 4);
 	if (write(fd, &cmd, sizeof(cmd)) < 0) report_error_and_exit("motor_write_cmd", 2);
-*/
 
 	if (ioctl(fd, URBTC_DESIRE_SET) < 0) report_error_and_exit("motor_write_ioctl", 5);
 	if (write(fd, &obuf, sizeof(obuf)) < 0) report_error_and_exit("motor_write_obuf", 3);
