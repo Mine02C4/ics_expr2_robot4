@@ -12,7 +12,7 @@ DEPS := $(patsubst %.o,%.d, $(OBJS))
 mod: $(OUTPUT)
 
 $(OUTPUT): $(OBJS)
-	ar ruv -o $@ $(OBJS)
+	ar ruv $@ $(OBJS)
 
 $(BUILD_DIR)/%.o: %.cpp
 	mkdir -p $(dir $@)
