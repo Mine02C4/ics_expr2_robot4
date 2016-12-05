@@ -46,6 +46,7 @@ void mstat_init(struct mstat *mstp) {
 
 void print_fbk() {
 	int i;
+	if (ioctl(fd, URBTC_CONTINUOUS_READ) < 0) report_error_and_exit("printfbk_ioctl", 13);
     if ((i = read(fd, &ibuf, sizeof(ibuf))) != sizeof(ibuf)) {
       fprintf(stderr,
 			  "Warning: read size mismatch (%d!=%d).\n",
@@ -92,7 +93,9 @@ motor_init()
   cmd.setcounter = CH0 | CH1 | CH2 | CH3;
   cmd.resetint   = CH0 | CH1 | CH2 | CH3;
 
-  cmd.selin = CH2 | CH1 | SET_SELECT; /* AD in:ch0,ch1    ENC in:ch2,ch3*/
+
+//  cmd.selin = CH0 | CH1 | SET_SELECT; /* AD in:ch0,ch1    ENC in:ch2,ch3*/
+	cmd.selin = MRIGHT | MLEFT | SET_SELECT;
   cmd.selout = SET_SELECT | CH0 | CH1 | CH2 | CH3; /*  PWM out:ch0,ch1,ch2,ch3*/
 
   cmd.offset[0] = cmd.offset[1] = cmd.offset[2] = cmd.offset[3] = 0x7fff;
@@ -104,30 +107,25 @@ motor_init()
   cmd.posneg = SET_POSNEG | CH0| CH1 | CH2 | CH3; /*POS PWM out*/
   cmd.breaks = SET_BREAKS | CH0 | CH1 | CH2 | CH3; /*No Brake*/
 
-  if (ioctl(fd, URBTC_COUNTER_SET) < 0){
-    fprintf(stderr, "ioctl: URBTC_COUNTER_SET error\n");
-    exit(1);
-  }
-  if (write(fd, &cmd, sizeof(cmd)) < 0) {
-    fprintf(stderr, "write error\n");
-    exit(1);
-  }
-  if (ioctl(fd, URBTC_DESIRE_SET) < 0){
-    fprintf(stderr, "ioctl: URBTC_DESIRE_SET error\n");
-    exit(1);
-  }
+  if (ioctl(fd, URBTC_COUNTER_SET) < 0) report_error_and_exit("init: ioctl_COUNTER", 7);
+  if (write(fd, &cmd, sizeof(cmd)) < 0) report_error_and_exit("init: write_error", 6);
+  if (ioctl(fd, URBTC_DESIRE_SET) < 0) report_error_and_exit("init: ioctl_DESIRE", 5);
 
   for (i=0; i<4; i++) {
     obuf.ch[i].x = 0;	// x
     obuf.ch[i].d = 0; 	// v
-    obuf.ch[i].kp = 10;	// propotional
+    obuf.ch[i].kp = 1;	// propotional
     obuf.ch[i].kpx = 1;
     obuf.ch[i].kd = 1;
-    obuf.ch[i].kdx = 5;
-    obuf.ch[i].ki = 0;
+    obuf.ch[i].kdx = 1;
+    obuf.ch[i].ki = 1;
     obuf.ch[i].kix = 1;
   }
-  	obuf.ch[MRIGHT].kp = -10;
+	/*
+		obuf.ch[LEFT].kp = -obuf.ch[LEFT].kp;
+		obuf.ch[LEFT].kd = -obuf.ch[LEFT].kd;
+		obuf.ch[LEFT].ki = -obuf.ch[LEFT].ki;
+	*/
 }
 
 
@@ -169,20 +167,26 @@ void motor_set(struct mstat *mstp, short rotl, short rotr){
 }
 
 int motor_write (struct mstat *statp) {
+	int i;
   /* todo one of the motor should be reversed */
   short rotl = statp -> motor_l; // left motor rotation
   short rotr = statp -> motor_r; // 512
-  obuf.ch[MRIGHT].x = (rotr + 512) << 5; // set right rounds
-  obuf.ch[MLEFT].x = (rotl + 512) << 5; // set left rounds
-
+  obuf.ch[MRIGHT].d = (rotr + 512) << 5; // set right rounds
+  obuf.ch[MLEFT].d = (rotl + 512) << 5; // set left rounds
+/*
+	cmd.offset[MRIGHT] = 0xffff; 
+  cmd.offset[MLEFT] = 0xffff;
+  if (ioctl(fd, URBTC_COUNTER_SET) < 0) report_error_and_exit("motor_write_ioctl", 4);
 	if (write(fd, &cmd, sizeof(cmd)) < 0) report_error_and_exit("motor_write_cmd", 2);
-  
-	if (write(fd, &obuf, sizeof(obuf)) > 0) {
-    printf("MRIGHT: %hd MLEFT: %hd\r\n", 
-        obuf.ch[MRIGHT].x, obuf.ch[MLEFT].x);
-  } else {
-    printf("write err\n");
-  }
+*/
+
+	if (ioctl(fd, URBTC_DESIRE_SET) < 0) report_error_and_exit("motor_write_ioctl", 5);
+	if (write(fd, &obuf, sizeof(obuf)) < 0) report_error_and_exit("motor_write_obuf", 3);
+
+	fprintf(stderr, "wirteCMPL\n");
+
+	if (ioctl(fd, URBTC_CONTINUOUS_READ) < 0) report_error_and_exit("motor_write_cont_read", 9);
+
   return 0;
 }
 
