@@ -1,0 +1,6 @@
+-gram rapiro
+-C ../../hmm_ptm.jconf
+-input mic 
+-rejectshort 800
+-lv 1800
+
