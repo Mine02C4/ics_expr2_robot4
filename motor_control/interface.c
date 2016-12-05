@@ -19,6 +19,8 @@
 
 const static char *devfile = "/dev/urbtc0";
 
+void report_error_and_exit(const char* msg, int rpid);
+
 static struct uin ibuf;
 static struct uout obuf;
 static struct ccmd cmd;
@@ -26,6 +28,11 @@ static int fd, fds;
 static struct mstat mst;
 
 static int motor_quit_flag = 1;
+static thold = 0x22a0;
+
+void speed_up(int speed){
+	speed += 5;
+}
 
 void mstat_init(struct mstat *mstp) {
 	/* initialize motor status */
@@ -59,6 +66,7 @@ void
 motor_init()
 {
   int i;
+	fprintf(stderr, "Initializing motor...\n");
   if ((fd = open(devfile, O_RDWR)) == -1) {
     fprintf(stderr, "%s: Open error\n", devfile);
     exit(1);
@@ -90,6 +98,9 @@ motor_init()
   cmd.offset[0] = cmd.offset[1] = cmd.offset[2] = cmd.offset[3] = 0x7fff;
   cmd.counter[0] = cmd.counter[1] = cmd.counter[2] = cmd.counter[3] = 0;
 
+	cmd.magicno = 0x00;
+	cmd.wrrom = 0;
+
   cmd.posneg = SET_POSNEG | CH0| CH1 | CH2 | CH3; /*POS PWM out*/
   cmd.breaks = SET_BREAKS | CH0 | CH1 | CH2 | CH3; /*No Brake*/
 
@@ -109,7 +120,7 @@ motor_init()
   for (i=0; i<4; i++) {
     obuf.ch[i].x = 0;	// x
     obuf.ch[i].d = 0; 	// v
-    obuf.ch[i].kp = 10;
+    obuf.ch[i].kp = 10;	// propotional
     obuf.ch[i].kpx = 1;
     obuf.ch[i].kd = 1;
     obuf.ch[i].kdx = 5;
@@ -161,19 +172,16 @@ int motor_write (struct mstat *statp) {
   /* todo one of the motor should be reversed */
   short rotl = statp -> motor_l; // left motor rotation
   short rotr = statp -> motor_r; // 512
-//  rotr = -rotr;
   obuf.ch[MRIGHT].x = (rotr + 512) << 5; // set right rounds
   obuf.ch[MLEFT].x = (rotl + 512) << 5; // set left rounds
-  if (write(fd, &obuf, sizeof(obuf)) > 0) {
+
+	if (write(fd, &cmd, sizeof(cmd)) < 0) report_error_and_exit("motor_write_cmd", 2);
+  
+	if (write(fd, &obuf, sizeof(obuf)) > 0) {
     printf("MRIGHT: %hd MLEFT: %hd\r\n", 
         obuf.ch[MRIGHT].x, obuf.ch[MLEFT].x);
   } else {
     printf("write err\n");
-  }
-  int i;
-  for (i = 0; i < 10; i++) {
-  	print_fbk();
-	usleep(1000000);
   }
   return 0;
 }
@@ -244,3 +252,9 @@ ifn_by_wheel(enum wheel w) // interface number
   }
 }
 
+void
+report_error_and_exit(const char* msg, int rpid)
+{
+	perror(msg);
+	exit(rpid);
+}
