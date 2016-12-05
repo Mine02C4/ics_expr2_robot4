@@ -9,8 +9,8 @@
 #define DEBUG
 
 // set motor channel
-#define MLEFT 1
-#define MRIGHT 2
+#define MLEFT 2
+#define MRIGHT 3
 
 #include "./driver/urbtc.h"
 #include "./driver/urobotc.h"
@@ -19,6 +19,8 @@
 
 const static char *devfile = "/dev/urbtc0";
 
+void report_error_and_exit(const char* msg, int rpid);
+
 static struct uin ibuf;
 static struct uout obuf;
 static struct ccmd cmd;
@@ -26,6 +28,11 @@ static int fd, fds;
 static struct mstat mst;
 
 static int motor_quit_flag = 1;
+static thold = 0x22a0;
+
+void speed_up(int speed){
+	speed += 5;
+}
 
 void mstat_init(struct mstat *mstp) {
 	/* initialize motor status */
@@ -39,6 +46,7 @@ void mstat_init(struct mstat *mstp) {
 
 void print_fbk() {
 	int i;
+	if (ioctl(fd, URBTC_CONTINUOUS_READ) < 0) report_error_and_exit("printfbk_ioctl", 13);
     if ((i = read(fd, &ibuf, sizeof(ibuf))) != sizeof(ibuf)) {
       fprintf(stderr,
 			  "Warning: read size mismatch (%d!=%d).\n",
@@ -59,6 +67,7 @@ void
 motor_init()
 {
   int i;
+	fprintf(stderr, "Initializing motor...\n");
   if ((fd = open(devfile, O_RDWR)) == -1) {
     fprintf(stderr, "%s: Open error\n", devfile);
     exit(1);
@@ -84,39 +93,34 @@ motor_init()
   cmd.setcounter = CH0 | CH1 | CH2 | CH3;
   cmd.resetint   = CH0 | CH1 | CH2 | CH3;
 
-  cmd.selin = CH2 | CH1 | SET_SELECT; /* AD in:ch0,ch1    ENC in:ch2,ch3*/
+
+	cmd.selin =  MLEFT | MRIGHT | SET_SELECT;
   cmd.selout = SET_SELECT | CH0 | CH1 | CH2 | CH3; /*  PWM out:ch0,ch1,ch2,ch3*/
 
   cmd.offset[0] = cmd.offset[1] = cmd.offset[2] = cmd.offset[3] = 0x7fff;
   cmd.counter[0] = cmd.counter[1] = cmd.counter[2] = cmd.counter[3] = 0;
 
+	cmd.magicno = 0x00;
+	cmd.wrrom = 0;
+
   cmd.posneg = SET_POSNEG | CH0| CH1 | CH2 | CH3; /*POS PWM out*/
   cmd.breaks = SET_BREAKS | CH0 | CH1 | CH2 | CH3; /*No Brake*/
 
-  if (ioctl(fd, URBTC_COUNTER_SET) < 0){
-    fprintf(stderr, "ioctl: URBTC_COUNTER_SET error\n");
-    exit(1);
-  }
-  if (write(fd, &cmd, sizeof(cmd)) < 0) {
-    fprintf(stderr, "write error\n");
-    exit(1);
-  }
-  if (ioctl(fd, URBTC_DESIRE_SET) < 0){
-    fprintf(stderr, "ioctl: URBTC_DESIRE_SET error\n");
-    exit(1);
-  }
+  if (ioctl(fd, URBTC_COUNTER_SET) < 0) report_error_and_exit("init: ioctl_COUNTER", 7);
+  if (write(fd, &cmd, sizeof(cmd)) < 0) report_error_and_exit("init: write_error", 6);
+  if (ioctl(fd, URBTC_DESIRE_SET) < 0) report_error_and_exit("init: ioctl_DESIRE", 5);
 
   for (i=0; i<4; i++) {
     obuf.ch[i].x = 0;	// x
     obuf.ch[i].d = 0; 	// v
-    obuf.ch[i].kp = 10;
+    obuf.ch[i].kp = 1;	// propotional
     obuf.ch[i].kpx = 1;
     obuf.ch[i].kd = 1;
-    obuf.ch[i].kdx = 5;
+    obuf.ch[i].kdx = 1;
     obuf.ch[i].ki = 0;
-    obuf.ch[i].kix = 1;
+    obuf.ch[i].kix = 10;
   }
-  	obuf.ch[MRIGHT].kp = -10;
+  if (write(fd, &obuf, sizeof(obuf)) < 0) report_error_and_exit("init: write_error", 6);
 }
 
 
@@ -146,8 +150,8 @@ void print_obuf() {
 
 void motor_set(struct mstat *mstp, short rotl, short rotr){
 	/* set both right and left rotation */
-	if (((-1023 < rotl) && (rotl < 1023)) && 
-			((-1023 < rotr) && (rotr < 1023))) {
+	if (((-10230 < rotl) && (rotl < 10230)) && 
+			((-10230 < rotr) && (rotr < 10230))) {
 		// if valid input
 		mstp -> motor_l = rotl;
 		mstp -> motor_r = rotr;
@@ -158,23 +162,25 @@ void motor_set(struct mstat *mstp, short rotl, short rotr){
 }
 
 int motor_write (struct mstat *statp) {
+	int i;
   /* todo one of the motor should be reversed */
   short rotl = statp -> motor_l; // left motor rotation
   short rotr = statp -> motor_r; // 512
-//  rotr = -rotr;
-  obuf.ch[MRIGHT].x = (rotr + 512) << 5; // set right rounds
-  obuf.ch[MLEFT].x = (rotl + 512) << 5; // set left rounds
-  if (write(fd, &obuf, sizeof(obuf)) > 0) {
-    printf("MRIGHT: %hd MLEFT: %hd\r\n", 
-        obuf.ch[MRIGHT].x, obuf.ch[MLEFT].x);
-  } else {
-    printf("write err\n");
-  }
-  int i;
-  for (i = 0; i < 10; i++) {
-  	print_fbk();
-	usleep(1000000);
-  }
+	obuf.ch[MRIGHT].x = rotr;
+	obuf.ch[MLEFT].x = rotl;
+  obuf.ch[MRIGHT].d = rotr << 5; // set right rounds
+  obuf.ch[MLEFT].d = rotl << 5; // set left rounds
+  
+	if (ioctl(fd, URBTC_COUNTER_SET) < 0) report_error_and_exit("motor_write_ioctl", 4);
+	if (write(fd, &cmd, sizeof(cmd)) < 0) report_error_and_exit("motor_write_cmd", 2);
+
+	if (ioctl(fd, URBTC_DESIRE_SET) < 0) report_error_and_exit("motor_write_ioctl", 5);
+	if (write(fd, &obuf, sizeof(obuf)) < 0) report_error_and_exit("motor_write_obuf", 3);
+
+	fprintf(stderr, "wirteCMPL\n");
+
+	if (ioctl(fd, URBTC_CONTINUOUS_READ) < 0) report_error_and_exit("motor_write_cont_read", 9);
+
   return 0;
 }
 
@@ -244,3 +250,9 @@ ifn_by_wheel(enum wheel w) // interface number
   }
 }
 
+void
+report_error_and_exit(const char* msg, int rpid)
+{
+	perror(msg);
+	exit(rpid);
+}

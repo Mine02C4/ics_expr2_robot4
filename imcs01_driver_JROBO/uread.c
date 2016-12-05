@@ -60,7 +60,7 @@ int main(int argc, char **argv)
     buf.time = (0xff & buf.time)<<8 | (0xff00 & buf.time)>>8;
 #endif
 
-    printf("%d %d %d %d %d %d %d %d %d %d %d %d %d %x %x %d %d %x\n",
+    printf("[time: %d] %d %d %d %d %d %d %d %d %d %d %d %d %x %x %d %d %x\r",
 	   buf.time, buf.ad[0], buf.ad[1], buf.ad[2], buf.ad[3],
 	   buf.ct[0], buf.ct[1], buf.ct[2], buf.ct[3],
 	   buf.da[0], buf.da[1], buf.da[2], buf.da[3],

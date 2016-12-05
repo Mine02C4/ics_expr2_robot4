@@ -1,5 +1,5 @@
-LIBSENT=../libsent
-LIBJULIUS=../libjulius
+LIBSENT=../../julius-4.2.3/libsent
+LIBJULIUS=../../julius-4.2.3/libjulius
 
 CXX=g++
 CXXFLAGS=-g -O2 

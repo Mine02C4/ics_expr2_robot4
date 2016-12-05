@@ -84,7 +84,6 @@ void output_result(Recog * recog, void * dummy) {
   // use function pointer
   //and operate host program by callback function.
   charconv *cc = new charconv;
-  printf("ok111\n");
   WORD_INFO *winfo;
   WORD_ID *seq;
   int seqnum;
