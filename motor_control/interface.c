@@ -14,7 +14,6 @@
 
 #include "./driver/urbtc.h"
 #include "./driver/urobotc.h"
-
 #include "interface.h"
 
 const static char *devfile = "/dev/urbtc0";
@@ -192,33 +191,24 @@ int is_stat (unsigned short currstat, unsigned short statbit) {
 
 // TODO: implement
 void
-run_forward(double seconds){
-	motor_set(&mst, 100, 100);
-	motor_write(&mst);
-	usleep(seconds * 1000000);
-	motor_set(&mst, 0, 0);
+run_forward(double rot){
+	motor_set(&mst, rot, rot);
 	motor_write(&mst);
 	return;
 }
 
 // TODO: implement
 void
-turn_right(double seconds) {
-	motor_set(&mst, 100, -100);
-	motor_write(&mst);
-	usleep(seconds * 1000000);
-	motor_set(&mst, 0, 0);
+turn_right(double angle) {
+	motor_set(&mst, angle, -angle);
 	motor_write(&mst);
 	return;
 }
 
 // TODO: implement
 void
-turn_left(double seconds) {
-	motor_set(&mst, -100, 100);
-	motor_write(&mst);
-	usleep(seconds * 1000000);
-	motor_set(&mst, 0, 0);
+turn_left(double angle) {
+	motor_set(&mst, -angle, angle);
 	motor_write(&mst);
 	return;
 
