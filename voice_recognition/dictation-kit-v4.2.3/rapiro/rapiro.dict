@@ -1,78 +1,78 @@
-0	[Ç¶Å[]	e:
-0	[Ç¶Å[Ç∆]	e: t o
-0	[Ç¶Å[Ç¡Ç∆]	e: q t o
-0	[Ç¶Å[Ç¡Ç∆Å[]	e: q t o:
-0	[Ç†Å[]	a:
-0	[Ç†Å[Ç∆]	a: t o
-0	[Ç†Å[Ç¡Ç∆]	a: q t o
-0	[ÇÒÅ[]	N N
-0	[ÇÒÅ[Ç∆]	N N t o
-0	[ÇÒÅ[Ç¡Ç∆]	N N q t o
-0	[Ç†ÇÃÅ[]	a n o:
-0	[ÇªÇÃÅ[]	s o n o:
-0	[Ç∆]	t o
-0	[Ç¡Ç∆]	q t o
-0	[Ç§Å[ÇÒ]	u: N
-0	[Ç§Å[ÇÒÇ∆]	u: N t o
+0	[§®°º]	e:
+0	[§®°º§»]	e: t o
+0	[§®°º§√§»]	e: q t o
+0	[§®°º§√§»°º]	e: q t o:
+0	[§¢°º]	a:
+0	[§¢°º§»]	a: t o
+0	[§¢°º§√§»]	a: q t o
+0	[§Û°º]	N N
+0	[§Û°º§»]	N N t o
+0	[§Û°º§√§»]	N N q t o
+0	[§¢§Œ°º]	a n o:
+0	[§Ω§Œ°º]	s o n o:
+0	[§»]	t o
+0	[§√§»]	q t o
+0	[§¶°º§Û]	u: N
+0	[§¶°º§Û§»]	u: N t o
 1	[NS]	sp
 2	[silB]	silB
 3	[silE]	silE
-4	[ëO]	m a e n i
-4	[ëO]	m a e
-4	[ëO]	m a e e
-4	[å„ÇÎ]	u sh i r o n i
-4	[å„ÇÎ]	u sh i r o
-4	[å„ÇÎ]	u sh i r o e
-4	[âE]	m i g i n i
-4	[âE]	m i g i
-4	[ç∂]	h i d a r i n i
-4	[ç∂]	h i d a r i
-5	[Ç‡Ç§]	m o u
-5	[Ç‡Ç§]	m o:
-6	[àÍ]	i ch i
-6	[àÍ]	i q
-6	[ìÒ]	n i
-6	[ìÒ]	n i:
-6	[éO]	s a N
-6	[él]	y o N
-6	[å‹]	g o
-6	[å‹]	g o:
-6	[òZ]	r o k u
-6	[òZ]	r o q
-6	[éµ]	n a n a
-6	[éµ]	sh i ch i
-6	[éµ]	h i ch i
-6	[î™]	h a ch i
-6	[î™]	h a q
-6	[ã„]	ky u:
-6	[ã„]	k u
-6	[è\]	j u:
-6	[è\]	j u q
-6	[ìÒè\]	n i j u:
-6	[ìÒè\]	n i j u q
-6	[éOè\]	s a N j u:
-6	[éOè\]	s a N j u q
-6	[élè\]	y o N j u:
-6	[élè\]	y o N j u q
-6	[å‹è\]	g o j u:
-6	[å‹è\]	g o j u q
-7	[ÇŸ]	p o
-7	[ÇŸ]	h o
-8	[êiÇﬂ]	s u s u m e
-8	[êiÇﬂ]	s u s u m u
-8	[çsÇØ]	i k e
-8	[çsÇØ]	i k u
-8	[çsÇØ]	g o:
-8	[Ç‹ÇÌÇÍ]	m a w a r e
-8	[Ç‹ÇÌÇÍ]	m a w a r u
-8	[Ç‹ÇÌÇÍ]	m a g a r e
-8	[Ç‹ÇÌÇÍ]	m a g a r u
-8	[Ç∆Ç‹ÇÍ]	t o m a r e
-8	[Ç∆Ç‹ÇÍ]	t o m a r u
-8	[Ç∆Ç‹ÇÍ]	s u t o q p u
-8	[Ç≥Ç™ÇÍ]	s a g a r e
-8	[Ç≥Ç™ÇÍ]	s a g a r u
-8	[Ç≥Ç™ÇÍ]	b a q k u
-9	[ÇøÇÂÇ¡Ç∆]	ch o q t o
-9	[Ç‡Ç¡Ç∆]	m o q t o
-9	[ÇøÇÂÇ¡Ç∆]	ch o i
+4	[¡∞]	m a e n i
+4	[¡∞]	m a e
+4	[¡∞]	m a e e
+4	[∏Â§Ì]	u sh i r o n i
+4	[∏Â§Ì]	u sh i r o
+4	[∏Â§Ì]	u sh i r o e
+4	[±¶]	m i g i n i
+4	[±¶]	m i g i
+4	[∫∏]	h i d a r i n i
+4	[∫∏]	h i d a r i
+5	[§‚§¶]	m o u
+5	[§‚§¶]	m o:
+6	[∞Ï]	i ch i
+6	[∞Ï]	i q
+6	[∆Û]	n i
+6	[∆Û]	n i:
+6	[ª∞]	s a N
+6	[ªÕ]	y o N
+6	[∏ﬁ]	g o
+6	[∏ﬁ]	g o:
+6	[œª]	r o k u
+6	[œª]	r o q
+6	[º∑]	n a n a
+6	[º∑]	sh i ch i
+6	[º∑]	h i ch i
+6	[»¨]	h a ch i
+6	[»¨]	h a q
+6	[∂Â]	ky u:
+6	[∂Â]	k u
+6	[ΩΩ]	j u:
+6	[ΩΩ]	j u q
+6	[∆ÛΩΩ]	n i j u:
+6	[∆ÛΩΩ]	n i j u q
+6	[ª∞ΩΩ]	s a N j u:
+6	[ª∞ΩΩ]	s a N j u q
+6	[ªÕΩΩ]	y o N j u:
+6	[ªÕΩΩ]	y o N j u q
+6	[∏ﬁΩΩ]	g o j u:
+6	[∏ﬁΩΩ]	g o j u q
+7	[§€]	p o
+7	[§€]	h o
+8	[ø §·]	s u s u m e
+8	[ø §·]	s u s u m u
+8	[π‘§±]	i k e
+8	[π‘§±]	i k u
+8	[π‘§±]	g o:
+8	[§ﬁ§Ô§Ï]	m a w a r e
+8	[§ﬁ§Ô§Ï]	m a w a r u
+8	[§ﬁ§Ô§Ï]	m a g a r e
+8	[§ﬁ§Ô§Ï]	m a g a r u
+8	[§»§ﬁ§Ï]	t o m a r e
+8	[§»§ﬁ§Ï]	t o m a r u
+8	[§»§ﬁ§Ï]	s u t o q p u
+8	[§µ§¨§Ï]	s a g a r e
+8	[§µ§¨§Ï]	s a g a r u
+8	[§µ§¨§Ï]	b a q k u
+9	[§¡§Á§√§»]	ch o q t o
+9	[§‚§√§»]	m o q t o
+9	[§¡§Á§√§»]	ch o i
