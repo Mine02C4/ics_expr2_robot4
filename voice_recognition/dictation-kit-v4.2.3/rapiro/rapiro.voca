@@ -1,0 +1,101 @@
+%SONOTA	
+えー	e:
+えーと	e: t o
+えーっと	e: q t o
+えーっとー	e: q t o:
+あー	a:
+あーと	a: t o
+あーっと	a: q t o
+んー	 N N
+んーと	 N N t o
+んーっと	 N N q t o
+あのー	a n o:
+そのー	s o n o:
+と	t o
+っと	q t o
+うーん	u: N
+うーんと	u: N t o
+
+
+%NOISE	
+NS	sp
+	
+%B	
+silB	silB
+	
+%E	
+silE	silE
+
+%HOUKOU
+前	m a e n i
+前	m a e
+前	m a e e
+後ろ	u sh i r o n i
+後ろ	u sh i r o
+後ろ	u sh i r o e
+右	m i g i n i
+右	m i g i
+左	h i d a r i n i
+左	h i d a r i
+
+%HUKUSI
+もう	m o u
+もう	m o:
+
+%KAZU
+一	i ch i
+一	i q
+二	n i
+二	n i:
+三	s a N
+四	y o N
+五	g o
+五	g o:
+六	r o k u
+六	r o q
+七	n a n a
+七	sh i ch i
+七	h i ch i
+八	h a ch i
+八	h a q
+九	ky u:
+九	k u
+十	j u:
+十	j u q
+二十	n i j u:
+二十	n i j u q
+三十	s a N j u:
+三十	s a N j u q
+四十	y o N j u:
+四十	y o N j u q
+五十	g o j u:
+五十	g o j u q
+
+%ZYOSUSI
+ほ	p o
+ほ	h o
+
+%UGOKI
+進め	s u s u m e
+進め	s u s u m u
+行け	i k e
+行け	i k u
+行け	g o:
+まわれ	m a w a r e
+まわれ	m a w a r u
+まわれ	m a g a r e
+まわれ	m a g a r u
+とまれ	t o m a r e
+とまれ	t o m a r u
+とまれ	s u t o q p u
+さがれ	s a g a r e
+さがれ	s a g a r u
+さがれ	b a q k u
+
+
+%CHOTTO
+ちょっと	ch o q t o
+もっと		m o q t o
+ちょっと	ch o i
+
+

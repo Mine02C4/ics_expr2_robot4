@@ -7,17 +7,18 @@
 #include <fcntl.h>
 #include <math.h>
 #define DEBUG
+#define ROT_MAX 10000
 
 // set motor channel
-#define MLEFT 1
-#define MRIGHT 2
+#define MLEFT 2
+#define MRIGHT 3
 
 #include "./driver/urbtc.h"
 #include "./driver/urobotc.h"
-
 #include "interface.h"
 
 const static char *devfile = "/dev/urbtc0";
+const static int thold = 0x2fff;
 
 void report_error_and_exit(const char* msg, int rpid);
 
@@ -28,43 +29,43 @@ static int fd, fds;
 static struct mstat mst;
 
 static int motor_quit_flag = 1;
-static thold = 0x22a0;
-
-void speed_up(int speed){
-	speed += 5;
-}
 
 void mstat_init(struct mstat *mstp) {
 	/* initialize motor status */
 	mstp -> stat = STAT_DEFAULT;
 	mstp -> rstat = STAT_DEFAULT;
 	mstp -> lstat = STAT_DEFAULT;
-	mstp -> motor_l = 0; 	/* set rotation */
-	mstp -> motor_r = 0;
+	mstp -> rot_l = 0; 	/* set rotation */
+	mstp -> rot_r = 0;
+	mstp -> spd_l = 0;
+	mstp -> spd_r = 0;
 	return;
 }
 
 void print_fbk() {
 	int i;
+	if (ioctl(fd, URBTC_CONTINUOUS_READ) < 0) report_error_and_exit("printfbk_ioctl", 13);
     if ((i = read(fd, &ibuf, sizeof(ibuf))) != sizeof(ibuf)) {
       fprintf(stderr,
-			  "Warning: read size mismatch (%d!=%d).\n",
+			  "Warning: read size mismatch (%d!=%lu).\n",
 			  i, sizeof(ibuf));
     }
+
     for (i=0; i<4; i++) {
       ibuf.ad[i] = ibuf.ad[i] >> 5;
     }
 
-    printf("[time: %d][ad: %d %d]\n [ct: %d %d %d %d] [da: %d %d %d %d] [din: %x] [dout: %x] [imax: %d] [intv: %d]\r\n",
-	   ibuf.time,  ibuf.ad[2], ibuf.ad[3],
-	   ibuf.ct[2], ibuf.ct[3],
-	   ibuf.da[0], ibuf.da[1], ibuf.da[2], ibuf.da[3],
+    printf("[time: %d][ad: %d %d]\n [ct: %d %d] [da: %d %d] [din: %x] [dout: %x] [imax: %d] [intv: %d]\r\n",
+	   ibuf.time,  ibuf.ad[MLEFT], ibuf.ad[MRIGHT],
+	   ibuf.ct[MLEFT], ibuf.ct[MRIGHT],
+	   ibuf.da[MLEFT], ibuf.da[MRIGHT],
 	   ibuf.din, ibuf.dout, ibuf.intmax, ibuf.interval);
 }
 
 void
 motor_init()
 {
+	mstat_init(&mst);
   int i;
 	fprintf(stderr, "Initializing motor...\n");
   if ((fd = open(devfile, O_RDWR)) == -1) {
@@ -92,7 +93,8 @@ motor_init()
   cmd.setcounter = CH0 | CH1 | CH2 | CH3;
   cmd.resetint   = CH0 | CH1 | CH2 | CH3;
 
-  cmd.selin = CH2 | CH1 | SET_SELECT; /* AD in:ch0,ch1    ENC in:ch2,ch3*/
+
+	cmd.selin =  MLEFT | MRIGHT | SET_SELECT;
   cmd.selout = SET_SELECT | CH0 | CH1 | CH2 | CH3; /*  PWM out:ch0,ch1,ch2,ch3*/
 
   cmd.offset[0] = cmd.offset[1] = cmd.offset[2] = cmd.offset[3] = 0x7fff;
@@ -104,85 +106,92 @@ motor_init()
   cmd.posneg = SET_POSNEG | CH0| CH1 | CH2 | CH3; /*POS PWM out*/
   cmd.breaks = SET_BREAKS | CH0 | CH1 | CH2 | CH3; /*No Brake*/
 
-  if (ioctl(fd, URBTC_COUNTER_SET) < 0){
-    fprintf(stderr, "ioctl: URBTC_COUNTER_SET error\n");
-    exit(1);
-  }
-  if (write(fd, &cmd, sizeof(cmd)) < 0) {
-    fprintf(stderr, "write error\n");
-    exit(1);
-  }
-  if (ioctl(fd, URBTC_DESIRE_SET) < 0){
-    fprintf(stderr, "ioctl: URBTC_DESIRE_SET error\n");
-    exit(1);
-  }
+  if (ioctl(fd, URBTC_COUNTER_SET) < 0) report_error_and_exit("init: ioctl_COUNTER", ERR_URBTC_COUNTER_SET);
+  if (write(fd, &cmd, sizeof(cmd)) < 0) report_error_and_exit("init: write_error", ERR_WRITE_CMD);
+  if (ioctl(fd, URBTC_DESIRE_SET) < 0) report_error_and_exit("init: ioctl_DESIRE", ERR_URBTC_DESIRE_SET);
 
   for (i=0; i<4; i++) {
     obuf.ch[i].x = 0;	// x
     obuf.ch[i].d = 0; 	// v
-    obuf.ch[i].kp = 10;	// propotional
+    obuf.ch[i].kp = 1;	// propotional
     obuf.ch[i].kpx = 1;
-    obuf.ch[i].kd = 1;
-    obuf.ch[i].kdx = 5;
-    obuf.ch[i].ki = 0;
+    obuf.ch[i].kd = 10;
+    obuf.ch[i].kdx = 1;
+    obuf.ch[i].ki = 1;
     obuf.ch[i].kix = 1;
   }
-  	obuf.ch[MRIGHT].kp = -10;
+		obuf.ch[MRIGHT].kp = -obuf.ch[MRIGHT].kp;
+		obuf.ch[MRIGHT].kd = -obuf.ch[MRIGHT].kd;
+		obuf.ch[MRIGHT].ki = -obuf.ch[MRIGHT].ki;
+  if (write(fd, &obuf, sizeof(obuf)) < 0) report_error_and_exit("init: write_error", ERR_WRITE_OBUF);
 }
 
-
-void set_stat (struct mstat *statp) {
+void set_stat (struct mstat *mstp) {
   /* set status */
+	int i;
+	if (ioctl(fd, URBTC_CONTINUOUS_READ) < 0) report_error_and_exit("printfbk_ioctl", ERR_URBTC_COUTINUOUS_READ);
+    if ((i = read(fd, &ibuf, sizeof(ibuf))) != sizeof(ibuf)) {
+      fprintf(stderr,
+			  "Warning: read size mismatch (%d!=%lu).\n",
+			  i, sizeof(ibuf));
+    }
 
-  statp -> stat &= ~(STAT_TL | STAT_TR | STAT_MVF);
-  if (statp->motor_l < statp->motor_r) {
-    statp->stat |= STAT_TL; // turning left
-  } else if (statp->motor_l < statp->motor_r) {
-    statp->stat |= STAT_TR; // turning right
-  } else {
-    statp->stat |= STAT_MVF; // fwd
-  }
+    printf("[time: %d][ad: %d %d]\n [ct: %d %d] [da: %d %d] [din: %x] [dout: %x] [imax: %d] [intv: %d]\r\n",
+	   ibuf.time,  ibuf.ad[MLEFT], ibuf.ad[MRIGHT],
+	   ibuf.ct[MLEFT], ibuf.ct[MRIGHT],
+	   ibuf.da[MLEFT], ibuf.da[MRIGHT],
+	   ibuf.din, ibuf.dout, ibuf.intmax, ibuf.interval);
+
   return;
 }
 
 void print_obuf() {
-	int i;
-  for (i=0; i<4; i++) {
-	  fprintf(stderr, "[ID: %d][x: %hd][kp: %hd][kpx: %hd][kd: %hd][kdx: %hd][ki: %hd][kix: %hd]\n",
-			  i, obuf.ch[i].x, obuf.ch[i].kp, obuf.ch[i].kd, obuf.ch[i].kdx, obuf.ch[i].ki,
-			  obuf.ch[i].kix);
-  }
+  fprintf(stderr, "[ID: LEFT][x: %hd][kp: %hd][kpx: %hd][kd: %hd][kdx: %hd][ki: %hd][kix: %hd]\n",
+		   obuf.ch[MLEFT].x, obuf.ch[MLEFT].kp, obuf.ch[MLEFT].kpx, obuf.ch[MLEFT].kd, obuf.ch[MLEFT].kdx, obuf.ch[MLEFT].ki,
+		  obuf.ch[MLEFT].kix);
+  fprintf(stderr, "[ID: RIGHT][x: %hd][kp: %hd][kpx: %hd][kd: %hd][kdx: %hd][ki: %hd][kix: %hd]\n",
+		   obuf.ch[MRIGHT].x, obuf.ch[MRIGHT].kp, obuf.ch[MLEFT].kpx, obuf.ch[MRIGHT].kd, obuf.ch[MRIGHT].kdx, obuf.ch[MRIGHT].ki,
+		  obuf.ch[MRIGHT].kix);
   return;
 }
 
-void motor_set(struct mstat *mstp, short rotl, short rotr){
+void motor_set_rot(struct mstat *mstp, short rotl, short rotr){
 	/* set both right and left rotation */
-	if (((-1023 < rotl) && (rotl < 1023)) && 
-			((-1023 < rotr) && (rotr < 1023))) {
+	if (((-ROT_MAX < rotl) && (rotl < ROT_MAX)) && 
+			((-ROT_MAX < rotr) && (rotr < ROT_MAX))) {
 		// if valid input
 		mstp -> motor_l = rotl;
-		mstp -> motor_r = rotr;
+		mstp -> motor_r = -rotr;
 	} else {
 		fprintf(stderr, "Invalid rot input. Rot should be between -1023 and 1023\n");
 	}
 	return;
 }
 
-int motor_write (struct mstat *statp) {
+void motor_set_speed(struct mstat *mstp, short left_speed, short right_speed) {
+	mstp -> spd_l = left_speed;
+	mstp -> spd_r = right_speed;
+	fprintf(stderr, "speedup\n");
+	return;
+}
+
+int motor_write (struct mstat *mstp) {
   /* todo one of the motor should be reversed */
   short rotl = statp -> motor_l; // left motor rotation
   short rotr = statp -> motor_r; // 512
-  obuf.ch[MRIGHT].x = (rotr + 512) << 5; // set right rounds
-  obuf.ch[MLEFT].x = (rotl + 512) << 5; // set left rounds
-
+	obuf.ch[MRIGHT].x = rotr << 5;
+	obuf.ch[MLEFT].x = rotl << 5;
+  obuf.ch[MRIGHT].d = 400; // set right rounds
+  obuf.ch[MLEFT].d = -400; // set left rounds
+	if (ioctl(fd, URBTC_COUNTER_SET) < 0) report_error_and_exit("motor_write_ioctl", 4);
 	if (write(fd, &cmd, sizeof(cmd)) < 0) report_error_and_exit("motor_write_cmd", 2);
-  
-	if (write(fd, &obuf, sizeof(obuf)) > 0) {
-    printf("MRIGHT: %hd MLEFT: %hd\r\n", 
-        obuf.ch[MRIGHT].x, obuf.ch[MLEFT].x);
-  } else {
-    printf("write err\n");
-  }
+*/
+	if (ioctl(fd, URBTC_DESIRE_SET) < 0) report_error_and_exit("motor_write_ioctl", 5);
+	if (write(fd, &obuf, sizeof(obuf)) < 0) report_error_and_exit("motor_write_obuf", 3);
+
+	fprintf(stderr, "wirteCMPL\n");
+
+
   return 0;
 }
 
@@ -194,36 +203,36 @@ int is_stat (unsigned short currstat, unsigned short statbit) {
 
 // TODO: implement
 void
-run_forward(double seconds){
-	motor_set(&mst, 100, 100);
-	motor_write(&mst);
-	usleep(seconds * 1000000);
-	motor_set(&mst, 0, 0);
+run_forward(double rot){
+	motor_set_rot(&mst, rot, rot);
 	motor_write(&mst);
 	return;
 }
 
 // TODO: implement
 void
-turn_right(double seconds) {
-	motor_set(&mst, 100, -100);
-	motor_write(&mst);
-	usleep(seconds * 1000000);
-	motor_set(&mst, 0, 0);
+turn_right(double angle) {
+	motor_set_rot(&mst, angle, -angle);
 	motor_write(&mst);
 	return;
 }
 
 // TODO: implement
 void
-turn_left(double seconds) {
-	motor_set(&mst, -100, 100);
-	motor_write(&mst);
-	usleep(seconds * 1000000);
-	motor_set(&mst, 0, 0);
+turn_left(double angle) {
+	motor_set_rot(&mst, -angle, angle);
 	motor_write(&mst);
 	return;
 
+}
+
+void
+set_desire(double rot[], double speed[]) {
+	// index 0:left 1:right
+	motor_set_rot(&mst, rot[0], rot[1]);
+	motor_set_speed(&mst, speed[0], speed[1]);
+	motor_write(&mst);
+	return;
 }
 
 
