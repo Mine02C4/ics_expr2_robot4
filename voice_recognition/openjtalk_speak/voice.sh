@@ -7,11 +7,14 @@
 #aplay ~/open_jtalk.wav 
 #rm -f ~/open_jtalk.wav
 
+
+#global variables
 dict=/var/lib/mecab/dic/open-jtalk/naist-jdic
+num=1
 function talk(){
     local voicefile=mei/mei_normal.htsvoice
-    local outfile=~/open_jtalk.wav
-    local input=$(cat -)
+    local outfile=~/open_jtalk_$2.wav
+    local input=$1
     makeAndPlay $voicefile $outfile $input
 }
 function makeAndPlay(){
@@ -22,7 +25,11 @@ function makeAndPlay(){
 	rm -f $2
     fi
 }
-
-if [ -p /dev/stdin ]; then
-    cat - | talk
-fi
+while cat -;
+do
+    if [ -p /dev/stdin ]; then
+	num=$(( num + 1 ))
+	input=cat -
+	talk $input $num
+    fi
+done
