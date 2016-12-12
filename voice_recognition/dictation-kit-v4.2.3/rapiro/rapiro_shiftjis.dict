@@ -1,0 +1,78 @@
+0	[えー]	e:
+0	[えーと]	e: t o
+0	[えーっと]	e: q t o
+0	[えーっとー]	e: q t o:
+0	[あー]	a:
+0	[あーと]	a: t o
+0	[あーっと]	a: q t o
+0	[んー]	N N
+0	[んーと]	N N t o
+0	[んーっと]	N N q t o
+0	[あのー]	a n o:
+0	[そのー]	s o n o:
+0	[と]	t o
+0	[っと]	q t o
+0	[うーん]	u: N
+0	[うーんと]	u: N t o
+1	[NS]	sp
+2	[silB]	silB
+3	[silE]	silE
+4	[前]	m a e n i
+4	[前]	m a e
+4	[前]	m a e e
+4	[後ろ]	u sh i r o n i
+4	[後ろ]	u sh i r o
+4	[後ろ]	u sh i r o e
+4	[右]	m i g i n i
+4	[右]	m i g i
+4	[左]	h i d a r i n i
+4	[左]	h i d a r i
+5	[もう]	m o u
+5	[もう]	m o:
+6	[一]	i ch i
+6	[一]	i q
+6	[二]	n i
+6	[二]	n i:
+6	[三]	s a N
+6	[四]	y o N
+6	[五]	g o
+6	[五]	g o:
+6	[六]	r o k u
+6	[六]	r o q
+6	[七]	n a n a
+6	[七]	sh i ch i
+6	[七]	h i ch i
+6	[八]	h a ch i
+6	[八]	h a q
+6	[九]	ky u:
+6	[九]	k u
+6	[十]	j u:
+6	[十]	j u q
+6	[二十]	n i j u:
+6	[二十]	n i j u q
+6	[三十]	s a N j u:
+6	[三十]	s a N j u q
+6	[四十]	y o N j u:
+6	[四十]	y o N j u q
+6	[五十]	g o j u:
+6	[五十]	g o j u q
+7	[ほ]	p o
+7	[ほ]	h o
+8	[進め]	s u s u m e
+8	[進め]	s u s u m u
+8	[行け]	i k e
+8	[行け]	i k u
+8	[行け]	g o:
+8	[まわれ]	m a w a r e
+8	[まわれ]	m a w a r u
+8	[まわれ]	m a g a r e
+8	[まわれ]	m a g a r u
+8	[とまれ]	t o m a r e
+8	[とまれ]	t o m a r u
+8	[とまれ]	s u t o q p u
+8	[さがれ]	s a g a r e
+8	[さがれ]	s a g a r u
+8	[さがれ]	b a q k u
+9	[ちょっと]	ch o q t o
+9	[もっと]	m o q t o
+9	[ちょっと]	ch o i
