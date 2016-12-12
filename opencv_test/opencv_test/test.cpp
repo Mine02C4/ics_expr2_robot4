@@ -1,7 +1,7 @@
 #include <opencv2/core/core.hpp>
 #include <opencv2/highgui/highgui.hpp>
 #include <iostream>
-
+#include <opencv2/calib3d/calib3d.hpp>
 #include "videotest.h"
 
 using namespace cv;
@@ -34,7 +34,15 @@ int main(int argc, char** argv)
     break;
   }
   case 2:
-    break;
+  {
+	  const int BOARD_W = 11; //‰¡
+	  const int BOARD_H = 6;
+	  const Size BOARD_SIZE = Size(BOARD_W, BOARD_H);
+	  const int N_CORNERS = BOARD_H * BOARD_W;
+	  const int N_BORDARS = 2;
+
+	  break;
+  }    
   case 3:
     break;
   default:
