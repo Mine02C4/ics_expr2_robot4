@@ -160,13 +160,8 @@ void motor_set_rot(struct mstat *mstp, short rotl, short rotr){
 	if (((-ROT_MAX < rotl) && (rotl < ROT_MAX)) && 
 			((-ROT_MAX < rotr) && (rotr < ROT_MAX))) {
 		// if valid input
-<<<<<<< HEAD
 		mstp -> motor_l = rotl;
 		mstp -> motor_r = -rotr;
-=======
-		mstp -> rot_l = rotl;
-		mstp -> rot_r = rotr;
->>>>>>> 899b92bedf297e75d4b5257fcf66b0d4256d6c8a
 	} else {
 		fprintf(stderr, "Invalid rot input. Rot should be between -1023 and 1023\n");
 	}
@@ -182,21 +177,12 @@ void motor_set_speed(struct mstat *mstp, short left_speed, short right_speed) {
 
 int motor_write (struct mstat *mstp) {
   /* todo one of the motor should be reversed */
-<<<<<<< HEAD
   short rotl = statp -> motor_l; // left motor rotation
   short rotr = statp -> motor_r; // 512
 	obuf.ch[MRIGHT].x = rotr << 5;
 	obuf.ch[MLEFT].x = rotl << 5;
   obuf.ch[MRIGHT].d = 400; // set right rounds
   obuf.ch[MLEFT].d = -400; // set left rounds
-  
-=======
-	obuf.ch[MRIGHT].x = (mstp -> rot_r) << 5;
-	obuf.ch[MLEFT].x = (mstp -> rot_l) << 5;
-  obuf.ch[MRIGHT].d = (mstp -> spd_r) << 5;
-  obuf.ch[MLEFT].d = (mstp -> spd_l) << 5;
-/*  
->>>>>>> 899b92bedf297e75d4b5257fcf66b0d4256d6c8a
 	if (ioctl(fd, URBTC_COUNTER_SET) < 0) report_error_and_exit("motor_write_ioctl", 4);
 	if (write(fd, &cmd, sizeof(cmd)) < 0) report_error_and_exit("motor_write_cmd", 2);
 */
