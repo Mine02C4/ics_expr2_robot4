@@ -115,10 +115,10 @@ motor_init()
     obuf.ch[i].d = 0; 	// v
     obuf.ch[i].kp = 1;	// propotional
     obuf.ch[i].kpx = 1;
-    obuf.ch[i].kd = 1;
+    obuf.ch[i].kd = 100;
     obuf.ch[i].kdx = 1;
-    obuf.ch[i].ki = 0;
-    obuf.ch[i].kix = 10;
+    obuf.ch[i].ki = 1;
+    obuf.ch[i].kix = 1;
   }
   if (write(fd, &obuf, sizeof(obuf)) < 0) report_error_and_exit("init: write_error", 6);
 }
@@ -154,7 +154,7 @@ void motor_set(struct mstat *mstp, short rotl, short rotr){
 			((-10230 < rotr) && (rotr < 10230))) {
 		// if valid input
 		mstp -> motor_l = rotl;
-		mstp -> motor_r = rotr;
+		mstp -> motor_r = -rotr;
 	} else {
 		fprintf(stderr, "Invalid rot input. Rot should be between -1023 and 1023\n");
 	}
@@ -166,10 +166,10 @@ int motor_write (struct mstat *statp) {
   /* todo one of the motor should be reversed */
   short rotl = statp -> motor_l; // left motor rotation
   short rotr = statp -> motor_r; // 512
-	obuf.ch[MRIGHT].x = rotr;
-	obuf.ch[MLEFT].x = rotl;
-  obuf.ch[MRIGHT].d = rotr << 5; // set right rounds
-  obuf.ch[MLEFT].d = rotl << 5; // set left rounds
+	obuf.ch[MRIGHT].x = rotr << 5;
+	obuf.ch[MLEFT].x = rotl << 5;
+  obuf.ch[MRIGHT].d = 400; // set right rounds
+  obuf.ch[MLEFT].d = -400; // set left rounds
   
 	if (ioctl(fd, URBTC_COUNTER_SET) < 0) report_error_and_exit("motor_write_ioctl", 4);
 	if (write(fd, &cmd, sizeof(cmd)) < 0) report_error_and_exit("motor_write_cmd", 2);
