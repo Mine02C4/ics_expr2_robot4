@@ -10,24 +10,20 @@
 
 #global variables
 dict=/var/lib/mecab/dic/open-jtalk/naist-jdic
+num=1
 function talk(){
-    local voicefile=~/mei/mei_bashful.htsvoice
-    local outfile=~/open_jtalk_$2.wav
+    local voicefile=~/mei/mei_normal.htsvoice
+    local outfile=~/open_jtalk.wav
     local input=$1
     makeAndPlay $voicefile $outfile $input
 }
 function makeAndPlay(){
     echo $1 $2 $3
     echo $3 | open_jtalk -x $dict -m $1 -ow $2
-   # if [ -f $2 ]; then
+    if [ -f $2 ]; then
 	aplay -D plughw:0,0 $2
 	rm -f $2
-    #fi
+    fi
 }
-num=1
-while read in
-do
-    num=$(( num + 1 ))
-    echo $in
-    talk $in $num
-done
+    input=$1
+    talk $input
