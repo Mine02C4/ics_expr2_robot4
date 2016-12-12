@@ -22,6 +22,7 @@ extern "C" {
 #define ERR_WRITE_CMD 2
 #define ERR_URBTC_COUNTER_SET 3
 #define ERR_WRITE_OBUF 4
+#define ERR_URBTC_COUTINUOUS_READ 5
 
 struct mstat;
 enum wheel { LEFT, RIGHT };

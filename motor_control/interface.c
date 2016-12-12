@@ -7,6 +7,7 @@
 #include <fcntl.h>
 #include <math.h>
 #define DEBUG
+#define ROT_MAX 10000
 
 // set motor channel
 #define MLEFT 2
@@ -17,6 +18,7 @@
 #include "interface.h"
 
 const static char *devfile = "/dev/urbtc0";
+const static int thold = 0x2fff;
 
 void report_error_and_exit(const char* msg, int rpid);
 
@@ -27,10 +29,6 @@ static int fd, fds;
 static struct mstat mst;
 
 static int motor_quit_flag = 1;
-
-void speed_up(int speed){
-	speed += 5;
-}
 
 void mstat_init(struct mstat *mstp) {
 	/* initialize motor status */
@@ -49,14 +47,15 @@ void print_fbk() {
 	if (ioctl(fd, URBTC_CONTINUOUS_READ) < 0) report_error_and_exit("printfbk_ioctl", 13);
     if ((i = read(fd, &ibuf, sizeof(ibuf))) != sizeof(ibuf)) {
       fprintf(stderr,
-			  "Warning: read size mismatch (%d!=%d).\n",
+			  "Warning: read size mismatch (%d!=%lu).\n",
 			  i, sizeof(ibuf));
     }
+
     for (i=0; i<4; i++) {
       ibuf.ad[i] = ibuf.ad[i] >> 5;
     }
 
-    printf("[time: %d][ad: %d %d]\n [ct: %d %d] [da: %d %d %d %d] [din: %x] [dout: %x] [imax: %d] [intv: %d]\r\n",
+    printf("[time: %d][ad: %d %d]\n [ct: %d %d] [da: %d %d] [din: %x] [dout: %x] [imax: %d] [intv: %d]\r\n",
 	   ibuf.time,  ibuf.ad[MLEFT], ibuf.ad[MRIGHT],
 	   ibuf.ct[MLEFT], ibuf.ct[MRIGHT],
 	   ibuf.da[MLEFT], ibuf.da[MRIGHT],
@@ -66,6 +65,7 @@ void print_fbk() {
 void
 motor_init()
 {
+	mstat_init(&mst);
   int i;
 	fprintf(stderr, "Initializing motor...\n");
   if ((fd = open(devfile, O_RDWR)) == -1) {
@@ -126,26 +126,39 @@ motor_init()
   if (write(fd, &obuf, sizeof(obuf)) < 0) report_error_and_exit("init: write_error", ERR_WRITE_OBUF);
 }
 
-
 void set_stat (struct mstat *mstp) {
   /* set status */
+	int i;
+	if (ioctl(fd, URBTC_CONTINUOUS_READ) < 0) report_error_and_exit("printfbk_ioctl", ERR_URBTC_COUTINUOUS_READ);
+    if ((i = read(fd, &ibuf, sizeof(ibuf))) != sizeof(ibuf)) {
+      fprintf(stderr,
+			  "Warning: read size mismatch (%d!=%lu).\n",
+			  i, sizeof(ibuf));
+    }
+
+    printf("[time: %d][ad: %d %d]\n [ct: %d %d] [da: %d %d] [din: %x] [dout: %x] [imax: %d] [intv: %d]\r\n",
+	   ibuf.time,  ibuf.ad[MLEFT], ibuf.ad[MRIGHT],
+	   ibuf.ct[MLEFT], ibuf.ct[MRIGHT],
+	   ibuf.da[MLEFT], ibuf.da[MRIGHT],
+	   ibuf.din, ibuf.dout, ibuf.intmax, ibuf.interval);
+
   return;
 }
 
 void print_obuf() {
   fprintf(stderr, "[ID: LEFT][x: %hd][kp: %hd][kpx: %hd][kd: %hd][kdx: %hd][ki: %hd][kix: %hd]\n",
-		   obuf.ch[MLEFT].x, obuf.ch[MLEFT].kp, obuf.ch[MLEFT].kd, obuf.ch[MLEFT].kdx, obuf.ch[MLEFT].ki,
+		   obuf.ch[MLEFT].x, obuf.ch[MLEFT].kp, obuf.ch[MLEFT].kpx, obuf.ch[MLEFT].kd, obuf.ch[MLEFT].kdx, obuf.ch[MLEFT].ki,
 		  obuf.ch[MLEFT].kix);
   fprintf(stderr, "[ID: RIGHT][x: %hd][kp: %hd][kpx: %hd][kd: %hd][kdx: %hd][ki: %hd][kix: %hd]\n",
-		   obuf.ch[MRIGHT].x, obuf.ch[MRIGHT].kp, obuf.ch[MRIGHT].kd, obuf.ch[MRIGHT].kdx, obuf.ch[MRIGHT].ki,
+		   obuf.ch[MRIGHT].x, obuf.ch[MRIGHT].kp, obuf.ch[MLEFT].kpx, obuf.ch[MRIGHT].kd, obuf.ch[MRIGHT].kdx, obuf.ch[MRIGHT].ki,
 		  obuf.ch[MRIGHT].kix);
   return;
 }
 
 void motor_set_rot(struct mstat *mstp, short rotl, short rotr){
 	/* set both right and left rotation */
-	if (((-10230 < rotl) && (rotl < 10230)) && 
-			((-10230 < rotr) && (rotr < 10230))) {
+	if (((-ROT_MAX < rotl) && (rotl < ROT_MAX)) && 
+			((-ROT_MAX < rotr) && (rotr < ROT_MAX))) {
 		// if valid input
 		mstp -> rot_l = rotl;
 		mstp -> rot_r = rotr;
@@ -168,10 +181,10 @@ int motor_write (struct mstat *mstp) {
 	obuf.ch[MLEFT].x = (mstp -> rot_l) << 5;
   obuf.ch[MRIGHT].d = (mstp -> spd_r) << 5;
   obuf.ch[MLEFT].d = (mstp -> spd_l) << 5;
-  
+/*  
 	if (ioctl(fd, URBTC_COUNTER_SET) < 0) report_error_and_exit("motor_write_ioctl", 4);
 	if (write(fd, &cmd, sizeof(cmd)) < 0) report_error_and_exit("motor_write_cmd", 2);
-
+*/
 	if (ioctl(fd, URBTC_DESIRE_SET) < 0) report_error_and_exit("motor_write_ioctl", 5);
 	if (write(fd, &obuf, sizeof(obuf)) < 0) report_error_and_exit("motor_write_obuf", 3);
 
