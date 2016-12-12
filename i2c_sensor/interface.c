@@ -22,7 +22,7 @@ void sensor_init()
       fprintf(stderr, "Error: cannot open I2C device\n");
       exit(1);
     }
-    char dev_addr = (0xE0 + 0x2 * i) >> 1;
+    char dev_addr = (0xE0 + 0x4 * i) >> 1;
     if (ioctl(fd[i], I2C_SLAVE, dev_addr) < 0) {
       fprintf(stderr, "Error: cannot select device 0x%x\n", dev_addr);
       exit(1);
@@ -61,11 +61,11 @@ get_distance(enum sensor s)
   int range = 0;
   // コマンドレジスタ2に対し測距値データの上位バイトをリクエスト
   buf[0] = 0x02;
-  if ((write(fd[i], buf, 1)) != 1){
+  if ((write(fd[id], buf, 1)) != 1){
     fprintf(stderr, "Error: Error on select the range high byte. Sensor = %d\n", id);
     exit(1);
   }
-  if ((read(fd[i], buf, 1)) != 1){
+  if ((read(fd[id], buf, 1)) != 1){
     fprintf(stderr, "Error: Error on read the range high byte. Sensor = %d\n", id);
     exit(1);
   }
@@ -73,11 +73,11 @@ get_distance(enum sensor s)
 
   // コマンドレジスタ3に対し測距値データの下位バイトをリクエスト
   buf[0] = 0x03;
-  if ((write(fd[i], buf, 1)) != 1){
+  if ((write(fd[id], buf, 1)) != 1){
     fprintf(stderr, "Error: Error on select the range low byte. Sensor = %d\n", id);
     exit(1);
   }
-  if ((read(fd[i], buf, 1)) != 1){
+  if ((read(fd[id], buf, 1)) != 1){
     fprintf(stderr, "Error: Error on read the range low byte. Sensor = %d\n", id);
     exit(1);
   }

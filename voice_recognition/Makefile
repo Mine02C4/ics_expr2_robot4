@@ -1,17 +1,12 @@
-LIBSENT=../libsent
-LIBJULIUS=../libjulius
+JULIUSDIR := ../julius-4.2.3
+LIBSENT := $(JULIUSDIR)/libsent
+LIBJULIUS := $(JULIUSDIR)/libjulius
 
-CXX=g++
-CXXFLAGS=-g -O2 
-####
-#### When using system-installed libraries
-####
-# CPPFLAGS=`libjulius-config --cflags` `libsent-config --cflags`
-# LDFLAGS=`libjulius-config --libs` `libsent-config --libs`
-
-####
-#### When using within-package libraries
-####
+CXX := g++
+CXXFLAGS = -g -O2
+OUTPUT := voice_recog.out
+SRCS := $(wildcard *.cpp)
+OBJS := $(patsubst %.cpp,%.o,$(SRCS))
 CPPFLAGS=-I$(LIBJULIUS)/include -I$(LIBSENT)/include  `$(LIBSENT)/libsent-config --cflags` `$(LIBJULIUS)/libjulius-config --cflags`
 LDFLAGS= -L$(LIBJULIUS) `$(LIBJULIUS)/libjulius-config --libs` -L$(LIBSENT) `$(LIBSENT)/libsent-config --libs`
 
@@ -19,16 +14,17 @@ LDFLAGS= -L$(LIBJULIUS) `$(LIBJULIUS)/libjulius-config --libs` -L$(LIBSENT) `$(L
 
 .PHONY: all mod stub
 
-all: julius-simple
+all: $(OUTPUT)
 
 mod: mod.o
 
 mod.o: $(filter-out $(MAIN).o, $(OBJS))
-	ar ruv mod.o $^
+	ar rcs mod.o $^
 
-julius-simple: testhost.cpp
+$(OUTPUT): $(filter-out $(STUB).o, $(OBJS))
 	$(CXX) $(CXXFLAGS) $(CPPFLAGS) -o $@ $^ $(LDFLAGS)
-
+%.o: %.cpp
+	$(CXX) $(CPPFLAGS) $(LDFLAGS) -c -MMD -o $@ $<
 clean:
 	$(RM) *.o *.bak *~ core TAGS
 

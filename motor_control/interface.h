@@ -17,6 +17,13 @@ extern "C" {
 #define STAT_TL 0x0080    // turning left
 #define STAT_ERR 0x8000   // error
 
+// errors
+#define ERR_URBTC_DESIRE_SET 1
+#define ERR_WRITE_CMD 2
+#define ERR_URBTC_COUNTER_SET 3
+#define ERR_WRITE_OBUF 4
+#define ERR_URBTC_COUTINUOUS_READ 5
+
 struct mstat;
 enum wheel { LEFT, RIGHT };
 
@@ -32,13 +39,13 @@ extern void turn_left(double seconds);
 extern void motor_finalize(); // MUST CALL before closing program!!!
 
 /* Not API */
-
+extern void print_obuf();
 extern void mstat_init(struct mstat *);
 extern void motor_test_loop();
 extern void motor_exit_loop(); // MUST CALL before closing program!!!
-extern void motor_set_by_double(double);
 extern int motor_write(struct mstat *);
-extern void motor_set(struct mstat *, short, short);
+extern void motor_set_rot(struct mstat *, short, short);
+extern void motor_set_speed(struct mstat *, short, short);
 
 struct mstat {
   unsigned short stat;
@@ -46,7 +53,8 @@ struct mstat {
   unsigned short lstat;
   
   /* -1023 to +1023 */
-  short motor_l, motor_r; // left motor right motor
+  short rot_l, rot_r; // left motor right motor
+	short spd_l, spd_r;
 };
 
 #ifdef __cplusplus

@@ -16,8 +16,9 @@ main()
   while (1) {
     printf("Input [-1.0, 1.0]: ");
     scanf("%hd %hd", &left, &right);
-	motor_set(&mst, left, right);
+	motor_set_rot(&mst, left, right);
 	motor_write(&mst);
+	print_obuf();
   }
   return 0;
 }

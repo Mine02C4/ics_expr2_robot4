@@ -129,9 +129,9 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Drive.h" />
-    <ClInclude Include="MainLogic.h" />
-    <ClInclude Include="Sensor.h" />
+    <ClInclude Include="Drive.hpp" />
+    <ClInclude Include="MainLogic.hpp" />
+    <ClInclude Include="Sensor.hpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
