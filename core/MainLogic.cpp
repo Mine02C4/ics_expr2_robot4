@@ -4,6 +4,8 @@
 
 #include "../stub_library/common.h" // TODO: Will be removed.
 
+static int thold;
+
 MainLogic::MainLogic() :
   drive_(Drive::getInstance()),
   sensor_(Sensor::getInstance())
@@ -21,6 +23,7 @@ void MainLogic::Init()
 
 void MainLogic::Launch()
 {
+	// Get command from other interfaces.
   for (int i = 0; i < 100; ++i) {
     int rdist = Sensor::getInstance().GetDistance(SensorID::RightFront);
     int ldist = Sensor::getInstance().GetDistance(SensorID::LeftFront);
