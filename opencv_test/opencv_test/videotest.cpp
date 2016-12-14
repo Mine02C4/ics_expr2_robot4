@@ -91,4 +91,40 @@ void VideoTest::TrackFeatures()
   cv::imshow("Output", disp_features_);
 }
 
+void VideoTest::DetectionByColor()
+{
+  cv::Mat hsv(frame_.size(), frame_.type());
+  cv::Mat mask(frame_.size(), frame_.type());
+  cv::Mat		m0(frame_.size(), CV_8UC1);
+  cv::Mat		m1(frame_.size(), CV_8UC1);
+  cv::Mat		m2(frame_.size(), CV_8UC1);
+  cv::Mat		m3(frame_.size(), CV_8UC1);
+  cv::cvtColor(frame_, hsv, CV_BGR2HSV);
+  cv::Mat hsv0[3], bgr0[3], output;
+  hsv0[0].create(frame_.size(), CV_8UC1);
+  hsv0[1].create(frame_.size(), CV_8UC1);
+  hsv0[2].create(frame_.size(), CV_8UC1);
+  cv::split(hsv, hsv0);
+  cv::threshold(hsv0[0], m0, 2 - 1, 255, CV_THRESH_BINARY);		// Hmin
+  cv::threshold(hsv0[0], m1, 26, 255, CV_THRESH_BINARY_INV);	// Hmax
+  cv::threshold(hsv0[1], m2, 49 - 1, 255, CV_THRESH_BINARY);		// Smin
+  cv::threshold(hsv0[2], m3, 28 - 1, 255, CV_THRESH_BINARY);		// Vmin
 
+  cv::bitwise_and(m0, m1, mask);
+  cv::bitwise_and(mask, m2, mask);
+  cv::bitwise_and(mask, m3, mask);
+
+  // adjust bitmask
+  cv::blur(mask, mask, cv::Size(5, 5));
+  cv::threshold(mask, mask, 204 - 1, 255, CV_THRESH_BINARY);
+
+  // remake original image
+  cv::split(frame_, bgr0);
+
+  cv::bitwise_and(bgr0[0], mask, bgr0[0]);
+  cv::bitwise_and(bgr0[1], mask, bgr0[1]);
+  cv::bitwise_and(bgr0[2], mask, bgr0[2]);
+
+  cv::merge(bgr0, 3, output);
+  cv::imshow("Output", output);
+}

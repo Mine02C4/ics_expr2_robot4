@@ -13,6 +13,7 @@ public:
   int Init();
   void ReadFrame();
   void TrackFeatures();
+  void DetectionByColor();
 private:
   cv::Mat gray_img_;
   cv::VideoCapture cap_;
