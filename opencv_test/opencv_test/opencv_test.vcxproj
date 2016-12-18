@@ -119,6 +119,16 @@
     <ClCompile Include="videotest.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <Image Include="test_0.jpg" />
+    <Image Include="test_1.jpg" />
+    <Image Include="test_2.jpg" />
+    <Image Include="test_3.jpg" />
+    <Image Include="test_4.jpg" />
+    <Image Include="test_5.jpg" />
+    <Image Include="test_6.jpg" />
+    <Image Include="test_7.jpg" />
+    <Image Include="test_8.jpg" />
+    <Image Include="test_9.jpg" />
     <Image Include="yuiyui.jpg" />
   </ItemGroup>
   <ItemGroup>
