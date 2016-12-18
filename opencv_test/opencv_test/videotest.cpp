@@ -116,8 +116,7 @@ void VideoTest::DetectionByColor()
   cv::bitwise_and(bgr0[2], mask, bgr0[2]);
 
   cv::merge(bgr0, 3, output);
-
-
+  
   int min_area = 2000;
   int largest_area = 0;
   int largest_id = 0;
@@ -137,7 +136,6 @@ void VideoTest::DetectionByColor()
     int height = param[cv::ConnectedComponentsTypes::CC_STAT_HEIGHT];
     int width = param[cv::ConnectedComponentsTypes::CC_STAT_WIDTH];
     cv::rectangle(output, cv::Rect(x, y, width, height), cv::Scalar(0, 255, 0), 2);
-    //ROIの左上に番号を書き込む
     std::stringstream num;
     num << largest_area;
     cv::putText(output, num.str(), cv::Point(x + 5, y + 20), cv::FONT_HERSHEY_COMPLEX, 0.7, cv::Scalar(0, 255, 255), 2);
@@ -147,7 +145,6 @@ void VideoTest::DetectionByColor()
     double *param = centroids.ptr<double>(i);
     int x = static_cast<int>(param[0]);
     int y = static_cast<int>(param[1]);
-
     cv::circle(output, cv::Point(x, y), 3, cv::Scalar(0, 0, 255), -1);
   }
 
