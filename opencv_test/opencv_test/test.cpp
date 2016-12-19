@@ -45,34 +45,118 @@ int main(int argc, char** argv)
     const Size IM_SIZE = Size(1280, 720);
 
     vector<Mat> src_image(N_BOARDS);
+    bool files_exist = true;
     for (int i = 0; i < N_BOARDS; i++) {
-      string filename = "test_" + to_string(i) + ".jpg";
+      string filename = "cboard_" + to_string(i) + ".png";
       cout << filename << endl;
-      resize(imread(filename), src_image[i], Size(), 0.25, 0.25);
+      src_image[i] = imread(filename);
+      if (src_image[i].data == NULL) {
+        files_exist = false;
+        for (--i; i >= 0; --i) {
+          src_image[i].release();
+        }
+        break;
+      }
     }
 
-    //cout << src_image[1];
     vector<vector<Point2f>>imagePoints;
 
-    Mat gray_image;
-    bool found;
-    for (int i = 0; i < N_BOARDS; i++) {
-      vector<Point2f> imageCorners;
-      Mat dst_image;
-      found = findChessboardCorners(src_image[i], BOARD_SIZE, imageCorners);
+    if (files_exist) {
+      int input;
+      cout << "Chessboard images are already exist." << endl;
+      cout << "1: Use the images" << endl;
+      cout << "2: Take new images" << endl;
+      cin >> input;
+      switch (input)
+      {
+      case 1:
+        for (int i = 0; i < N_BOARDS; i++) {
+          vector<Point2f> imageCorners;
+          Mat dst_image, gray_image;
+          bool found = findChessboardCorners(src_image[i], BOARD_SIZE, imageCorners);
+          cvtColor(src_image[i], gray_image, CV_BGR2GRAY);
+          cornerSubPix(gray_image, imageCorners, Size(9, 9), Size(-1, -1), TermCriteria(CV_TERMCRIT_ITER + CV_TERMCRIT_EPS, 30, 0.1));
 
-      cvtColor(src_image[i], gray_image, CV_BGR2GRAY);
-      cornerSubPix(gray_image, imageCorners, Size(9, 9), Size(-1, -1), TermCriteria(CV_TERMCRIT_ITER + CV_TERMCRIT_EPS, 30, 0.1));
-
-      dst_image = src_image[i].clone();
-      drawChessboardCorners(dst_image, BOARD_SIZE, imageCorners, found);
-      namedWindow("test" + to_string(i));
-      imshow("test" + to_string(i), dst_image);
-      for (int i = 0; i < 10; i++) {
-        cout << i << " " << (int)(imageCorners[i].x + 0.5) << " " << (int)(imageCorners[i].y + 0.5) << endl;
+          dst_image = src_image[i].clone();
+          drawChessboardCorners(dst_image, BOARD_SIZE, imageCorners, found);
+          for (int i = 0; i < 10; i++) {
+            cout << i << " " << (int)(imageCorners[i].x + 0.5) << " " << (int)(imageCorners[i].y + 0.5) << endl;
+          }
+          imagePoints.push_back(imageCorners);
+        }
+        break;
+      case 2:
+        for (int i = 0; i < N_BOARDS; ++i) {
+          src_image[i].release();
+        }
+        files_exist = false;
+        break;
+      default:
+        cerr << "Invalid input" << endl;
+        exit(1);
       }
-      imagePoints.push_back(imageCorners);
     }
+
+    if (!files_exist) {
+      int camera_id;
+      cout << "Input camera id (start from 0): ";
+      cin >> camera_id;
+      Mat frame;
+      VideoCapture cap(camera_id);
+      if (!cap.isOpened()) {
+        cerr << "Cannot open camera: " << camera_id << endl;
+        exit(1);
+      }
+      for (int i = 0; i < N_BOARDS; i++) {
+        bool capture_phase = true;
+        while (capture_phase) {
+          cap >> frame;
+          imshow("chessboard", frame);
+          int key = waitKey(10);
+          switch (key)
+          {
+          case 13: // Enter
+            src_image[i] = frame.clone();
+            capture_phase = false;
+            break;
+          case 27: // Esc
+            cout << "Canceled" << endl;
+            return 0;
+          default:
+            break;
+          }
+        }
+        {
+          vector<Point2f> imageCorners;
+          Mat cboard_preview, gray_image;
+          bool found = findChessboardCorners(src_image[i], BOARD_SIZE, imageCorners);
+          cvtColor(src_image[i], gray_image, CV_BGR2GRAY);
+          cornerSubPix(gray_image, imageCorners, Size(9, 9), Size(-1, -1), TermCriteria(CV_TERMCRIT_ITER + CV_TERMCRIT_EPS, 30, 0.1));
+
+          cboard_preview = src_image[i].clone();
+          drawChessboardCorners(cboard_preview, BOARD_SIZE, imageCorners, found);
+          imshow("chessboard", cboard_preview);
+          int key = waitKey(0);
+          string filename = "cboard_" + to_string(i) + ".png";
+          switch (key)
+          {
+          case 13: // Enter
+            imwrite(filename, src_image[i]);
+            imagePoints.push_back(imageCorners);
+            break;
+          case 32: // Space
+            --i;
+            break;
+          case 27: // Esc
+            cout << "Canceled" << endl;
+            return 0;
+          default:
+            break;
+          }
+        }
+      }
+    }
+
     vector<vector<Point3f>> objectPoints;
     vector<Point3f> objectCorners;
     for (int j = 0; j < BOARD_H; j++) {
@@ -113,7 +197,32 @@ int main(int argc, char** argv)
     fs << "distCoeffs" << distCoeffs;
     fs.release();
 
-    waitKey();
+    bool preview_phase = true;
+    int preview_index = 0;
+    while (preview_phase) {
+      Mat preview_image;
+      undistort(src_image[preview_index], preview_image, cameraMatrix, distCoeffs);
+      imshow("chessboard", preview_image);
+      int key = waitKey(0);
+      switch (key)
+      {
+      case 27: // Esc
+        preview_phase = false;
+        break;
+      case 'z':
+        if (preview_index > 0) {
+          --preview_index;
+        }
+        break;
+      case 'x':
+        if (preview_index < N_BOARDS - 1) {
+          ++preview_index;
+        }
+        break;
+      default:
+        break;
+      }
+    }
     break;
   }
   case 3:
