@@ -111,19 +111,16 @@ motor_init()
   if (ioctl(fd, URBTC_DESIRE_SET) < 0) report_error_and_exit("init: ioctl_DESIRE", ERR_URBTC_DESIRE_SET);
 
   for (i=0; i<4; i++) {
-    obuf.ch[i].x = 0;	// x
-    obuf.ch[i].d = 0; 	// v
-    obuf.ch[i].kp = 1;	// propotional
-    obuf.ch[i].kpx = 1;
-    obuf.ch[i].kd = 10;
+    obuf.ch[i].x = 0 << 5;	// x
+    obuf.ch[i].d = 512 << 5; 	// v
+    obuf.ch[i].kp = 2;	// propotional
+    obuf.ch[i].kpx = 3;
+    obuf.ch[i].kd = 90;
     obuf.ch[i].kdx = 1;
     obuf.ch[i].ki = 1;
     obuf.ch[i].kix = 1;
   }
-		obuf.ch[MRIGHT].kp = -obuf.ch[MRIGHT].kp;
-		obuf.ch[MRIGHT].kd = -obuf.ch[MRIGHT].kd;
-		obuf.ch[MRIGHT].ki = -obuf.ch[MRIGHT].ki;
-  if (write(fd, &obuf, sizeof(obuf)) < 0) report_error_and_exit("init: write_error", ERR_WRITE_OBUF);
+
 }
 
 void set_stat (struct mstat *mstp) {
@@ -181,10 +178,12 @@ int motor_write (struct mstat *mstp) {
   short rotr = mstp -> rot_r; // 512
 	obuf.ch[MRIGHT].x = rotr << 5;
 	obuf.ch[MLEFT].x = rotl << 5;
-  obuf.ch[MRIGHT].d = 400; // set right rounds
-  obuf.ch[MLEFT].d = -400; // set left rounds
+  obuf.ch[MRIGHT].d =-512; // set right rounds
+  obuf.ch[MLEFT].d = 512; // set left rounds
+	/*
 	if (ioctl(fd, URBTC_COUNTER_SET) < 0) report_error_and_exit("motor_write_ioctl", 4);
 	if (write(fd, &cmd, sizeof(cmd)) < 0) report_error_and_exit("motor_write_cmd", 2);
+	*/
 	if (ioctl(fd, URBTC_DESIRE_SET) < 0) report_error_and_exit("motor_write_ioctl", 5);
 	if (write(fd, &obuf, sizeof(obuf)) < 0) report_error_and_exit("motor_write_obuf", 3);
 

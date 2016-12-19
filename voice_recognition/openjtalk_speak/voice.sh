@@ -11,7 +11,7 @@
 #global variables
 dict=/var/lib/mecab/dic/open-jtalk/naist-jdic
 function talk(){
-    local voicefile=~/mei/mei_bashful.htsvoice
+    local voicefile=~/mei/mei_normal.htsvoice
     local outfile=~/open_jtalk_$2.wav
     local input=$1
     makeAndPlay $voicefile $outfile $input
