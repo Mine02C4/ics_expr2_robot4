@@ -333,7 +333,6 @@ L6470_setparam_stepmood(0x07); //ステップモードdefault 0x07 (1+3+1+3bit)
 
 void setup_motor()
 {
-  //delay(1000);
   //pinMode(PIN_SPI_MOSI, OUTPUT);
   pinMode(11, OUTPUT);
   //pinMode(PIN_SPI_MISO, INPUT);
@@ -419,20 +418,20 @@ void loop_motor(){
  //  L6470_goto(0x0000);
  //L6470_run(1,20000); //指定方向に連続回転
 
-/*
+
 
  if (Serial.available()>0){
 
         char data = Serial.read();
-      // buff[counter] = data;
-       
+       Serial.println(data);
         if (data == '\n'){
 
             //buff[0]～buff[counter-1]までが文字列となってここでうけとれる
             //シリアル送信側で終端文字\0が最後につけられることが前提
-            Serial.println(buff);
-
+            Serial.println("new line\n");
+ 
             if (buff.equalsIgnoreCase("fire")){
+              Serial.println(buff);
               loop_gun();
             }
             else if (buff.equalsIgnoreCase("fire") && num_counter != 0){
@@ -448,26 +447,28 @@ void loop_motor(){
             counter = 0;
             num_counter = 0;
             num = 0;
+            buff = "";
         }
         else if (data == '='){
             num_counter++;
+            Serial.println(buff);
         }
         else if (num_counter != 0){
           if (num_counter == 1){
-            num = data;
+            num = data - '0';
             num_counter++;
           }
           else{
-            num = num * 10 + data;
+            num = num * 10 + data - '0';
             num_counter++;
           }
         }
         else {
-          buff = buff + data;
+          buff += data;
         }
-    }*/
-   regular();
-   loop_gun(); 
+    }
+ //  regular();
+  // loop_gun(); 
 }
 
 void fulash(){
