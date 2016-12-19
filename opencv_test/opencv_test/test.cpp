@@ -57,7 +57,7 @@ int main(int argc, char** argv)
 		Mat gray_image;
 		bool found;
 		for (int i = 0; i < N_BOARDS; i++) {
-			vector<Point2f>imageCorners;
+			vector<Point2f> imageCorners;
 			Mat dst_image;
 			found = findChessboardCorners(src_image[i], BOARD_SIZE, imageCorners);
 
@@ -66,7 +66,7 @@ int main(int argc, char** argv)
 
 			dst_image = src_image[i].clone();
 			drawChessboardCorners(dst_image, BOARD_SIZE, imageCorners, found);
-			//namedWindow("test" + to_string(i));
+			namedWindow("test" + to_string(i));
 			imshow("test" + to_string(i), src_image[i]);
 			for (int i = 0; i < 10; i++) {
 				cout << i << " " << (int)(imageCorners[i].x + 0.5) << " " << (int)(imageCorners[i].y + 0.5) << endl;
@@ -88,7 +88,7 @@ int main(int argc, char** argv)
 		Mat distCoeffs;
 		vector<Mat> rvecs;
 		vector<Mat> tvecs;
-		double rms = calibrateCamera(objectPoints, imagePoints, Size(1280, 720), cameraMatrix, distCoeffs, rvecs, tvecs);
+		double rms = calibrateCamera(objectPoints, imagePoints, src_image[0].size(), cameraMatrix, distCoeffs, rvecs, tvecs);
 
 		cout << fixed << right;
 		cout << "Re-projection Error(unit: pixel)" << endl;
@@ -108,7 +108,7 @@ int main(int argc, char** argv)
 		cout << " k3 = " << distCoeffs.at<double>(0, 4);
 		cout << endl << endl;
 
-		FileStorage fs("calibtation.xml", FileStorage::WRITE);
+		FileStorage fs("calibration.xml", FileStorage::WRITE);
 		fs << "cameraMatrix" << cameraMatrix;
 		fs << "distCoeffs" << distCoeffs;
 		fs.release();
