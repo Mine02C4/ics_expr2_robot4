@@ -1,4 +1,4 @@
-MODULES := motor_control i2c_sensor
+MODULES := motor_control i2c_sensor gun_turret
 
 CXX := g++
 CXXFLAGS := -O2 -std=c++11 -Wall

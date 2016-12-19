@@ -116,7 +116,19 @@ int main(int argc, char** argv)
 		break;
 	}
 	case 3:
+	{
+		VideoTest vt;
+		vt.Init();
+		while (1) {
+			vt.ReadFrame();
+			vt.DetectionByColor();
+			int key = waitKey(1);
+			if (key >= 0) {
+				break;
+			}
+		}
 		break;
+	}
 	default:
 		break;
 	}

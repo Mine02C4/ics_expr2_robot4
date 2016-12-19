@@ -91,4 +91,62 @@ void VideoTest::TrackFeatures()
   cv::imshow("Output", disp_features_);
 }
 
+void VideoTest::DetectionByColor()
+{
+  cv::Mat hsv(frame_.size(), frame_.type());
+  cv::Mat mask(frame_.size(), frame_.type());
+  cv::cvtColor(frame_, hsv, CV_BGR2HSV);
+  cv::Mat bgr0[3], output;
+  Recognition::DetectTargetBlue(hsv, mask);
 
+  // adjust bitmask
+  cv::blur(mask, mask, cv::Size(5, 5));
+  cv::threshold(mask, mask, 204 - 1, 255, CV_THRESH_BINARY);
+
+  cv::Mat labels;
+  cv::Mat stats;
+  cv::Mat centroids;
+  int n_label = cv::connectedComponentsWithStats(mask, labels, stats, centroids);
+
+  // remake original image
+  cv::split(frame_, bgr0);
+
+  cv::bitwise_and(bgr0[0], mask, bgr0[0]);
+  cv::bitwise_and(bgr0[1], mask, bgr0[1]);
+  cv::bitwise_and(bgr0[2], mask, bgr0[2]);
+
+  cv::merge(bgr0, 3, output);
+  
+  int min_area = 2000;
+  int largest_area = 0;
+  int largest_id = 0;
+  for (int i = 1; i < n_label; ++i) {
+    int *param = stats.ptr<int>(i);
+    int area = param[cv::ConnectedComponentsTypes::CC_STAT_AREA];
+    if (largest_area < area) {
+      largest_area = area;
+      largest_id = i;
+    }
+  }
+
+  if (largest_area > min_area) {
+    int *param = stats.ptr<int>(largest_id);
+    int x = param[cv::ConnectedComponentsTypes::CC_STAT_LEFT];
+    int y = param[cv::ConnectedComponentsTypes::CC_STAT_TOP];
+    int height = param[cv::ConnectedComponentsTypes::CC_STAT_HEIGHT];
+    int width = param[cv::ConnectedComponentsTypes::CC_STAT_WIDTH];
+    cv::rectangle(output, cv::Rect(x, y, width, height), cv::Scalar(0, 255, 0), 2);
+    std::stringstream num;
+    num << largest_area;
+    cv::putText(output, num.str(), cv::Point(x + 5, y + 20), cv::FONT_HERSHEY_COMPLEX, 0.7, cv::Scalar(0, 255, 255), 2);
+  }
+
+  for (int i = 1; i < n_label; ++i) {
+    double *param = centroids.ptr<double>(i);
+    int x = static_cast<int>(param[0]);
+    int y = static_cast<int>(param[1]);
+    cv::circle(output, cv::Point(x, y), 3, cv::Scalar(0, 0, 255), -1);
+  }
+
+  cv::imshow("Output", output);
+}
