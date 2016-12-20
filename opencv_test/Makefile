@@ -26,5 +26,5 @@ clean:
 	rm $(BUILD_DIR)/*
 
 test: all
-	(cd $(PROJ_DIR) && $(OUTPUT))
+	(cd $(PROJ_DIR) && ../$(OUTPUT))
 

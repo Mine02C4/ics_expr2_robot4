@@ -1,8 +1,11 @@
+#include <iostream>
+#include <vector>
+
 #include <opencv2/core/core.hpp>
 #include <opencv2/highgui/highgui.hpp>
-#include <iostream>
 #include <opencv2/calib3d/calib3d.hpp>
 #include <opencv2/imgproc/imgproc.hpp>
+
 #include "videotest.h"
 
 using namespace cv;
@@ -13,8 +16,9 @@ int main(int argc, char** argv)
   int mode;
   cout << "Select mode" << endl;
   cout << "1: Feature detection test" << endl;
-  cout << "2: Calibration" << endl;
-  cout << "3: Object detection by color" << endl;
+  cout << "2: Camera calibration(single)" << endl;
+  cout << "3: Stereo camera calibration" << endl;
+  cout << "4: Object detection by color" << endl;
   cin >> mode;
   switch (mode)
   {
@@ -226,6 +230,134 @@ int main(int argc, char** argv)
     break;
   }
   case 3:
+  {
+    const int BOARD_W = 10;
+    const int BOARD_H = 7;
+    const Size BOARD_SIZE = Size(BOARD_W, BOARD_H);
+    const int N_BOARDS = 10;
+    const float SCALE = 23;
+
+    vector<string> calibfiles = {
+      "calibration0.xml",
+      "calibration1.xml"
+    };
+    FileStorage fs0(calibfiles[0], FileStorage::READ);
+    FileStorage fs1(calibfiles[1], FileStorage::READ);
+    if (!fs0.isOpened() || !fs1.isOpened()) {
+      cerr << "Cannot open calibration XML" << endl;
+      exit(1);
+    }
+    Mat cameraMatrix[2], distCoeffs[2];
+    fs0["cameraMatrix"] >> cameraMatrix[0];
+    fs1["cameraMatrix"] >> cameraMatrix[1];
+    fs0["distCoeffs"] >> distCoeffs[0];
+    fs1["distCoeffs"] >> distCoeffs[1];
+
+    vector<Mat> src_image(N_BOARDS * 2);
+    bool files_exist = true;
+    for (int i = 0; i < N_BOARDS; i++) {
+      src_image[i * 2] = imread("stereo_cboard_" + to_string(i) + "_0.png");
+      if (src_image[i * 2].data == NULL) {
+        files_exist = false;
+        for (i = i * 2 - 1; i >= 0; --i) {
+          src_image[i].release();
+        }
+        break;
+      }
+      src_image[i * 2 + 1] = imread("stereo_cboard_" + to_string(i) + "_1.png");
+      if (src_image[i * 2 + 1].data == NULL) {
+        files_exist = false;
+        for (i = i * 2; i >= 0; --i) {
+          src_image[i].release();
+        }
+        break;
+      }
+    }
+
+    vector<vector<Point2f> > imagePoints[2];
+    vector<vector<Point3f> > objectPoints;
+    vector<Point3f> objectCorners;
+    for (int j = 0; j < BOARD_H; j++) {
+      for (int i = 0; i < BOARD_W; i++) {
+        objectCorners.push_back(Point3f(i * SCALE, j * SCALE, 0.0f));
+      }
+    }
+    Mat R, T, E, F;
+
+    if (files_exist) {
+      int input;
+      Size imageSize = src_image[0].size();
+      cout << "Stereo chessboard images are already exist." << endl;
+      cout << "1: Use the images" << endl;
+      cout << "2: Take new images" << endl;
+      cin >> input;
+      switch (input)
+      {
+      case 1:
+        for (int i = 0; i < N_BOARDS * 2; i++) {
+          vector<Point2f> imageCorners;
+          Mat dst_image, gray_image;
+          bool found = findChessboardCorners(src_image[i], BOARD_SIZE, imageCorners, CALIB_CB_ADAPTIVE_THRESH | CALIB_CB_NORMALIZE_IMAGE);
+          cvtColor(src_image[i], gray_image, CV_BGR2GRAY);
+          cornerSubPix(gray_image, imageCorners, Size(9, 9), Size(-1, -1), TermCriteria(CV_TERMCRIT_ITER + CV_TERMCRIT_EPS, 30, 0.1));
+          imagePoints[i % 2].push_back(imageCorners);
+        }
+        for (int i = 0; i < N_BOARDS; i++) {
+          objectPoints.push_back(objectCorners);
+        }
+        double rms = stereoCalibrate(objectPoints, imagePoints[0], imagePoints[1],
+          cameraMatrix[0], distCoeffs[0],
+          cameraMatrix[1], distCoeffs[1],
+          imageSize, R, T, E, F,
+          CALIB_FIX_ASPECT_RATIO +
+          CALIB_ZERO_TANGENT_DIST +
+          CALIB_USE_INTRINSIC_GUESS +
+          CALIB_SAME_FOCAL_LENGTH +
+          CALIB_RATIONAL_MODEL +
+          CALIB_FIX_K3 + CALIB_FIX_K4 + CALIB_FIX_K5,
+          TermCriteria(TermCriteria::COUNT + TermCriteria::EPS, 100, 1e-5));
+        cout << "done with RMS error=" << rms << endl;
+
+        // Error check
+        double err = 0;
+        int npoints = 0;
+        vector<Vec3f> lines[2];
+        for (int i = 0; i < N_BOARDS; i++)
+        {
+          int npt = (int)imagePoints[0][i].size();
+          Mat imgpt[2];
+          for (int k = 0; k < 2; k++)
+          {
+            imgpt[k] = Mat(imagePoints[k][i]);
+            undistortPoints(imgpt[k], imgpt[k], cameraMatrix[k], distCoeffs[k], Mat(), cameraMatrix[k]);
+            computeCorrespondEpilines(imgpt[k], k + 1, F, lines[k]);
+          }
+          for (int j = 0; j < npt; j++)
+          {
+            double errij = fabs(imagePoints[0][i][j].x*lines[1][j][0] +
+              imagePoints[0][i][j].y*lines[1][j][1] + lines[1][j][2]) +
+              fabs(imagePoints[1][i][j].x*lines[0][j][0] +
+                imagePoints[1][i][j].y*lines[0][j][1] + lines[0][j][2]);
+            err += errij;
+          }
+          npoints += npt;
+        }
+        cout << "average epipolar err = " << err / npoints << endl;
+        break;
+      case 2:
+        for (int i = 0; i < N_BOARDS * 2; ++i) {
+          src_image[i].release();
+        }
+        files_exist = false;
+        break;
+      default:
+        cerr << "Invalid input" << endl;
+        exit(1);
+      }
+    }
+    break;
+  }
+  case 4:
   {
     VideoTest vt;
     vt.Init();
