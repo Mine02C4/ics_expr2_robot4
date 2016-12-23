@@ -24,9 +24,42 @@
     <ClCompile Include="recognition.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
+    <ClCompile Include="calibration.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Image Include="yuiyui.jpg">
+      <Filter>リソース ファイル</Filter>
+    </Image>
+    <Image Include="test_0.jpg">
+      <Filter>リソース ファイル</Filter>
+    </Image>
+    <Image Include="test_1.jpg">
+      <Filter>リソース ファイル</Filter>
+    </Image>
+    <Image Include="test_2.jpg">
+      <Filter>リソース ファイル</Filter>
+    </Image>
+    <Image Include="test_3.jpg">
+      <Filter>リソース ファイル</Filter>
+    </Image>
+    <Image Include="test_4.jpg">
+      <Filter>リソース ファイル</Filter>
+    </Image>
+    <Image Include="test_5.jpg">
+      <Filter>リソース ファイル</Filter>
+    </Image>
+    <Image Include="test_6.jpg">
+      <Filter>リソース ファイル</Filter>
+    </Image>
+    <Image Include="test_7.jpg">
+      <Filter>リソース ファイル</Filter>
+    </Image>
+    <Image Include="test_8.jpg">
+      <Filter>リソース ファイル</Filter>
+    </Image>
+    <Image Include="test_9.jpg">
       <Filter>リソース ファイル</Filter>
     </Image>
   </ItemGroup>
@@ -35,6 +68,9 @@
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="recognition.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="calibration.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
   </ItemGroup>

@@ -18,6 +18,8 @@ public:
     std::vector<cv::Point2f> &match_point1,
     std::vector<cv::Point2f> &match_point2
   );
+  static void DetectSkin(cv::Mat &hsv, cv::Mat &mask);
+  static void DetectTargetBlue(cv::Mat &hsv, cv::Mat &mask);
 private:
 };
 

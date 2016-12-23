@@ -9,7 +9,7 @@ OUTPUT := test.out
 OBJS := $(patsubst $(PROJ_DIR)%,$(BUILD_DIR)%,$(patsubst %.cpp,%.o,$(wildcard $(PROJ_DIR)/*.cpp)))
 DEPS := $(patsubst %.o,%.d, $(OBJS))
 
-.PHONY: all clean
+.PHONY: all clean test
 
 all: $(OUTPUT)
 
@@ -24,4 +24,7 @@ $(BUILD_DIR)/%.o: $(PROJ_DIR)/%.cpp
 
 clean:
 	rm $(BUILD_DIR)/*
+
+test: all
+	(cd $(PROJ_DIR) && ../$(OUTPUT))
 
