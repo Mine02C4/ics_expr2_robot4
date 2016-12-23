@@ -555,6 +555,23 @@ int main(int argc, char** argv)
     initUndistortRectifyMap(cameraMatrix[0], distCoeffs[0], R1, P1, imageSize, CV_16SC2, rmap[0][0], rmap[0][1]);
     initUndistortRectifyMap(cameraMatrix[1], distCoeffs[1], R2, P2, imageSize, CV_16SC2, rmap[1][0], rmap[1][1]);
 
+    //int numberOfDisparities = numberOfDisparities > 0 ? numberOfDisparities : ((img_size.width / 8) + 15) & -16;
+    int numberOfDisparities = ((imageSize.width / 8) + 15) & -16;
+    int SADWindowSize = 0;
+
+    auto bm = StereoBM::create();
+    bm->setROI1(validRoi[0]);
+    bm->setROI2(validRoi[1]);
+    bm->setPreFilterCap(31);
+    bm->setBlockSize(SADWindowSize > 0 ? SADWindowSize : 9);
+    bm->setMinDisparity(0);
+    bm->setNumDisparities(numberOfDisparities);
+    bm->setTextureThreshold(10);
+    bm->setUniquenessRatio(15);
+    bm->setSpeckleWindowSize(100);
+    bm->setSpeckleRange(32);
+    bm->setDisp12MaxDiff(1);
+
     Mat canvas;
     double sf;
     int w, h;
@@ -577,12 +594,10 @@ int main(int argc, char** argv)
     while (preview_phase) {
       for (int k = 0; k < 2; k++)
       {
-        Mat img = src_image[preview_index * 2 + k], rimg, cimg;
+        Mat img = src_image[preview_index * 2 + k], rimg;
         remap(img, rimg, rmap[k][0], rmap[k][1], INTER_LINEAR);
-        //cvtColor(rimg, cimg, COLOR_GRAY2BGR);
-        cimg = rimg;
         Mat canvasPart = !isVerticalStereo ? canvas(Rect(w*k, 0, w, h)) : canvas(Rect(0, h*k, w, h));
-        resize(cimg, canvasPart, canvasPart.size(), 0, 0, INTER_AREA);
+        resize(rimg, canvasPart, canvasPart.size(), 0, 0, INTER_AREA);
         if (useCalibrated)
         {
           Rect vroi(cvRound(validRoi[k].x*sf), cvRound(validRoi[k].y*sf),
@@ -597,6 +612,21 @@ int main(int argc, char** argv)
         for (int j = 0; j < canvas.cols; j += 16)
           line(canvas, Point(j, 0), Point(j, canvas.rows), Scalar(0, 255, 0), 1, 8);
       imshow("rectified", canvas);
+
+      Mat disparity, disparity8;
+      // Disparity
+      Mat left_gray, right_gray;
+      Mat rleft, rright;
+      remap(src_image[preview_index * 2], rright, rmap[0][0], rmap[0][1], INTER_LINEAR);
+      remap(src_image[preview_index * 2 + 1], rleft, rmap[1][0], rmap[1][1], INTER_LINEAR);
+      cvtColor(rright, right_gray, COLOR_BGR2GRAY);
+      cvtColor(rleft, left_gray, COLOR_BGR2GRAY);
+      bm->compute(left_gray, right_gray, disparity);
+      disparity.convertTo(disparity8, CV_8U, 255 / (numberOfDisparities * 16.0));
+      imshow("disparity", disparity8);
+      Mat xyz;
+      reprojectImageTo3D(disparity, xyz, Q, true);
+
       int key = waitKey(0);
       switch (key)
       {
