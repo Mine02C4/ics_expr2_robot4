@@ -45,6 +45,19 @@ int Voicerec::Init() {
   if (ret == -1) return -1;
   return 0;
 }
+int Voicerec::ChangeMode(int status) {
+  switch(status) {
+  case MINEJCONF:
+    return j_config_load_file(jconf,mine_jconf);
+    break;
+  case FASTJCONF:
+    return j_config_load_file(jconf, fast_jconf);
+    break;
+  default:
+    return -1;
+    break;
+  }
+}
 
 void Voicerec::Output_Result(Recog * recog, void * dummy) {
   // use function pointer

@@ -1,5 +1,6 @@
 #include <iostream>
 #include "voice_recog.hpp"
+#include <string.h>
 void test(std::string word);
 int main(int argc, char *argv[])
 {
