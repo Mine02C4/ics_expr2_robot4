@@ -29,7 +29,7 @@
 ##
 ## 単語辞書ファイル
 ##
--v model/lang_m/web.60k.htkdic
+-v model/lang_m/new.htkdic
 
 ##
 ## 音響HMM定義ファイル
