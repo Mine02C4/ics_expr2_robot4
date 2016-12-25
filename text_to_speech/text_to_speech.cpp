@@ -29,13 +29,9 @@ int Speech::Speak(std::string s, int feeling){
 int Speech::search_wav(std::string s, int feeling) {
   FILE * fp;
   std::string filename = (std::string)VOICEDIR + s + convert_feel_to_string(feeling)+".wav";
-  std::cout << filename << "is the name of file \n";
   fp = fopen(filename.c_str(), "r");
-  if (fp == NULL) {
-    std::cout << "not exist";
-    return -1;} //not exist
+  if (fp == NULL) return -1; //not exist
   else {
-    std::cout << "exist";
     fclose(fp);
     return 0;} //exist
 }
