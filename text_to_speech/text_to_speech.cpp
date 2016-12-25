@@ -2,16 +2,22 @@
 #include <cstdio>
 #include <iostream>
 #include "text_to_speech.hpp"
+
 #define VOICEDIR "./voices/"
 const std::string dict = "/var/lib/mecab/dic/open-jtalk/naist-jdic/";
-const std::string voicefiles = "~/mei/mei_normal.htsvoice";
-
+//voice file places
+const std::string normal_vf = "~/mei/mei_normal.htsvoice";
+const std::string angry_vf = "~/mei/mei_angry.htsvoice";
+const std::string happy_vf = "~/mei/mei_happy.htsvoice";
+const std::string sad_vf = "~/mei/mei_sad.htsvoice";
+const std::string bashful_vf = "~/mei/mei_bashful.htsvoice";
 
 int Speech::Speak(std::string s) {
   int res = Speech::Speak(s, NORMAL_FEEL);
   return res;
 }
-int Speech::Speak(std::string s, std::string feeling){
+
+int Speech::Speak(std::string s, int feeling){
   if (search_wav(s, feeling) == -1) {
     if(make_wav(s, feeling) != -1) play_wav(s, feeling);
   } else {
@@ -19,25 +25,83 @@ int Speech::Speak(std::string s, std::string feeling){
   }
   return 0;
 }
-int Speech::search_wav(std::string s, std::string feeling) {
+
+int Speech::search_wav(std::string s, int feeling) {
   FILE * fp;
-  std::string filename = (std::string)VOICEDIR + s + feeling;
-  fp = fopen("filename", "r");
-  if (fp == NULL) return -1; //not exist
-  else return 0; //exist
+  std::string filename = (std::string)VOICEDIR + s + convert_feel_to_string(feeling)+".wav";
+  std::cout << filename << "is the name of file \n";
+  fp = fopen(filename.c_str(), "r");
+  if (fp == NULL) {
+    std::cout << "not exist";
+    return -1;} //not exist
+  else {
+    std::cout << "exist";
+    fclose(fp);
+    return 0;} //exist
 }
-int Speech::make_wav(std::string s, std::string feeling) {
-  std::string com = "echo "+s+" | "+"open_jtalk -x "+dict+" -m "+voicefiles+" -ow "+(std::string)VOICEDIR+s+feeling+".wav";
+
+int Speech::make_wav(std::string s, int feeling) {
+  std::string voice_file;
+  std::string voice_type = convert_feel_to_string(feeling);
+  switch(feeling){
+  case  NORMAL_FEEL:
+    voice_file = normal_vf;
+    break;
+  case  ANGRY_FEEL:
+    voice_file = angry_vf;
+    break;
+  case  HAPPY_FEEL:
+    voice_file = happy_vf;
+    break;
+  case  SAD_FEEL:
+    voice_file = sad_vf;
+    break;
+  case  BASHFUL_FEEL:
+    voice_file = bashful_vf;
+    break;
+  default:
+    voice_file = normal_vf;
+    break;
+  }
+  std::string com = "echo "+s+" | "+"open_jtalk -x "+dict+" -m "+voice_file+" -ow "+(std::string)VOICEDIR+s+voice_type+".wav";
   const char* cmd = com.c_str();
   system(cmd);
   return 0;
 }
-int Speech::play_wav(std::string s, std::string feeling) {
-  std::string com = "aplay "+(std::string)VOICEDIR+s+feeling+".wav";
+
+int Speech::play_wav(std::string s, int feeling) {
+  std::string voice_type = convert_feel_to_string(feeling);
+  std::string com = "aplay "+(std::string)VOICEDIR+s+voice_type+".wav";
   const char* cmd = com.c_str();
   system(cmd);
   return 0;
 }
+
+std::string Speech::convert_feel_to_string(int feeling){
+  std::string voice_type;
+  switch(feeling){
+  case  NORMAL_FEEL:
+    voice_type = "_normal";
+    break;
+  case  ANGRY_FEEL:
+    voice_type = "_angry";
+    break;
+  case  HAPPY_FEEL:
+    voice_type = "_happy";
+    break;
+  case  SAD_FEEL:
+    voice_type = "_sad";
+    break;
+  case  BASHFUL_FEEL:
+    voice_type = "_bashful";
+    break;
+  default:
+    voice_type = "_normal";
+    break;
+  }
+  return voice_type;
+}
+
 void Speech::Init(){}
 void Speech::Finalize(){}
 Speech::Speech(){}
