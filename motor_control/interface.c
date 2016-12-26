@@ -178,12 +178,8 @@ int motor_write (struct mstat *mstp) {
   short rotr = mstp -> rot_r; // 512
 	obuf.ch[MRIGHT].x = rotr << 5;
 	obuf.ch[MLEFT].x = rotl << 5;
-  obuf.ch[MRIGHT].d =-512; // set right rounds
-  obuf.ch[MLEFT].d = 512; // set left rounds
-	/*
-	if (ioctl(fd, URBTC_COUNTER_SET) < 0) report_error_and_exit("motor_write_ioctl", 4);
-	if (write(fd, &cmd, sizeof(cmd)) < 0) report_error_and_exit("motor_write_cmd", 2);
-	*/
+  obuf.ch[MRIGHT].d = -250; // set right rounds
+  obuf.ch[MLEFT].d = 250; // set left rounds
 	if (ioctl(fd, URBTC_DESIRE_SET) < 0) report_error_and_exit("motor_write_ioctl", 5);
 	if (write(fd, &obuf, sizeof(obuf)) < 0) report_error_and_exit("motor_write_obuf", 3);
 

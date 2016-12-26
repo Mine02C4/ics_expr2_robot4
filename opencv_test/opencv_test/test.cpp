@@ -9,6 +9,8 @@
 
 #include "videotest.h"
 
+#define kOPENCV_KEY_ENTER 10
+
 using namespace cv;
 using namespace std;
 
@@ -31,8 +33,8 @@ int main(int argc, char** argv)
     while (1) {
       vt->ReadFrame();
       vt->TrackFeatures();
-      int key = waitKey(1);
-      if (key >= 0) {
+      int key = waitKey(1) & 0xff;
+      if (key != 27) {
         break;
       }
     }
@@ -117,10 +119,10 @@ int main(int argc, char** argv)
         while (capture_phase) {
           cap >> frame;
           imshow("chessboard", frame);
-          int key = waitKey(10);
+          int key = waitKey(10) & 0xff;
           switch (key)
           {
-          case 13: // Enter
+          case kOPENCV_KEY_ENTER: // Enter
             src_image[i] = frame.clone();
             capture_phase = false;
             break;
@@ -141,11 +143,11 @@ int main(int argc, char** argv)
           cboard_preview = src_image[i].clone();
           drawChessboardCorners(cboard_preview, BOARD_SIZE, imageCorners, found);
           imshow("chessboard", cboard_preview);
-          int key = waitKey(0);
+          int key = waitKey(0) & 0xff;
           string filename = "cboard_" + to_string(i) + ".png";
           switch (key)
           {
-          case 13: // Enter
+          case kOPENCV_KEY_ENTER: // Enter
             imwrite(filename, src_image[i]);
             imagePoints.push_back(imageCorners);
             break;
@@ -208,7 +210,7 @@ int main(int argc, char** argv)
       Mat preview_image;
       undistort(src_image[preview_index], preview_image, cameraMatrix, distCoeffs);
       imshow("chessboard", preview_image);
-      int key = waitKey(0);
+      int key = waitKey(0) & 0xff;
       switch (key)
       {
       case 27: // Esc
@@ -322,10 +324,11 @@ int main(int argc, char** argv)
           cap[1] >> frame1;
           imshow("chessboard camera 0", frame0);
           imshow("chessboard camera 1", frame1);
-          int key = waitKey(10);
+          int key = waitKey(10) & 0xff;
+          cout << "kwey = " << key << endl;
           switch (key)
           {
-          case 13: // Enter
+          case kOPENCV_KEY_ENTER: // Enter
             src_image[i * 2] = frame0.clone();
             src_image[i * 2 + 1] = frame1.clone();
             capture_phase = false;
@@ -361,10 +364,10 @@ int main(int argc, char** argv)
           drawChessboardCorners(cboard_preview[1], BOARD_SIZE, imageCorners[1], found);
           imshow("chessboard camera 0", cboard_preview[0]);
           imshow("chessboard camera 1", cboard_preview[1]);
-          int key = waitKey(0);
+          int key = waitKey(0) & 0xff;
           switch (key)
           {
-          case 13: // Enter
+          case kOPENCV_KEY_ENTER: // Enter
             if (found[0] && found[1]) {
               imwrite("stereo_cboard_" + to_string(i) + "_0.png", src_image[i * 2]);
               imwrite("stereo_cboard_" + to_string(i) + "_1.png", src_image[i * 2 + 1]);
@@ -627,7 +630,7 @@ int main(int argc, char** argv)
       Mat xyz;
       reprojectImageTo3D(disparity, xyz, Q, true);
 
-      int key = waitKey(0);
+      int key = waitKey(0) & 0xff;
       switch (key)
       {
       case 27: // Esc
@@ -656,8 +659,8 @@ int main(int argc, char** argv)
     while (1) {
       vt.ReadFrame();
       vt.DetectionByColor();
-      int key = waitKey(1);
-      if (key >= 0) {
+      int key = waitKey(1) & 0xff;
+      if (key != 27) {
         break;
       }
     }
