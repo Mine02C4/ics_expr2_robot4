@@ -1,7 +1,8 @@
 #ifndef ROBOT_CORE_VRECOG_H_
 #define ROBOT_CORE_VRECOG_H_
 
-class Vrecog {
+/* Wrapper class for Voice Recognition */
+class Vrecog : public Voicerec {
 	
 	public:
 		static Vrecog& getInstance(void) {
