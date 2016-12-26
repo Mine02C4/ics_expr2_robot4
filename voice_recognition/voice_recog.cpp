@@ -4,7 +4,7 @@
 #include "voice_recog.hpp"
 #include <time.h>
 // Global variable
-FUNCTYPE1 fp1;
+FUNCTYPE1 fp1 = NULL;
 static char * mine_jconf = {(char *)"dictation-kit-v4.2.3/mine.jconf"};
 static char * fast_jconf = {(char *)"dictation-kit-v4.2.3/fast.jconf"};
 
@@ -81,9 +81,14 @@ void Voicerec::Output_Result(Recog * recog, void * dummy) {
       seq = s->word;           // ワード（文を品詞レベルまで分解したもの）の集まりのIDを取得
       seqnum = s->word_num;        // ワードの数
       //printf("結果:", n+1);
-      for(i=0;i<seqnum;i++) { // ワードの数だけ回す
-	fp1(winfo->woutput[seq[i]]);
+      std::string tmp = "";
+      for(i=0;i<seqnum;i++) {
+       // ワードの数だけ回す
+        tmp += winfo->woutput[seq[i]];
+        if (fp1 != NULL) fp1(winfo->woutput[seq[i]]);
+	       //fp1(winfo->woutput[seq[i]]);
       }
+      Voicerec::Return_One_String(tmp);
       printf("\n");
     }
   }
@@ -108,12 +113,12 @@ std::string Voicerec::Wait_One_Sentence(int seconds) {
   while (flag == 0 && (int)(t2-t1) <= seconds) {
     t2 = time(NULL);
   }//waitcallback
-  if (flag == 0) return NULL;
+  if (flag == 0) return "";
   else return Voicerec::getString();
 }
 std::string Voicerec::getString (void) {
   return result;
 }
 
-Voicerec::Voicerec() {
+Voicerec::Voicerec() :flag(0), result("") {
 }

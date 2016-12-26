@@ -20,11 +20,18 @@ public:
     static Voicerec singleton;
     return singleton;
   }
-  std::string Wait_One_Sentence(int sedconds);
-  void Register_Callback(FUNCTYPE1 f);
+  //Initialize julius and setup
   int Init();
+  //if not recognize in arg, int seconds, return null
+  //else return one sentence.
+  std::string Wait_One_Sentence(int seconds);
+  //Register callback function returns result sentences.
+  void Register_Callback(FUNCTYPE1 f);
+  //Finalize Julius
   void Finalize();
+  //Change dictionaries and grammers
   int ChangeMode(int); //arg is jconfs.
+  //Get the last recognized sentence
   std::string getString(void);
 private:
   Jconf *jconf;
