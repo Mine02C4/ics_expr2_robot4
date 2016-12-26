@@ -2,6 +2,7 @@
 #define OPENCV_TEST_RECONSTRUCTION_H_
 
 #include <vector>
+#include <opencv2/core/core.hpp>
 
 class Reconstruction
 {
@@ -12,6 +13,7 @@ public:
 	float GetY(int i);
 	float GetZ(int i);
 	void Add(float rowx, float rowy, float rowz, float theta);
+  void AddFrom3D(cv::Mat image);
 
 private:
 	std::vector<float> x;
