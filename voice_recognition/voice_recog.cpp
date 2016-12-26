@@ -97,7 +97,7 @@ void Voicerec::Finalize () {
   j_close_stream(recog);
   j_recog_free(recog);
 }
-void Voicerec::Return_One_String (std::string s) {
+void Voicerec::ReturnOneString_Instance (std::string s) {
   result = s;
   flag = 1;
 }

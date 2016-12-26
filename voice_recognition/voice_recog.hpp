@@ -1,6 +1,6 @@
 #ifndef VOICE_RECOG_H_
 #define VOICE_RECOG_H_
-#inculde <iostream>
+#include <iostream>
 //jconfs
 #define MINEJCONF 0
 #define FASTJCONF 1
@@ -29,10 +29,13 @@ public:
 private:
   Jconf *jconf;
   Recog *recog;
-  static void Return_One_String(std::string s);
+  void ReturnOneString_Instance(std::string s);
+  static void Return_One_String(std::string s) {
+    Voicerec::getInstance().ReturnOneString_Instance(s);
+  }
   static void Output_Result(Recog *recog, void * dummy);
-  static int flag;
-  static std::string result;
+  int flag;
+  std::string result;
   Voicerec();
 };
 

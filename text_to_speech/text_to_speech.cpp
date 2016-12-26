@@ -67,7 +67,7 @@ int Speech::make_wav(std::string s, int feeling) {
 
 int Speech::play_wav(std::string s, int feeling) {
   std::string voice_type = convert_feel_to_string(feeling);
-  std::string com = "aplay "+(std::string)VOICEDIR+s+voice_type+".wav";
+  std::string com = "aplay -D plughw:0,0 "+(std::string)VOICEDIR+s+voice_type+".wav";
   const char* cmd = com.c_str();
   system(cmd);
   return 0;
