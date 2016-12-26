@@ -2,7 +2,7 @@
 #include <string>
 #include <julius/juliuslib.h>
 #include "voice_recog.hpp"
-
+#include <time.h>
 // Global variable
 FUNCTYPE1 fp1;
 static char * mine_jconf = {(char *)"dictation-kit-v4.2.3/mine.jconf"};
@@ -45,6 +45,7 @@ int Voicerec::Init() {
   if (ret == -1) return -1;
   return 0;
 }
+
 int Voicerec::ChangeMode(int status) {
   switch(status) {
   case MINEJCONF:
@@ -96,5 +97,23 @@ void Voicerec::Finalize () {
   j_close_stream(recog);
   j_recog_free(recog);
 }
+void Voicerec::Return_One_String (std::string s) {
+  result = s;
+  flag = 1;
+}
+std::string Voicerec::Wait_One_Sentence(int seconds) {
+  flag = 0;
+  time_t t1, t2;
+  t1 = time(NULL);
+  while (flag == 0 && (int)(t2-t1) <= seconds) {
+    t2 = time(NULL);
+  }//waitcallback
+  if (flag == 0) return NULL;
+  else return Voicerec::getString();
+}
+std::string Voicerec::getString (void) {
+  return result;
+}
+
 Voicerec::Voicerec() {
 }
