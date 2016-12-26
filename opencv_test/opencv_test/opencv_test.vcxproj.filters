@@ -70,7 +70,7 @@
     <ClInclude Include="recognition.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="calibration.h">
+    <ClInclude Include="calibration.hpp">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
   </ItemGroup>

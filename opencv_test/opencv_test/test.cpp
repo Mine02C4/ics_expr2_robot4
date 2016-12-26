@@ -8,6 +8,7 @@
 #include <opencv2/imgproc/imgproc.hpp>
 
 #include "videotest.h"
+#include "calibration.hpp"
 
 #define kOPENCV_KEY_ENTER 10
 
@@ -80,10 +81,7 @@ int main(int argc, char** argv)
         for (int i = 0; i < N_BOARDS; i++) {
           vector<Point2f> imageCorners;
           Mat dst_image, gray_image;
-          bool found = findChessboardCorners(src_image[i], BOARD_SIZE, imageCorners);
-          cvtColor(src_image[i], gray_image, CV_BGR2GRAY);
-          cornerSubPix(gray_image, imageCorners, Size(9, 9), Size(-1, -1), TermCriteria(CV_TERMCRIT_ITER + CV_TERMCRIT_EPS, 30, 0.1));
-
+          bool found = Calibration::DetectChessboardCorners(src_image[i], BOARD_SIZE, imageCorners);
           dst_image = src_image[i].clone();
           drawChessboardCorners(dst_image, BOARD_SIZE, imageCorners, found);
           for (int i = 0; i < 10; i++) {
@@ -136,10 +134,7 @@ int main(int argc, char** argv)
         {
           vector<Point2f> imageCorners;
           Mat cboard_preview, gray_image;
-          bool found = findChessboardCorners(src_image[i], BOARD_SIZE, imageCorners);
-          cvtColor(src_image[i], gray_image, CV_BGR2GRAY);
-          cornerSubPix(gray_image, imageCorners, Size(9, 9), Size(-1, -1), TermCriteria(CV_TERMCRIT_ITER + CV_TERMCRIT_EPS, 30, 0.1));
-
+          bool found = Calibration::DetectChessboardCorners(src_image[i], BOARD_SIZE, imageCorners);
           cboard_preview = src_image[i].clone();
           drawChessboardCorners(cboard_preview, BOARD_SIZE, imageCorners, found);
           imshow("chessboard", cboard_preview);
@@ -289,9 +284,8 @@ int main(int argc, char** argv)
         for (int i = 0; i < N_BOARDS * 2; i++) {
           vector<Point2f> imageCorners;
           Mat dst_image, gray_image;
-          bool found = findChessboardCorners(src_image[i], BOARD_SIZE, imageCorners, CALIB_CB_ADAPTIVE_THRESH | CALIB_CB_NORMALIZE_IMAGE);
-          cvtColor(src_image[i], gray_image, CV_BGR2GRAY);
-          cornerSubPix(gray_image, imageCorners, Size(9, 9), Size(-1, -1), TermCriteria(CV_TERMCRIT_ITER + CV_TERMCRIT_EPS, 30, 0.1));
+          bool found = Calibration::DetectChessboardCorners(src_image[i], BOARD_SIZE, imageCorners);
+          assert(found);
           imagePoints[i % 2].push_back(imageCorners);
         }
         break;
@@ -342,20 +336,17 @@ int main(int argc, char** argv)
         }
         {
           vector<Point2f> imageCorners[2];
-          Mat cboard_preview[2], gray_image[2];
+          Mat cboard_preview[2];
           bool found[2];
           try
           {
-            found[0] = findChessboardCorners(src_image[i * 2], BOARD_SIZE, imageCorners[0], CALIB_CB_ADAPTIVE_THRESH | CALIB_CB_NORMALIZE_IMAGE);
-            cvtColor(src_image[i * 2], gray_image[0], CV_BGR2GRAY);
-            cornerSubPix(gray_image[0], imageCorners[0], Size(9, 9), Size(-1, -1), TermCriteria(CV_TERMCRIT_ITER + CV_TERMCRIT_EPS, 30, 0.1));
-            found[1] = findChessboardCorners(src_image[i * 2 + 1], BOARD_SIZE, imageCorners[1], CALIB_CB_ADAPTIVE_THRESH | CALIB_CB_NORMALIZE_IMAGE);
-            cvtColor(src_image[i * 2 + 1], gray_image[1], CV_BGR2GRAY);
-            cornerSubPix(gray_image[1], imageCorners[1], Size(9, 9), Size(-1, -1), TermCriteria(CV_TERMCRIT_ITER + CV_TERMCRIT_EPS, 30, 0.1));
+            found[0] = Calibration::DetectChessboardCorners(src_image[i * 2], BOARD_SIZE, imageCorners[0]);
+            found[1] = Calibration::DetectChessboardCorners(src_image[i * 2 + 1], BOARD_SIZE, imageCorners[1]);
           }
           catch (const std::exception& ex)
           {
             cerr << ex.what() << endl;
+            --i;
             continue;
           }
           cboard_preview[0] = src_image[i * 2].clone();

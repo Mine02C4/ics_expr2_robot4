@@ -141,7 +141,7 @@
     <Image Include="yuiyui.jpg" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="calibration.h" />
+    <ClInclude Include="calibration.hpp" />
     <ClInclude Include="recognition.h" />
     <ClInclude Include="videotest.h" />
   </ItemGroup>
