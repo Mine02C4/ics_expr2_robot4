@@ -305,8 +305,13 @@ int main(int argc, char** argv)
     if (!files_exist) {
       Mat frame0, frame1;
       VideoCapture cap[2];
-      cap[0].open(0);
-      cap[1].open(1);
+      int right_id, left_id;
+      cout << "Input right camera ID: ";
+      cin >> right_id;
+      cout << "Input left camera ID: ";
+      cin >> left_id;
+      cap[0].open(right_id);
+      cap[1].open(left_id);
       if (!cap[0].isOpened() || !cap[1].isOpened()) {
         cerr << "Cannot open camera." << endl;
         exit(1);
