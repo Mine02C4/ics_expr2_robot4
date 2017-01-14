@@ -9,7 +9,7 @@
 
 #include "videotest.h"
 #include "calibration.hpp"
-
+#include "stereo.hpp"
 
 #if defined(__linux__) || defined(__APPLE__)
 
@@ -562,46 +562,6 @@ int main(int argc, char** argv)
     initUndistortRectifyMap(cameraMatrix[0], distCoeffs[0], R1, P1, imageSize, CV_16SC2, rmap[0][0], rmap[0][1]);
     initUndistortRectifyMap(cameraMatrix[1], distCoeffs[1], R2, P2, imageSize, CV_16SC2, rmap[1][0], rmap[1][1]);
 
-#define CALIB_MODE_SGBM
-    int SADWindowSize = 3;
-    int minDisparity = 0;
-    int numberOfDisparities = 0;
-    numberOfDisparities = numberOfDisparities > 0 ? numberOfDisparities : ((imageSize.width / 8) + 15) & -16;
-    //int numberOfDisparities = ((imageSize.width / 8) + 15) & -16;
-    int blockSize = SADWindowSize > 0 ? SADWindowSize : 9;
-#ifdef CALIB_MODE_SGBM
-    auto sgbm = StereoSGBM::create(
-      minDisparity,
-      numberOfDisparities,
-      SADWindowSize
-    );
-    sgbm->setPreFilterCap(63);
-    sgbm->setBlockSize(blockSize);
-    int cn = 1;
-    sgbm->setP1(8 * cn * blockSize * blockSize);
-    sgbm->setP2(32 * cn * blockSize * blockSize);
-    sgbm->setMinDisparity(0);
-    sgbm->setNumDisparities(numberOfDisparities);
-    sgbm->setUniquenessRatio(10);
-    sgbm->setSpeckleWindowSize(100);
-    sgbm->setSpeckleRange(32);
-    sgbm->setDisp12MaxDiff(1);
-    sgbm->setMode(StereoSGBM::MODE_SGBM);
-#else
-    auto bm = StereoBM::create();
-    bm->setROI1(validRoi[0]);
-    bm->setROI2(validRoi[1]);
-    bm->setPreFilterCap(31);
-    bm->setBlockSize(SADWindowSize > 0 ? SADWindowSize : 9);
-    bm->setMinDisparity(0);
-    bm->setNumDisparities(numberOfDisparities);
-    bm->setTextureThreshold(10);
-    bm->setUniquenessRatio(15);
-    bm->setSpeckleWindowSize(100);
-    bm->setSpeckleRange(32);
-    bm->setDisp12MaxDiff(1);
-#endif
-
     Mat canvas;
     double sf;
     int w, h;
@@ -651,11 +611,7 @@ int main(int argc, char** argv)
       remap(src_image[preview_index * 2 + 1], rleft, rmap[1][0], rmap[1][1], INTER_LINEAR);
       cvtColor(rright, right_gray, COLOR_BGR2GRAY);
       cvtColor(rleft, left_gray, COLOR_BGR2GRAY);
-#ifdef CALIB_MODE_SGBM
-      sgbm->compute(left_gray, right_gray, disparity);
-#else
-      bm->compute(left_gray, right_gray, disparity);
-#endif
+      int numberOfDisparities = Stereo::CalcDisparity(left_gray, right_gray, disparity);
       disparity.convertTo(disparity8, CV_8U, 255 / (numberOfDisparities * 16.0));
       imshow("disparity", disparity8);
       Mat xyz;
