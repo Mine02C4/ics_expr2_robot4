@@ -10,7 +10,16 @@
 #include "videotest.h"
 #include "calibration.hpp"
 
+
+#if defined(__linux__) || defined(__APPLE__)
+
 #define kOPENCV_KEY_ENTER 10
+
+#elif _MSC_VER
+
+#define kOPENCV_KEY_ENTER 13
+
+#endif
 
 using namespace cv;
 using namespace std;
