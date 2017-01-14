@@ -1,10 +1,12 @@
 #include "stereo.hpp"
 
+#include <opencv2/highgui/highgui.hpp>
 #include <opencv2/calib3d/calib3d.hpp>
+
+using namespace cv;
 
 int Stereo::CalcDisparity(cv::Mat & left_img, cv::Mat & right_img, cv::Mat & disparity)
 {
-  using namespace cv;
   auto image_size = left_img.size();
 #define CALIB_MODE_SGBM
   int SADWindowSize = 3;
@@ -49,6 +51,9 @@ int Stereo::CalcDisparity(cv::Mat & left_img, cv::Mat & right_img, cv::Mat & dis
   return numberOfDisparities;
 }
 
-void Stereo::RenderDisparity(cv::Mat & left_img, cv::Mat & right_img, cv::Mat & disparity, int numberOfDisparities)
+void Stereo::RenderDisparity(Mat & disparity, int numberOfDisparities)
 {
+  Mat disparity8;
+  disparity.convertTo(disparity8, CV_8U, 255 / (numberOfDisparities * 16.0));
+  imshow("disparity", disparity8);
 }

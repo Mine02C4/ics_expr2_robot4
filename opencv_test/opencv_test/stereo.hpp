@@ -7,10 +7,7 @@ class Stereo
 {
 public:
   static int CalcDisparity(cv::Mat& left_img, cv::Mat& right_img, cv::Mat& disparity);
-  static void RenderDisparity(
-    cv::Mat& left_img, cv::Mat& right_img, cv::Mat& disparity,
-    int numberOfDisparities
-  );
+  static void RenderDisparity(cv::Mat& disparity, int numberOfDisparities);
 private:
 };
 
