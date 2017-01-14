@@ -245,14 +245,14 @@ int main(int argc, char** argv)
     const float SCALE = 23;
 
     vector<string> calibfiles = {
-      "calibration0.xml",
-      "calibration1.xml"
+      "calibration_r.xml",
+      "calibration_l.xml"
     };
 
     vector<Mat> src_image(N_BOARDS * 2);
     bool files_exist = true;
     for (int i = 0; i < N_BOARDS; i++) {
-      src_image[i * 2] = imread("stereo_cboard_" + to_string(i) + "_0.png");
+      src_image[i * 2] = imread("stereo_cboard_" + to_string(i) + "_r.png");
       if (src_image[i * 2].data == NULL) {
         files_exist = false;
         for (i = i * 2 - 1; i >= 0; --i) {
@@ -260,7 +260,7 @@ int main(int argc, char** argv)
         }
         break;
       }
-      src_image[i * 2 + 1] = imread("stereo_cboard_" + to_string(i) + "_1.png");
+      src_image[i * 2 + 1] = imread("stereo_cboard_" + to_string(i) + "_l.png");
       if (src_image[i * 2 + 1].data == NULL) {
         files_exist = false;
         for (i = i * 2; i >= 0; --i) {
@@ -330,10 +330,9 @@ int main(int argc, char** argv)
         while (capture_phase) {
           cap[0] >> frame0;
           cap[1] >> frame1;
-          imshow("chessboard camera 0", frame0);
-          imshow("chessboard camera 1", frame1);
+          imshow("chessboard camera Right", frame0);
+          imshow("chessboard camera Left", frame1);
           int key = waitKey(10) & 0xff;
-          cout << "kwey = " << key << endl;
           switch (key)
           {
           case kOPENCV_KEY_ENTER: // Enter
@@ -367,15 +366,15 @@ int main(int argc, char** argv)
           cboard_preview[1] = src_image[i * 2 + 1].clone();
           drawChessboardCorners(cboard_preview[0], BOARD_SIZE, imageCorners[0], found);
           drawChessboardCorners(cboard_preview[1], BOARD_SIZE, imageCorners[1], found);
-          imshow("chessboard camera 0", cboard_preview[0]);
-          imshow("chessboard camera 1", cboard_preview[1]);
+          imshow("chessboard camera Right", cboard_preview[0]);
+          imshow("chessboard camera Left", cboard_preview[1]);
           int key = waitKey(0) & 0xff;
           switch (key)
           {
           case kOPENCV_KEY_ENTER: // Enter
             if (found[0] && found[1]) {
-              imwrite("stereo_cboard_" + to_string(i) + "_0.png", src_image[i * 2]);
-              imwrite("stereo_cboard_" + to_string(i) + "_1.png", src_image[i * 2 + 1]);
+              imwrite("stereo_cboard_" + to_string(i) + "_r.png", src_image[i * 2]);
+              imwrite("stereo_cboard_" + to_string(i) + "_l.png", src_image[i * 2 + 1]);
               imagePoints[0].push_back(imageCorners[0]);
               imagePoints[1].push_back(imageCorners[1]);
             }
@@ -461,7 +460,7 @@ int main(int argc, char** argv)
         imageSize, R, T, E, F,
         CALIB_FIX_ASPECT_RATIO +
         CALIB_ZERO_TANGENT_DIST +
-        CALIB_USE_INTRINSIC_GUESS +
+        CALIB_FIX_INTRINSIC +
         CALIB_SAME_FOCAL_LENGTH +
         CALIB_RATIONAL_MODEL +
         CALIB_FIX_K3 + CALIB_FIX_K4 + CALIB_FIX_K5,
@@ -674,8 +673,6 @@ int main(int argc, char** argv)
   default:
     break;
   }
-
-
 
   return 0;
 }
