@@ -12,6 +12,8 @@ extern void turret_init();
 
 /* Turret API */
 extern void open_fire(int);
+extern void turn_by_degrees(int);
+extern void elevate_by_degrees(int);
 
 /* Finalize API */
 extern void turret_finalize();
