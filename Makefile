@@ -2,7 +2,12 @@ MODULES := motor_control i2c_sensor gun_turret voice_recognition
 
 CXX := g++
 CXXFLAGS := -O2 -std=c++11 -Wall
-STUBLDFLAGS = `pkg-config --libs opencv`
+JULIUSDIR := julius-4.2.3
+LIBSENT := $(JULIUSDIR)/libsent
+LIBJULIUS := $(JULIUSDIR)/libjulius
+JULI_LDFLAGS= -L$(LIBJULIUS) `$(LIBJULIUS)/libjulius-config --libs` -L$(LIBSENT) `$(LIBSENT)/libsent-config --libs`
+LDFLAGS := `pkg-config --libs opencv` $(JULI_LDFLAGS)
+STUBLDFLAGS =
 CORE_DIR := core
 BUILD_DIR := build
 OUTPUT := core.out
@@ -20,10 +25,10 @@ all: $(OUTPUT)
 test: $(TESTELF)
 
 $(OUTPUT): $(OBJS) $(MOD_OBJS)
-	$(CXX) $(CXXFLAGS) -o $@ $^
+	$(CXX) $(CXXFLAGS) -o $@ $^ $(LDFLAGS)
 
 $(TESTELF): $(OBJS) $(MOD_STUBS)
-	$(CXX) $(CXXFLAGS) -o $@ $^ -Lstub_library -lstub $(STUBLDFLAGS)
+	$(CXX) $(CXXFLAGS) -o $@ $^ -Lstub_library -lstub $(STUBLDFLAGS) $(LDFLAGS)
 
 $(MOD_OBJS):
 	$(MAKE) -C $(@D) mod

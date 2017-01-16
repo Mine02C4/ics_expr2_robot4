@@ -1,5 +1,7 @@
-#ifndef ROBOT_CORE_VRECOG_H_
-#define ROBOT_CORE_VRECOG_H_
+#ifndef ROBOT_CORE_VOICERECOG_H_
+#define ROBOT_CORE_VOICERECOG_H_
+
+#include "../voice_recognition/voice_recog.hpp"
 
 /* Wrapper class for Voice Recognition */
 class Vrecog : public Voicerec {
@@ -9,14 +11,13 @@ class Vrecog : public Voicerec {
 			static Vrecog singletron;
 			return singletron;
 		}
-		void Init();
-		void GetVoiceCommand();
-		void Finalize();
+		//void Init();
+		char* GetVoiceCommand();
+		//VOID fINALIZE();
 	private:
 		Vrecog();
 };
-Vrecog::Vrecog() {
-	// constructor
-}
 
-#endif	// ROBOT_CORE_VRECOG_H_
+
+#endif	// ROBOT_CORE_VOICERECOG_H_
+

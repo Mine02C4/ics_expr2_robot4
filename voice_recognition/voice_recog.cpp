@@ -95,7 +95,7 @@ void Voicerec::Output_Result(Recog * recog, void * dummy) {
 	       //fp1(winfo->woutput[seq[i]]);
       }
       Voicerec::Return_One_String(tmp);
-      printf("\n");
+      //      printf("\n");
     }
   }
   fflush(stdout);

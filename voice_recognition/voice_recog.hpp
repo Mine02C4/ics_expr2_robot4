@@ -43,6 +43,7 @@ private:
   static void Output_Result(Recog *recog, void * dummy);
   int flag;
   std::string result;
+protected:
   Voicerec();
 };
 
