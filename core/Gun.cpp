@@ -11,3 +11,7 @@ void Gun::Finalize()
 {
   turret_finalize();
 }
+
+Gun::Gun()
+{
+}
