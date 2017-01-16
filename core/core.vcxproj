@@ -112,6 +112,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="CVision.cpp" />
     <ClCompile Include="Drive.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="MainLogic.cpp" />
@@ -129,6 +130,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="CVision.hpp" />
     <ClInclude Include="Drive.hpp" />
     <ClInclude Include="MainLogic.hpp" />
     <ClInclude Include="Sensor.hpp" />
