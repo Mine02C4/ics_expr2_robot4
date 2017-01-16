@@ -88,8 +88,11 @@ bool CVision::DetectBlueBox(int & area, int & cx, int & cy)
     }
     area = largest_area;
     double *param = centroids.ptr<double>(largest_id);
-    cx = static_cast<int>(param[0]);
-    cy = static_cast<int>(param[1]);
+    int x = static_cast<int>(param[0]);
+    int y = static_cast<int>(param[1]);
+    Size size = frame_.size();
+    cx = 2048 * (x / size.width) - 1024;
+    cy = 2048 * (y / size.height) - 1024;
     cv::circle(output, cv::Point(cx, cy), 3, cv::Scalar(0, 0, 255), -1);
     cv::imshow("Output", output);
     return true;

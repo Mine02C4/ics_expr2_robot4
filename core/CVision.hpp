@@ -12,6 +12,7 @@ public:
   //void Finalize();
   void ReadFrame();
   bool DetectBlueBox(int &area, int& cx, int& cy);
+  
 private:
   CVision();
   cv::Mat frame_;
