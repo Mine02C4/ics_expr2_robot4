@@ -73,7 +73,7 @@ turn_by_degrees(int degrees)
 		degrees = -ANGLE_LIMIT - degrees;
 	}
 	*/
-	if (-ANGLE_LIMIT <= degrees <= ANGLE_LIMIT) {
+	if (-ANGLE_LIMIT <= degrees && degrees <= ANGLE_LIMIT) {
 		curr_ang = degrees;
 	} else {
 		fprintf(stderr, "Invalid Angle\n");
@@ -99,7 +99,7 @@ elevate_by_degrees(int degrees)
 	char buf[BUFSIE];
  	int size = strlen(buf);
 
-	if (-DEPRESSION_LIM <= degrees <= ELEVATION_LIM) {
+	if (-DEPRESSION_LIM <= degrees && degrees <= ELEVATION_LIM) {
 		curr_ev = degrees;
 	} else {
 		fprintf(stderr, "Invalid Angle\n");
