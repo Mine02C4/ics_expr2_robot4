@@ -120,7 +120,11 @@ motor_init()
     obuf.ch[i].ki = 1;
     obuf.ch[i].kix = 1;
   }
-
+  obuf.ch[MRIGHT].d = -250 << 5;
+  obuf.ch[MLEFT].d = 250 << 5;
+	obuf.ch[MRIGHT] = 0 << 5;
+	obuf.ch[MLEFT] = 0 << 5;
+	if (write(fd, &obuf, sizeof(obuf)) < 0) report_error_and_exit("motor_write_obuf", 3);
 }
 
 void set_stat (struct mstat *mstp) {
@@ -176,8 +180,9 @@ int motor_write (struct mstat *mstp) {
   /* todo one of the motor should be reversed */
   short rotl = mstp -> rot_l; // left motor rotation
   short rotr = mstp -> rot_r; // 512
-	obuf.ch[MRIGHT].x = rotr << 5;
-	obuf.ch[MLEFT].x = rotl << 5;
+	obuf.ch[MRIGHT].x += rotr << 5;
+	obuf.ch[MLEFT].x += rotl << 5;
+
   obuf.ch[MRIGHT].d = -250; // set right rounds
   obuf.ch[MLEFT].d = 250; // set left rounds
 	if (ioctl(fd, URBTC_DESIRE_SET) < 0) report_error_and_exit("motor_write_ioctl", 5);
