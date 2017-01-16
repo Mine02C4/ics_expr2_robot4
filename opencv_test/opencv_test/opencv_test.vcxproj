@@ -145,7 +145,7 @@
   <ItemGroup>
     <ClInclude Include="calibration.hpp" />
     <ClInclude Include="recognition.h" />
-    <ClInclude Include="reconstruction.h" />
+    <ClInclude Include="reconstruction.hpp" />
     <ClInclude Include="stereo.hpp" />
     <ClInclude Include="videotest.h" />
   </ItemGroup>

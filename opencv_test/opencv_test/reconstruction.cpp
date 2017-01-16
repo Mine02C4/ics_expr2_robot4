@@ -1,4 +1,4 @@
-#include "reconstruction.h"
+#include "reconstruction.hpp"
 
 
 
@@ -33,7 +33,7 @@ void Reconstruction::Add(float rowx, float rowy, float rowz, float theta)
 	z.push_back(rowy * sin(theta) + rowz * cos(theta));
 }
 
-void AddFrom3D(cv::Mat image);
+void Reconstruction::AddFrom3D(cv::Mat image)
 {
 
 }
