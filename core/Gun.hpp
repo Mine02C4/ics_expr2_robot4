@@ -8,8 +8,8 @@ public:
     static Gun singleton;
     return singleton;
   }
-  //void Init();
-  //void Finalize();
+  void Init();
+  void Finalize();
 private:
   Gun();
 };
