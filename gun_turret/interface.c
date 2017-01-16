@@ -100,7 +100,7 @@ elevate_by_degrees(int degrees)
  	int size = strlen(buf);
 
 	if (-DEPRESSION_LIM <= degrees <= ELEVATION_LIM) {
-		curr_ang = degrees;
+		curr_ev = degrees;
 	} else {
 		fprintf(stderr, "Invalid Angle\n");
 		return;
