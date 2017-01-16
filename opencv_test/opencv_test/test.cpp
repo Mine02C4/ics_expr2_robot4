@@ -8,8 +8,18 @@
 #include <opencv2/imgproc/imgproc.hpp>
 
 #include "videotest.h"
+#include "calibration.hpp"
+#include "stereo.hpp"
+
+#if defined(__linux__) || defined(__APPLE__)
 
 #define kOPENCV_KEY_ENTER 10
+
+#elif _MSC_VER
+
+#define kOPENCV_KEY_ENTER 13
+
+#endif
 
 using namespace cv;
 using namespace std;
@@ -80,10 +90,7 @@ int main(int argc, char** argv)
         for (int i = 0; i < N_BOARDS; i++) {
           vector<Point2f> imageCorners;
           Mat dst_image, gray_image;
-          bool found = findChessboardCorners(src_image[i], BOARD_SIZE, imageCorners);
-          cvtColor(src_image[i], gray_image, CV_BGR2GRAY);
-          cornerSubPix(gray_image, imageCorners, Size(9, 9), Size(-1, -1), TermCriteria(CV_TERMCRIT_ITER + CV_TERMCRIT_EPS, 30, 0.1));
-
+          bool found = Calibration::DetectChessboardCorners(src_image[i], BOARD_SIZE, imageCorners);
           dst_image = src_image[i].clone();
           drawChessboardCorners(dst_image, BOARD_SIZE, imageCorners, found);
           for (int i = 0; i < 10; i++) {
@@ -136,10 +143,7 @@ int main(int argc, char** argv)
         {
           vector<Point2f> imageCorners;
           Mat cboard_preview, gray_image;
-          bool found = findChessboardCorners(src_image[i], BOARD_SIZE, imageCorners);
-          cvtColor(src_image[i], gray_image, CV_BGR2GRAY);
-          cornerSubPix(gray_image, imageCorners, Size(9, 9), Size(-1, -1), TermCriteria(CV_TERMCRIT_ITER + CV_TERMCRIT_EPS, 30, 0.1));
-
+          bool found = Calibration::DetectChessboardCorners(src_image[i], BOARD_SIZE, imageCorners);
           cboard_preview = src_image[i].clone();
           drawChessboardCorners(cboard_preview, BOARD_SIZE, imageCorners, found);
           imshow("chessboard", cboard_preview);
@@ -241,14 +245,14 @@ int main(int argc, char** argv)
     const float SCALE = 23;
 
     vector<string> calibfiles = {
-      "calibration0.xml",
-      "calibration1.xml"
+      "calibration_r.xml",
+      "calibration_l.xml"
     };
 
     vector<Mat> src_image(N_BOARDS * 2);
     bool files_exist = true;
     for (int i = 0; i < N_BOARDS; i++) {
-      src_image[i * 2] = imread("stereo_cboard_" + to_string(i) + "_0.png");
+      src_image[i * 2] = imread("stereo_cboard_" + to_string(i) + "_r.png");
       if (src_image[i * 2].data == NULL) {
         files_exist = false;
         for (i = i * 2 - 1; i >= 0; --i) {
@@ -256,7 +260,7 @@ int main(int argc, char** argv)
         }
         break;
       }
-      src_image[i * 2 + 1] = imread("stereo_cboard_" + to_string(i) + "_1.png");
+      src_image[i * 2 + 1] = imread("stereo_cboard_" + to_string(i) + "_l.png");
       if (src_image[i * 2 + 1].data == NULL) {
         files_exist = false;
         for (i = i * 2; i >= 0; --i) {
@@ -289,9 +293,8 @@ int main(int argc, char** argv)
         for (int i = 0; i < N_BOARDS * 2; i++) {
           vector<Point2f> imageCorners;
           Mat dst_image, gray_image;
-          bool found = findChessboardCorners(src_image[i], BOARD_SIZE, imageCorners, CALIB_CB_ADAPTIVE_THRESH | CALIB_CB_NORMALIZE_IMAGE);
-          cvtColor(src_image[i], gray_image, CV_BGR2GRAY);
-          cornerSubPix(gray_image, imageCorners, Size(9, 9), Size(-1, -1), TermCriteria(CV_TERMCRIT_ITER + CV_TERMCRIT_EPS, 30, 0.1));
+          bool found = Calibration::DetectChessboardCorners(src_image[i], BOARD_SIZE, imageCorners);
+          assert(found);
           imagePoints[i % 2].push_back(imageCorners);
         }
         break;
@@ -311,8 +314,13 @@ int main(int argc, char** argv)
     if (!files_exist) {
       Mat frame0, frame1;
       VideoCapture cap[2];
-      cap[0].open(0);
-      cap[1].open(1);
+      int right_id, left_id;
+      cout << "Input right camera ID: ";
+      cin >> right_id;
+      cout << "Input left camera ID: ";
+      cin >> left_id;
+      cap[0].open(right_id);
+      cap[1].open(left_id);
       if (!cap[0].isOpened() || !cap[1].isOpened()) {
         cerr << "Cannot open camera." << endl;
         exit(1);
@@ -322,10 +330,9 @@ int main(int argc, char** argv)
         while (capture_phase) {
           cap[0] >> frame0;
           cap[1] >> frame1;
-          imshow("chessboard camera 0", frame0);
-          imshow("chessboard camera 1", frame1);
+          imshow("chessboard camera Right", frame0);
+          imshow("chessboard camera Left", frame1);
           int key = waitKey(10) & 0xff;
-          cout << "kwey = " << key << endl;
           switch (key)
           {
           case kOPENCV_KEY_ENTER: // Enter
@@ -342,35 +349,32 @@ int main(int argc, char** argv)
         }
         {
           vector<Point2f> imageCorners[2];
-          Mat cboard_preview[2], gray_image[2];
+          Mat cboard_preview[2];
           bool found[2];
           try
           {
-            found[0] = findChessboardCorners(src_image[i * 2], BOARD_SIZE, imageCorners[0], CALIB_CB_ADAPTIVE_THRESH | CALIB_CB_NORMALIZE_IMAGE);
-            cvtColor(src_image[i * 2], gray_image[0], CV_BGR2GRAY);
-            cornerSubPix(gray_image[0], imageCorners[0], Size(9, 9), Size(-1, -1), TermCriteria(CV_TERMCRIT_ITER + CV_TERMCRIT_EPS, 30, 0.1));
-            found[1] = findChessboardCorners(src_image[i * 2 + 1], BOARD_SIZE, imageCorners[1], CALIB_CB_ADAPTIVE_THRESH | CALIB_CB_NORMALIZE_IMAGE);
-            cvtColor(src_image[i * 2 + 1], gray_image[1], CV_BGR2GRAY);
-            cornerSubPix(gray_image[1], imageCorners[1], Size(9, 9), Size(-1, -1), TermCriteria(CV_TERMCRIT_ITER + CV_TERMCRIT_EPS, 30, 0.1));
+            found[0] = Calibration::DetectChessboardCorners(src_image[i * 2], BOARD_SIZE, imageCorners[0]);
+            found[1] = Calibration::DetectChessboardCorners(src_image[i * 2 + 1], BOARD_SIZE, imageCorners[1]);
           }
           catch (const std::exception& ex)
           {
             cerr << ex.what() << endl;
+            --i;
             continue;
           }
           cboard_preview[0] = src_image[i * 2].clone();
           cboard_preview[1] = src_image[i * 2 + 1].clone();
           drawChessboardCorners(cboard_preview[0], BOARD_SIZE, imageCorners[0], found);
           drawChessboardCorners(cboard_preview[1], BOARD_SIZE, imageCorners[1], found);
-          imshow("chessboard camera 0", cboard_preview[0]);
-          imshow("chessboard camera 1", cboard_preview[1]);
+          imshow("chessboard camera Right", cboard_preview[0]);
+          imshow("chessboard camera Left", cboard_preview[1]);
           int key = waitKey(0) & 0xff;
           switch (key)
           {
           case kOPENCV_KEY_ENTER: // Enter
             if (found[0] && found[1]) {
-              imwrite("stereo_cboard_" + to_string(i) + "_0.png", src_image[i * 2]);
-              imwrite("stereo_cboard_" + to_string(i) + "_1.png", src_image[i * 2 + 1]);
+              imwrite("stereo_cboard_" + to_string(i) + "_r.png", src_image[i * 2]);
+              imwrite("stereo_cboard_" + to_string(i) + "_l.png", src_image[i * 2 + 1]);
               imagePoints[0].push_back(imageCorners[0]);
               imagePoints[1].push_back(imageCorners[1]);
             }
@@ -456,7 +460,7 @@ int main(int argc, char** argv)
         imageSize, R, T, E, F,
         CALIB_FIX_ASPECT_RATIO +
         CALIB_ZERO_TANGENT_DIST +
-        CALIB_USE_INTRINSIC_GUESS +
+        CALIB_FIX_INTRINSIC +
         CALIB_SAME_FOCAL_LENGTH +
         CALIB_RATIONAL_MODEL +
         CALIB_FIX_K3 + CALIB_FIX_K4 + CALIB_FIX_K5,
@@ -558,23 +562,6 @@ int main(int argc, char** argv)
     initUndistortRectifyMap(cameraMatrix[0], distCoeffs[0], R1, P1, imageSize, CV_16SC2, rmap[0][0], rmap[0][1]);
     initUndistortRectifyMap(cameraMatrix[1], distCoeffs[1], R2, P2, imageSize, CV_16SC2, rmap[1][0], rmap[1][1]);
 
-    //int numberOfDisparities = numberOfDisparities > 0 ? numberOfDisparities : ((img_size.width / 8) + 15) & -16;
-    int numberOfDisparities = ((imageSize.width / 8) + 15) & -16;
-    int SADWindowSize = 0;
-
-    auto bm = StereoBM::create();
-    bm->setROI1(validRoi[0]);
-    bm->setROI2(validRoi[1]);
-    bm->setPreFilterCap(31);
-    bm->setBlockSize(SADWindowSize > 0 ? SADWindowSize : 9);
-    bm->setMinDisparity(0);
-    bm->setNumDisparities(numberOfDisparities);
-    bm->setTextureThreshold(10);
-    bm->setUniquenessRatio(15);
-    bm->setSpeckleWindowSize(100);
-    bm->setSpeckleRange(32);
-    bm->setDisp12MaxDiff(1);
-
     Mat canvas;
     double sf;
     int w, h;
@@ -616,17 +603,15 @@ int main(int argc, char** argv)
           line(canvas, Point(j, 0), Point(j, canvas.rows), Scalar(0, 255, 0), 1, 8);
       imshow("rectified", canvas);
 
-      Mat disparity, disparity8;
-      // Disparity
+      Mat disparity;
       Mat left_gray, right_gray;
       Mat rleft, rright;
       remap(src_image[preview_index * 2], rright, rmap[0][0], rmap[0][1], INTER_LINEAR);
       remap(src_image[preview_index * 2 + 1], rleft, rmap[1][0], rmap[1][1], INTER_LINEAR);
       cvtColor(rright, right_gray, COLOR_BGR2GRAY);
       cvtColor(rleft, left_gray, COLOR_BGR2GRAY);
-      bm->compute(left_gray, right_gray, disparity);
-      disparity.convertTo(disparity8, CV_8U, 255 / (numberOfDisparities * 16.0));
-      imshow("disparity", disparity8);
+      int numberOfDisparities = Stereo::CalcDisparity(left_gray, right_gray, disparity);
+      Stereo::RenderDisparity(disparity, numberOfDisparities);
       Mat xyz;
       reprojectImageTo3D(disparity, xyz, Q, true);
 
@@ -669,8 +654,6 @@ int main(int argc, char** argv)
   default:
     break;
   }
-
-
 
   return 0;
 }

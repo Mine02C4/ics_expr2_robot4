@@ -3,7 +3,7 @@ CXXFLAGS = -g -O2
 OUTPUT := text_to_speech.out
 SRCS := $(wildcard *.cpp)
 OBJS := $(patsubst %.cpp,%.o,$(SRCS))
-MAIN := main.cpp
+MAIN := main
 ############################################################
 
 .PHONY: all mod stub

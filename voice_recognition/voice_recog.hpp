@@ -1,6 +1,6 @@
 #ifndef VOICE_RECOG_H_
 #define VOICE_RECOG_H_
-#inculde <iostream>
+#include <iostream>
 //jconfs
 #define MINEJCONF 0
 #define FASTJCONF 1
@@ -20,19 +20,29 @@ public:
     static Voicerec singleton;
     return singleton;
   }
-  std::string Wait_One_Sentence(int sedconds);
-  void Register_Callback(FUNCTYPE1 f);
+  //Initialize julius and setup
   int Init();
+  //if not recognize in arg, int seconds, return null
+  //else return one sentence.
+  std::string Wait_One_Sentence(int seconds);
+  //Register callback function returns result sentences.
+  void Register_Callback(FUNCTYPE1 f);
+  //Finalize Julius
   void Finalize();
+  //Change dictionaries and grammers
   int ChangeMode(int); //arg is jconfs.
+  //Get the last recognized sentence
   std::string getString(void);
 private:
   Jconf *jconf;
   Recog *recog;
-  static void Return_One_String(std::string s);
+  void ReturnOneString_Instance(std::string s);
+  static void Return_One_String(std::string s) {
+    Voicerec::getInstance().ReturnOneString_Instance(s);
+  }
   static void Output_Result(Recog *recog, void * dummy);
-  static int flag;
-  static std::string result;
+  int flag;
+  std::string result;
   Voicerec();
 };
 
