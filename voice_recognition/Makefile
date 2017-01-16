@@ -3,12 +3,12 @@ LIBSENT := $(JULIUSDIR)/libsent
 LIBJULIUS := $(JULIUSDIR)/libjulius
 
 CXX := g++
-CXXFLAGS = -g -O2 -std=c++11
 OUTPUT := voice_recog.out
 SRCS := $(wildcard *.cpp)
 OBJS := $(patsubst %.cpp,%.o,$(SRCS))
+MOD_OBJS := $(patsubst %.cpp,%.mod.o,$(SRCS))
 MAIN := main
-CPPFLAGS=-I$(LIBJULIUS)/include -I$(LIBSENT)/include  `$(LIBSENT)/libsent-config --cflags` `$(LIBJULIUS)/libjulius-config --cflags` -std=c++11
+CXXFLAGS=-O2 -g -std=c++11 -I$(LIBJULIUS)/include -I$(LIBSENT)/include  `$(LIBSENT)/libsent-config --cflags` `$(LIBJULIUS)/libjulius-config --cflags`
 LDFLAGS= -L$(LIBJULIUS) `$(LIBJULIUS)/libjulius-config --libs` -L$(LIBSENT) `$(LIBSENT)/libsent-config --libs`
 
 ############################################################
@@ -19,13 +19,18 @@ all: $(OUTPUT)
 
 mod: mod.o
 
-mod.o: $(filter-out $(MAIN).o, $(OBJS))
+mod.o: $(filter-out $(MAIN).mod.o, $(MOD_OBJS))
 	ar rcs mod.o $^
 
 $(OUTPUT): $(filter-out $(STUB).o, $(OBJS))
-	$(CXX) $(CXXFLAGS) $(CPPFLAGS) -o $@ $^ $(LDFLAGS)
+	$(CXX) -o $@ $^ $(LDFLAGS)
+
+%.mod.o: %.cpp
+	$(CXX) $(CXXFLAGS) -DMOD_MODE $(LDFLAGS) -c -MMD -o $@ $<
+
 %.o: %.cpp
-	$(CXX) $(CPPFLAGS) $(LDFLAGS) -c -MMD -o $@ $<
+	$(CXX) $(CXXFLAGS) $(LDFLAGS) -c -MMD -o $@ $<
+
 clean:
 	$(RM) *.o *.bak *~ core TAGS
 

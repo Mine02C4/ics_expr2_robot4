@@ -3,19 +3,31 @@
 #include <string>
 #include <thread>
 #include <ctime>
+#include <cstring>
 #include <utility>
 #include <julius/juliuslib.h>
 
+#ifdef MOD_MODE
+const std::string dictation_prefix = "voice_recognition/dictation-kit-v4.2.3/";
+#else
+const std::string dictation_prefix = "dictation-kit-v4.2.3/";
+#endif
+
 // Global variable
 FUNCTYPE1 fp1 = NULL;
-static char * mine_jconf = {(char *)"dictation-kit-v4.2.3/mine.jconf"};
-static char * fast_jconf = {(char *)"dictation-kit-v4.2.3/fast.jconf"};
+const std::string mine_jconf = dictation_prefix + "mine.jconf";
+const std::string fast_jconf = dictation_prefix + "fast.jconf";
 
 int Voicerec::Init() {
   //Initialize
   jlog_set_output(NULL);
   // 指定した.jconfファイルから設定を読み込む
-  jconf  = j_config_load_file_new(mine_jconf);
+  {
+    char *cstr = new char[mine_jconf.size() + 1];
+    strcpy(cstr, mine_jconf.c_str());
+    jconf  = j_config_load_file_new(cstr);
+    delete cstr;
+  }
   if (jconf == NULL) {
     fprintf(stderr, "jconf load miss\n");
     return -1;
@@ -53,12 +65,25 @@ int Voicerec::Init() {
 }
 
 int Voicerec::ChangeMode(int status) {
+  int flag;
   switch(status) {
   case MINEJCONF:
-    return j_config_load_file(jconf,mine_jconf);
+    {
+      char *cstr = new char[mine_jconf.size() + 1];
+      strcpy(cstr, mine_jconf.c_str());
+      flag = j_config_load_file(jconf,cstr);
+      delete cstr;
+    }
+    return flag;
     break;
   case FASTJCONF:
-    return j_config_load_file(jconf, fast_jconf);
+    {
+      char *cstr = new char[fast_jconf.size() + 1];
+      strcpy(cstr, fast_jconf.c_str());
+      flag = j_config_load_file(jconf, cstr);
+      delete cstr;
+    }
+    return flag;
     break;
   default:
     return -1;
@@ -116,6 +141,7 @@ std::string Voicerec::Wait_One_Sentence(int seconds) {
   flag = 0;
   time_t t1, t2;
   t1 = time(NULL);
+  t2 = time(NULL);
   while (flag == 0 && (int)(t2-t1) <= seconds) {
     t2 = time(NULL);
   }//waitcallback

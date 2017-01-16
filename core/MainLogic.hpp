@@ -5,6 +5,7 @@
 #include "Drive.hpp"
 #include "Sensor.hpp"
 #include "Gun.hpp"
+#include "../voice_recognition/voice_recog.hpp"
 
 class MainLogic
 {
@@ -18,6 +19,7 @@ private:
   Sensor &sensor_;
   Gun &gun_;
   CVision &vision_;
+  Voicerec &voice_;
 };
 
 #endif  // ROBOT_CORE_MAIN_LOGIC_H_

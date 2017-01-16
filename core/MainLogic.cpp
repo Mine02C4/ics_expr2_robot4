@@ -2,6 +2,8 @@
 
 #include <cstdio>
 
+#include <string>
+
 #include "CVision.hpp"
 
 #include "../stub_library/common.h" // TODO: Will be removed.
@@ -12,7 +14,8 @@ MainLogic::MainLogic() :
   drive_(Drive::getInstance()),
   sensor_(Sensor::getInstance()),
   gun_(Gun::getInstance()),
-  vision_(CVision::getInstance())
+  vision_(CVision::getInstance()),
+  voice_(Voicerec::getInstance())
 {
 }
 
@@ -44,6 +47,10 @@ void MainLogic::Launch()
           drive_.RunForwardPeriodInSeconds(0.5);
         }
       }
+    }
+    std::string str = voice_.Wait_One_Sentence(5);
+    if (str != "") {
+      printf("%s\n", str.c_str());
     }
     int key = cv::waitKey(1) & 0xff;
     if (key == 27) {

@@ -3,6 +3,7 @@
 #include "Drive.hpp"
 #include "MainLogic.hpp"
 #include "Sensor.hpp"
+#include "../voice_recognition/voice_recog.hpp"
 
 int main()
 {
@@ -11,11 +12,13 @@ int main()
   Sensor::getInstance().Init();
   Gun::getInstance().Init();
   CVision::getInstance().Init();
+  Voicerec::getInstance().Init();
   printf("Finish init devices.\n");
   MainLogic logic;
   logic.Init();
   printf("Finish init mainlogic.\n");
   logic.Launch();
+  Voicerec::getInstance().Finalize();
   Gun::getInstance().Finalize();
   Sensor::getInstance().Finalize();
   Drive::getInstance().Finalize();
