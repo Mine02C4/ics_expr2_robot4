@@ -3,7 +3,6 @@
 #include <cstdio>
 
 #include "CVision.hpp"
-#include "Gun.hpp"
 
 #include "../stub_library/common.h" // TODO: Will be removed.
 
@@ -48,7 +47,8 @@ void MainLogic::Launch()
 //          drive_.RunForwardPeriodInSeconds(0.5);
         }
         if (area > 5000) {
-          drive_.RunForwardPeriodInSeconds(-0.1);
+					drive_.RunForward(-30);
+//          drive_.RunForwardPeriodInSeconds(-0.1);
         }
         else{
         //gun fire
