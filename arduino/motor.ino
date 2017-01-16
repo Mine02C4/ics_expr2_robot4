@@ -380,7 +380,7 @@ void regular(){
    
    // L6470_run(1,3150);
    // L6470_run(1,3150);
-    delay(1000);
+   // delay(1000);
   //  L6470_run(1,3150);
     L6470_run(1,3150);
     delay(2280);
@@ -467,8 +467,10 @@ void loop_motor(){
           buff += data;
         }
     }
- //  regular();
-  // loop_gun(); 
+    loop_arg_right(45);
+    loop_arg_left(45);
+  // regular();
+   loop_gun(); 
 }
 
 void fulash(){

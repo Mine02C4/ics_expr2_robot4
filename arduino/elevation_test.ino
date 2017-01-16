@@ -1,13 +1,13 @@
 #include <Servo.h>
 
-Servo servo;
+//Servo servo;
 
-void setup()
+void setup_servo()
 {
 	servo.attach(9);
 }
 
-void loop()
+void loop_servo()
 {
 	servo.write(10);
 	delay(10000);
