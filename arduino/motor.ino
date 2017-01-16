@@ -412,11 +412,13 @@ void loop_motor(){
               loop_gun_n(num);
             }
             else if (buff.equalsIgnoreCase("tr")){
-              loop_arg_right(num); 
+             // loop_arg_right(num); 
+             Serial.println("turning");
                  delay(5000);
             }
             else if (buff.equalsIgnoreCase("tl")){
-              loop_arg_left(num); 
+             // loop_arg_left(num); 
+                   Serial.println("left turning");
                  delay(5000);
             }
 
