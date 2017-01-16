@@ -408,7 +408,7 @@ void loop_motor(){
             //Serial.println("new line\n");
  
             if (buff.equalsIgnoreCase("fire")){
-              Serial.println(buff);
+             
               loop_gun();
             }
             else if (buff.equalsIgnoreCase("fire") && num_counter != 0){
@@ -453,10 +453,10 @@ void loop_motor(){
                 num = -num;
               servo.write(num+50);
             }
-Serial.println("av = ");
-Serial.println(av);
-Serial.println("num = ");
-Serial.println(num);
+            Serial.println("av = ");
+            Serial.println(av);
+            Serial.println("num = ");
+            Serial.println(num);
 
             counter = 0;
             num_counter = 0;
