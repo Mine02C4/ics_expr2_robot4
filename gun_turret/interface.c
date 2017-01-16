@@ -20,7 +20,7 @@ struct termios oldtio, newtio;
 
 void turret_init()
 {
-	curr_ev, curr_ang = 0;
+	curr_ev = 0; curr_ang = 0;
   fd = open(arduino_dev, O_RDWR);
   if (fd < 0) {
     fprintf(stderr, "Error: cannot open Arduino tty.\n");
@@ -38,11 +38,12 @@ void turret_init()
     exit(1);
   }
 	fprintf(stderr, "Testing stepping motor\n");
-	turn_by_degrees(30);
+	open_fire(10);
+//	turn_by_degrees(30);
 	sleep(1);
-	turn_by_degrees(-60);
+//	turn_by_degrees(-60);
 	sleep(2);
-	turn_by_degrees(30);
+//	turn_by_degrees(30);
 }
 
 void
@@ -71,6 +72,7 @@ turn_by_degrees(int degrees)
 	}
 	
 	char buf[BUFSIE];
+  	int size = strlen(buf);
 	if (degrees > 0) {
 		sprintf(buf, "tl=%d\n", degrees);
 	} else if (degrees < 0) {
