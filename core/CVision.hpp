@@ -10,9 +10,13 @@ public:
   }
   //void Init();
   //void Finalize();
+  void ReadFrame();
+  bool DetectBlueBox(int &area, int& cx, int& cy);
 private:
-	CVision();
+  CVision();
+  cv::Mat frame_;
+  cv::VideoCapture cap_;
+  void DetectTargetBlue(cv::Mat & hsv, cv::Mat & mask);
 };
 
 #endif  // ROBOT_CORE_CVISION_H_
-	
