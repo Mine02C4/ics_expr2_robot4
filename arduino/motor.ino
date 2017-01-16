@@ -317,9 +317,10 @@ L6470_setparam_kvaldec(0x20); //[R, WR]減速時励磁電圧default 0x29 (8bit) 
 L6470_setparam_stepmood(0x03); //ステップモードdefault 0x07 (1+3+1+3bit)
 */
 
-L6470_setparam_acc(0x08A); //[R, WS] 加速度default 0x08A (12bit) (14.55*val+14.55[step/s^2])
+L6470_setparam_acc(0x040); //[R, WS] 加速度default 0x08A (12bit) (14.55*val+14.55[step/s^2])
 L6470_setparam_dec(0x08A); //[R, WS] 減速度default 0x08A (12bit) (14.55*val+14.55[step/s^2])
-L6470_setparam_maxspeed(0xFFFFFF); //[R, WR]最大速度default 0x041 (10bit) (15.25*val+15.25[step/s])
+//L6470_setparam_maxspeed(0xFFFFFF); //[R, WR]最大速度default 0x041 (10bit) (15.25*val+15.25[step/s])
+L6470_setparam_maxspeed(0x001); //[R, WR]最大速度default 0x041 (10bit) (15.25*val+15.25[step/s])
 L6470_setparam_minspeed(0x00); //[R, WS]最小速度default 0x000 (1+12bit) (0.238*val[step/s])
 L6470_setparam_fsspd(0xff); //[R, WR]μステップからフルステップへの切替点速度default 0x027 (10bit) (15.25*val+7.63[step/s])
 L6470_setparam_kvalhold(0x80); //[R, WR]停止時励磁電圧default 0x29 (8bit) (Vs[V]*val/256)
@@ -349,7 +350,7 @@ void setup_motor()
   Serial.begin(9600);
   //digitalWrite(PIN_SPI_SS, HIGH);
   digitalWrite(10, HIGH);
- Serial.println("Set up finished.");
+ Serial.println("motor Set up finished.");
   L6470_resetdevice(); //L6470リセット
   L6470_setup();  //L6470を設定
   
@@ -379,19 +380,19 @@ void regular(){
     
    
    // L6470_run(1,3150);
-   // L6470_run(1,3150);
-   // delay(1000);
-  //  L6470_run(1,3150);
     L6470_run(1,3150);
-    delay(2280);
+    delay(1000);
+  //  L6470_run(1,3150);
+   // L6470_run(1,3150);
+   // delay(2280);
     L6470_softstop();
    // L6470_run(0,3150);
-  //  L6470_run(0,3150);
-    delay(1000);
     L6470_run(0,3150);
+    delay(1000);
+    //L6470_run(0,3150);
   //  L6470_run(0,3150);
     
-    delay(2280);
+    //delay(2280);
     L6470_softstop();
 
 }
@@ -439,9 +440,11 @@ void loop_motor(){
             }
             else if (buff.equalsIgnoreCase("tr")){
               loop_arg_right(num); 
+                 delay(5000);
             }
             else if (buff.equalsIgnoreCase("tl")){
               loop_arg_left(num); 
+                 delay(5000);
             }
 
             counter = 0;
@@ -467,10 +470,14 @@ void loop_motor(){
           buff += data;
         }
     }
-    loop_arg_right(45);
-    loop_arg_left(45);
-  // regular();
-   loop_gun(); 
+  /*  
+   loop_arg_right(90);
+   delay(5000);
+   L6470_softstop();
+   loop_arg_left(90);
+   delay(5000);
+   L6470_softstop();*/
+   Serial.println("motor loop");
 }
 
 void fulash(){

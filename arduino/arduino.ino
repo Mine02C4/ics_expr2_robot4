@@ -5,12 +5,14 @@ Servo servo;
 void setup() {
  setup_gun();
  setup_motor();
- setup_servo();
+ //setup_servo();
+ Serial.println("All set up finished");
 }
 
 void loop() {
- //test();
+
  loop_motor();
-loop_servo();
+//loop_servo();
+//loop_gun() ;
   
 }
