@@ -3,12 +3,12 @@ LIBSENT := $(JULIUSDIR)/libsent
 LIBJULIUS := $(JULIUSDIR)/libjulius
 
 CXX := g++
-CXXFLAGS = -g -O2
+CXXFLAGS = -g -O2 -std=c++11
 OUTPUT := voice_recog.out
 SRCS := $(wildcard *.cpp)
 OBJS := $(patsubst %.cpp,%.o,$(SRCS))
 MAIN := main
-CPPFLAGS=-I$(LIBJULIUS)/include -I$(LIBSENT)/include  `$(LIBSENT)/libsent-config --cflags` `$(LIBJULIUS)/libjulius-config --cflags`
+CPPFLAGS=-I$(LIBJULIUS)/include -I$(LIBSENT)/include  `$(LIBSENT)/libsent-config --cflags` `$(LIBJULIUS)/libjulius-config --cflags` -std=c++11
 LDFLAGS= -L$(LIBJULIUS) `$(LIBJULIUS)/libjulius-config --libs` -L$(LIBSENT) `$(LIBSENT)/libsent-config --libs`
 
 ############################################################

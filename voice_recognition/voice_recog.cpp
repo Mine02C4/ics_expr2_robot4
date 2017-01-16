@@ -1,8 +1,11 @@
+#include "voice_recog.hpp"
 #include <iostream>
 #include <string>
+#include <thread>
+#include <ctime>
+#include <utility>
 #include <julius/juliuslib.h>
-#include "voice_recog.hpp"
-#include <time.h>
+
 // Global variable
 FUNCTYPE1 fp1 = NULL;
 static char * mine_jconf = {(char *)"dictation-kit-v4.2.3/mine.jconf"};
@@ -12,7 +15,7 @@ int Voicerec::Init() {
   //Initialize
   jlog_set_output(NULL);
   // 指定した.jconfファイルから設定を読み込む
-  jconf  = j_config_load_file_new(fast_jconf);
+  jconf  = j_config_load_file_new(mine_jconf);
   if (jconf == NULL) {
     fprintf(stderr, "jconf load miss\n");
     return -1;
@@ -41,8 +44,11 @@ int Voicerec::Init() {
     return 0;
   }
   callback_add(recog, CALLBACK_RESULT, Output_Result, NULL);
+  auto th = std::thread([this] {
   int ret = j_recognize_stream(recog);
   if (ret == -1) return -1;
+    });
+  th.detach();
   return 0;
 }
 
