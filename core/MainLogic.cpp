@@ -8,7 +8,8 @@ static int thold;
 
 MainLogic::MainLogic() :
   drive_(Drive::getInstance()),
-  sensor_(Sensor::getInstance())
+  sensor_(Sensor::getInstance()),
+  gun_(Gun::getInstance())
 {
 }
 
