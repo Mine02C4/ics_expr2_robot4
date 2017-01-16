@@ -317,9 +317,10 @@ L6470_setparam_kvaldec(0x20); //[R, WR]減速時励磁電圧default 0x29 (8bit) 
 L6470_setparam_stepmood(0x03); //ステップモードdefault 0x07 (1+3+1+3bit)
 */
 
-L6470_setparam_acc(0x08A); //[R, WS] 加速度default 0x08A (12bit) (14.55*val+14.55[step/s^2])
+L6470_setparam_acc(0x040); //[R, WS] 加速度default 0x08A (12bit) (14.55*val+14.55[step/s^2])
 L6470_setparam_dec(0x08A); //[R, WS] 減速度default 0x08A (12bit) (14.55*val+14.55[step/s^2])
-L6470_setparam_maxspeed(0xFFFFFF); //[R, WR]最大速度default 0x041 (10bit) (15.25*val+15.25[step/s])
+//L6470_setparam_maxspeed(0xFFFFFF); //[R, WR]最大速度default 0x041 (10bit) (15.25*val+15.25[step/s])
+L6470_setparam_maxspeed(0x001); //[R, WR]最大速度default 0x041 (10bit) (15.25*val+15.25[step/s])
 L6470_setparam_minspeed(0x00); //[R, WS]最小速度default 0x000 (1+12bit) (0.238*val[step/s])
 L6470_setparam_fsspd(0xff); //[R, WR]μステップからフルステップへの切替点速度default 0x027 (10bit) (15.25*val+7.63[step/s])
 L6470_setparam_kvalhold(0x80); //[R, WR]停止時励磁電圧default 0x29 (8bit) (Vs[V]*val/256)
@@ -349,7 +350,7 @@ void setup_motor()
   Serial.begin(9600);
   //digitalWrite(PIN_SPI_SS, HIGH);
   digitalWrite(10, HIGH);
- Serial.println("Set up finished.");
+ Serial.println("motor Set up finished.");
   L6470_resetdevice(); //L6470リセット
   L6470_setup();  //L6470を設定
   
@@ -374,28 +375,6 @@ void setup_motor()
   
 }
 
-void regular(){
-  //  L6470_goto(0x0000);
-    
-   
-   // L6470_run(1,3150);
-   // L6470_run(1,3150);
-    delay(1000);
-  //  L6470_run(1,3150);
-    L6470_run(1,3150);
-    delay(2280);
-    L6470_softstop();
-   // L6470_run(0,3150);
-  //  L6470_run(0,3150);
-    delay(1000);
-    L6470_run(0,3150);
-  //  L6470_run(0,3150);
-    
-    delay(2280);
-    L6470_softstop();
-
-}
-
 void one_loop(int i){
   if(i == 1){
     L6470_move(1,25500);
@@ -415,11 +394,6 @@ void loop_arg_left(int n){
 
 void loop_motor(){
  
- //  L6470_goto(0x0000);
- //L6470_run(1,20000); //指定方向に連続回転
-
-
-
  if (Serial.available()>0){
 
         char data = Serial.read();
@@ -427,7 +401,7 @@ void loop_motor(){
         if (data == '\n'){
 
             //buff[0]～buff[counter-1]までが文字列となってここでうけとれる
-            //シリアル送信側で終端文字\0が最後につけられることが前提
+            //シリアル送信側で終端文字\nが最後につけられることが前提
             Serial.println("new line\n");
  
             if (buff.equalsIgnoreCase("fire")){
@@ -438,10 +412,14 @@ void loop_motor(){
               loop_gun_n(num);
             }
             else if (buff.equalsIgnoreCase("tr")){
-              loop_arg_right(num); 
+             // loop_arg_right(num); 
+             Serial.println("turning");
+                 delay(5000);
             }
             else if (buff.equalsIgnoreCase("tl")){
-              loop_arg_left(num); 
+             // loop_arg_left(num); 
+                   Serial.println("left turning");
+                 delay(5000);
             }
 
             counter = 0;
@@ -467,8 +445,7 @@ void loop_motor(){
           buff += data;
         }
     }
- //  regular();
-  // loop_gun(); 
+
 }
 
 void fulash(){
