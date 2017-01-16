@@ -4,6 +4,21 @@
 
 using namespace cv;
 
+CVision::CVision() {}
+
+int CVision::Init()
+{
+  cap_.open(0);
+  if (!cap_.isOpened())
+    return 1;
+  cap_.set(CV_CAP_PROP_FRAME_WIDTH, 320);
+  cap_.set(CV_CAP_PROP_FRAME_HEIGHT, 240);
+  cv::namedWindow("CVision", CV_WINDOW_AUTOSIZE);
+  cv::namedWindow("Output", CV_WINDOW_AUTOSIZE);
+  cap_.read(frame_);
+  return 0;
+}
+
 void CVision::ReadFrame()
 {
   if (cap_.grab() == false)
@@ -87,8 +102,8 @@ bool CVision::DetectBlueBox(int & area, int & cx, int & cy)
     }
     area = largest_area;
     double *param = centroids.ptr<double>(largest_id);
-    int x = static_cast<int>(param[0]);
-    int y = static_cast<int>(param[1]);
+    double x = static_cast<double>(param[0]);
+    double y = static_cast<double>(param[1]);
     Size size = frame_.size();
     cx = 2048 * (x / size.width) - 1024;
     cy = 2048 * (y / size.height) - 1024;

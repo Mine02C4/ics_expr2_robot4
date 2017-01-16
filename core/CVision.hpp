@@ -10,7 +10,7 @@ public:
     static CVision singleton;
     return singleton;
   }
-  //void Init();
+  int Init();
   //void Finalize();
   void ReadFrame();
   bool DetectBlueBox(int &area, int& cx, int& cy);
