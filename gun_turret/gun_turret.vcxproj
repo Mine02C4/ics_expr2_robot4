@@ -19,8 +19,8 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{2423E7A1-5A4D-4D70-AE32-0A662249F241}</ProjectGuid>
-    <RootNamespace>core</RootNamespace>
+    <ProjectGuid>{182A983A-C368-46EF-BF9C-F1E2772B339B}</ProjectGuid>
+    <RootNamespace>gun_turret</RootNamespace>
     <WindowsTargetPlatformVersion>8.1</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -38,13 +38,13 @@
     <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
-    <ConfigurationType>Application</ConfigurationType>
+    <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <PlatformToolset>v140</PlatformToolset>
     <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
-    <ConfigurationType>Application</ConfigurationType>
+    <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <PlatformToolset>v140</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
@@ -63,11 +63,9 @@
   </ImportGroup>
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
-    <Import Project="..\OpenCV_Debug.props" />
   </ImportGroup>
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
-    <Import Project="..\OpenCV_Release.props" />
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup />
@@ -112,30 +110,10 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="CVision.cpp" />
-    <ClCompile Include="Drive.cpp" />
-    <ClCompile Include="Gun.cpp" />
-    <ClCompile Include="main.cpp" />
-    <ClCompile Include="MainLogic.cpp" />
-    <ClCompile Include="Sensor.cpp" />
+    <ClInclude Include="interface.h" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\i2c_sensor\i2c_sensor.vcxproj">
-      <Project>{88952215-9dd8-4bc9-b2ea-27cc8027ddbe}</Project>
-    </ProjectReference>
-    <ProjectReference Include="..\motor_control\motor_control.vcxproj">
-      <Project>{387cb56c-4259-4ace-a22f-55b43cc9c83f}</Project>
-    </ProjectReference>
-    <ProjectReference Include="..\stub_library\stub_library.vcxproj">
-      <Project>{5e87711b-2174-4b28-875c-21b4990a62b3}</Project>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="CVision.hpp" />
-    <ClInclude Include="Drive.hpp" />
-    <ClInclude Include="Gun.hpp" />
-    <ClInclude Include="MainLogic.hpp" />
-    <ClInclude Include="Sensor.hpp" />
+    <ClCompile Include="stub.c" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
