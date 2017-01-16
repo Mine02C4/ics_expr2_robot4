@@ -12,7 +12,6 @@ void setup() {
 void loop() {
 
  loop_motor();
-//loop_servo();
-//loop_gun() ;
+
   
 }

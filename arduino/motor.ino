@@ -375,28 +375,6 @@ void setup_motor()
   
 }
 
-void regular(){
-  //  L6470_goto(0x0000);
-    
-   
-   // L6470_run(1,3150);
-    L6470_run(1,3150);
-    delay(1000);
-  //  L6470_run(1,3150);
-   // L6470_run(1,3150);
-   // delay(2280);
-    L6470_softstop();
-   // L6470_run(0,3150);
-    L6470_run(0,3150);
-    delay(1000);
-    //L6470_run(0,3150);
-  //  L6470_run(0,3150);
-    
-    //delay(2280);
-    L6470_softstop();
-
-}
-
 void one_loop(int i){
   if(i == 1){
     L6470_move(1,25500);
@@ -416,11 +394,6 @@ void loop_arg_left(int n){
 
 void loop_motor(){
  
- //  L6470_goto(0x0000);
- //L6470_run(1,20000); //指定方向に連続回転
-
-
-
  if (Serial.available()>0){
 
         char data = Serial.read();
@@ -428,7 +401,7 @@ void loop_motor(){
         if (data == '\n'){
 
             //buff[0]～buff[counter-1]までが文字列となってここでうけとれる
-            //シリアル送信側で終端文字\0が最後につけられることが前提
+            //シリアル送信側で終端文字\nが最後につけられることが前提
             Serial.println("new line\n");
  
             if (buff.equalsIgnoreCase("fire")){
@@ -470,14 +443,7 @@ void loop_motor(){
           buff += data;
         }
     }
-  /*  
-   loop_arg_right(90);
-   delay(5000);
-   L6470_softstop();
-   loop_arg_left(90);
-   delay(5000);
-   L6470_softstop();*/
-   Serial.println("motor loop");
+
 }
 
 void fulash(){

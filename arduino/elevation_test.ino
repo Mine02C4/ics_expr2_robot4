@@ -10,14 +10,12 @@ void setup_servo()
 
 void loop_servo()
 {
-	//servo.write(10);
- // servo.write(-10);
-  //delay(1000);
+/*
   servo.write(0);
   delay(1000);
   servo.write(30);
   delay(1000);
   
-  
+  */
  Serial.println("servo loop");
 }
