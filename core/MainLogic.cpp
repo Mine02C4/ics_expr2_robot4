@@ -31,20 +31,31 @@ void MainLogic::Init()
 void MainLogic::Launch()
 {
   // Get command from other interfaces.
-  for (int i = 0; i < 100; ++i) {
+  for (int i = 0; i < 1000; ++i) {
     int area, cx, cy;
     vision_.getInstance().ReadFrame();
     if (vision_.getInstance().DetectBlueBox(area, cx, cy)) {
       printf("area = %d, cx = %d, cy = %d\n", area, cx, cy);
       if (cx < -512) {
-        drive_.TurnLeftPeriodInSeconds(0.5);
+				drive_.TurnLeft(3);
+//        drive_.TurnLeftPeriodInSeconds(0.5);
       }
       else if (cx > 512) {
-        drive_.TurnRightPeriodInSeconds(0.5);
+				drive_.TurnRight(3);
+//        drive_.TurnRightPeriodInSeconds(0.5);
       }
       else {
         if (area < 3000) {
-          drive_.RunForwardPeriodInSeconds(0.5);
+					drive_.RunForward(30);
+//          drive_.RunForwardPeriodInSeconds(0.5);
+        }
+        if (area > 5000) {
+					drive_.RunForward(-30);
+//          drive_.RunForwardPeriodInSeconds(-0.1);
+        }
+        else{
+        //gun fire
+        //gun_.open_fire(1);
         }
       }
     }
