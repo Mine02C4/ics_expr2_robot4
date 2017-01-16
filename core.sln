@@ -11,6 +11,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "stub_library", "stub_librar
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "i2c_sensor", "i2c_sensor\i2c_sensor.vcxproj", "{88952215-9DD8-4BC9-B2EA-27CC8027DDBE}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "gun_turret", "gun_turret\gun_turret.vcxproj", "{182A983A-C368-46EF-BF9C-F1E2772B339B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -51,6 +53,14 @@ Global
 		{88952215-9DD8-4BC9-B2EA-27CC8027DDBE}.Release|x64.Build.0 = Release|x64
 		{88952215-9DD8-4BC9-B2EA-27CC8027DDBE}.Release|x86.ActiveCfg = Release|Win32
 		{88952215-9DD8-4BC9-B2EA-27CC8027DDBE}.Release|x86.Build.0 = Release|Win32
+		{182A983A-C368-46EF-BF9C-F1E2772B339B}.Debug|x64.ActiveCfg = Debug|x64
+		{182A983A-C368-46EF-BF9C-F1E2772B339B}.Debug|x64.Build.0 = Debug|x64
+		{182A983A-C368-46EF-BF9C-F1E2772B339B}.Debug|x86.ActiveCfg = Debug|Win32
+		{182A983A-C368-46EF-BF9C-F1E2772B339B}.Debug|x86.Build.0 = Debug|Win32
+		{182A983A-C368-46EF-BF9C-F1E2772B339B}.Release|x64.ActiveCfg = Release|x64
+		{182A983A-C368-46EF-BF9C-F1E2772B339B}.Release|x64.Build.0 = Release|x64
+		{182A983A-C368-46EF-BF9C-F1E2772B339B}.Release|x86.ActiveCfg = Release|Win32
+		{182A983A-C368-46EF-BF9C-F1E2772B339B}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

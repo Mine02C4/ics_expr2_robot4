@@ -645,7 +645,7 @@ int main(int argc, char** argv)
       vt.ReadFrame();
       vt.DetectionByColor();
       int key = waitKey(1) & 0xff;
-      if (key != 27) {
+      if (key == 27) {
         break;
       }
     }

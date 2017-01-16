@@ -3,6 +3,7 @@
 
 #include "Drive.hpp"
 #include "Sensor.hpp"
+#include "Gun.hpp"
 
 class MainLogic
 {
@@ -14,6 +15,7 @@ public:
 private:
   Drive &drive_;
   Sensor &sensor_;
+  Gun &gun_;
 };
 
 #endif  // ROBOT_CORE_MAIN_LOGIC_H_
