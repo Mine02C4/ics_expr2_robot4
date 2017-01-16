@@ -11,6 +11,7 @@
 String buff;
 int counter = 0;
 int num = 0;
+int minus_flag = 0;
 int num_counter = 0;
 /*ver 1.00 2013/4/24*/
 /*ver 1.01 2013/12/14 コメント追記*/
@@ -399,6 +400,7 @@ void loop_motor(){
         char data = Serial.read();
        Serial.println(data);
         if (data == '\n'){
+           
 
             //buff[0]～buff[counter-1]までが文字列となってここでうけとれる
             //シリアル送信側で終端文字\nが最後につけられることが前提
@@ -411,33 +413,45 @@ void loop_motor(){
             else if (buff.equalsIgnoreCase("fire") && num_counter != 0){
               loop_gun_n(num);
             }
-            else if (buff.equalsIgnoreCase("tr")){
-             // loop_arg_right(num); 
-             Serial.println("turning");
-                 delay(5000);
+            else if (buff.equalsIgnoreCase("turn")){
+              if (minus_flag == 1)
+                loop_arg_right(num); 
+              else
+                loop_arg_left(num); 
+              Serial.println("turning");
+              delay(5000);
             }
-            else if (buff.equalsIgnoreCase("tl")){
-             // loop_arg_left(num); 
-                   Serial.println("left turning");
-                 delay(5000);
+            else if (buff.equalsIgnoreCase("turret")){
+              //27is min
+              if (minus_flag == 1)
+                num = -num;
+              servo.write(num+50);
             }
 
             counter = 0;
             num_counter = 0;
             num = 0;
+            minus_flag = 0;
             buff = "";
         }
+        
         else if (data == '='){
             num_counter++;
             Serial.println(buff);
         }
         else if (num_counter != 0){
           if (num_counter == 1){
-            num = data - '0';
+            if(data == '-')
+              minus_flag = 1;
+            else
+              num = data - '0';
             num_counter++;
           }
           else{
-            num = num * 10 + data - '0';
+            if (minus_flag == 1 && num_counter == 1)
+              num = data - '0';
+            else
+              num = num * 10 + data - '0';
             num_counter++;
           }
         }
