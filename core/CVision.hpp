@@ -1,6 +1,8 @@
 #ifndef ROBOT_CORE_CVISION_H_
 #define ROBOT_CORE_CVISION_H_
 
+#include <opencv2/highgui/highgui.hpp>
+
 class CVision
 {
 public:
