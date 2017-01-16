@@ -51,11 +51,18 @@ void MainLogic::Launch()
         }
         if (area > 5000) {
 					drive_.RunForward(-30);
-//          drive_.RunForwardPeriodInSeconds(-0.1);
+//          drive_.RunForwardPeriodInSeconds(-0.5);
         }
         else{
-        //gun fire
-        //gun_.open_fire(1);
+        //gun adjustment
+          if (cy < -512) {
+            gun_.TurretUp();
+            printf("turretup");
+          }
+          else if (cy > 512) {
+            gun_.TurretDown();
+            printf("turretdown");
+          }
         }
       }
     }

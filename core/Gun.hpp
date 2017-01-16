@@ -10,6 +10,8 @@ public:
   }
   void Init();
   void Finalize();
+  void TurretUp();
+  void TurretDown();
 private:
   Gun();
 };

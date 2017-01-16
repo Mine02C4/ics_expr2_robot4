@@ -12,6 +12,18 @@ void Gun::Finalize()
   turret_finalize();
 }
 
+
+
+void Gun::TurretUp()
+{
+  elevate_by_degrees(10);
+}
+void Gun::TurretDown()
+{
+  elevate_by_degrees(-10); 
+}
+
+
 Gun::Gun()
 {
 }
