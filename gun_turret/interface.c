@@ -14,7 +14,7 @@
 #define DEPRESSION_LIM -20
 #define ELEVATION_LIM 70
 
-const static char *arduino_dev = "/dev/ttyACM2";
+const static char *arduino_dev = "/dev/ttyACM0";
 static int fd;
 static int curr_ev, curr_ang;
 struct termios oldtio, newtio;
@@ -81,8 +81,9 @@ turn_by_degrees(int degrees)
 	}
 
 	char buf[BUFSIE];
- 	int size = strlen(buf);
 	sprintf(buf, "turn=%dx", degrees);
+ 	int size = strlen(buf);
+
   if ((write(fd, buf, size)) != size) {
     fprintf(stderr, "Error: Error turn by degrees\n");
     exit(1);
@@ -98,7 +99,6 @@ elevate_by_degrees(int degrees)
 	// TODO: taking care of servo motor
 	
 	char buf[BUFSIE];
- 	int size = strlen(buf);
 
 	if (-DEPRESSION_LIM <= degrees + curr_ev && curr_ev + degrees <= ELEVATION_LIM) {
 		curr_ev = degrees;
@@ -108,6 +108,7 @@ elevate_by_degrees(int degrees)
 	}
 
 	sprintf(buf, "turret=%dx", degrees);
+ 	int size = strlen(buf);
 
   if ((write(fd, buf, size)) != size) {
     fprintf(stderr, "Error: Error elevate by degrees\n");
