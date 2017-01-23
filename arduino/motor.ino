@@ -489,25 +489,28 @@ void loop_arg_left(int n) {
 void loop_motor() {
   int tmp;
   if (Serial.available() > 0) {
-
+   
     char data = Serial.read();
+    Serial.println("data:");
+    Serial.println(data);
     //Serial.println(data);
-    if (data == '\n') {
-
+    if (data == 'x') {
+//Serial.println("get x");
 
       //buff[0]～buff[counter-1]までが文字列となってここでうけとれる
       //シリアル送信側で終端文字\nが最後につけられることが前提
       //Serial.println("new line\n");
 
-      if (buff.equalsIgnoreCase("fire")) {
-
+      if (buff.equalsIgnoreCase("fire") || buff.equalsIgnoreCase("\nfire")) {
+  Serial.println("fire command");
         loop_gun();
       }
-      else if (buff.equalsIgnoreCase("fire") && num_counter != 0) {
+      else if ((buff.equalsIgnoreCase("fire") || buff.equalsIgnoreCase("\nfire") )&& num_counter != 0) {
         loop_gun_n(num);
+        Serial.println("fire=n command");
       }
-      else if (buff.equalsIgnoreCase("turn")) {
-
+      else if (buff.equalsIgnoreCase("turn") || buff.equalsIgnoreCase("\nturn")) {
+Serial.println("turn command");
         if (minus_flag == 1) {
           tmp = -num;
           num = -num - av;
@@ -534,13 +537,16 @@ void loop_motor() {
         // Serial.println("turning");
         delay(5000);
       }
-      else if (buff.equalsIgnoreCase("turret")) {
+      else if (buff.equalsIgnoreCase("turret") || buff.equalsIgnoreCase("\nturret")) {
         //27is min
+        Serial.println("turret command");
         if (minus_flag == 1)
           num = -num;
         servo.write(num + 50);
       }
+      Serial.println("buff:");
       Serial.println(buff);
+      Serial.println("fire:sample");
       Serial.println("av = ");
       Serial.println(av);
       Serial.println("num = ");
@@ -551,6 +557,8 @@ void loop_motor() {
       num = 0;
       minus_flag = 0;
       buff = "";
+      Serial.println("buff:");
+      Serial.println(buff);
     }
 
     else if (data == '=') {
