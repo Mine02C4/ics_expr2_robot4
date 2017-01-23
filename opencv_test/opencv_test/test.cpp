@@ -581,6 +581,10 @@ int main(int argc, char** argv)
     }
     bool preview_phase = true;
     int preview_index = 0;
+
+    // GLUT
+    Stereo ste;
+
     while (preview_phase) {
       for (int k = 0; k < 2; k++)
       {
@@ -612,8 +616,10 @@ int main(int argc, char** argv)
       cvtColor(rleft, left_gray, COLOR_BGR2GRAY);
       int numberOfDisparities = Stereo::CalcDisparity(left_gray, right_gray, disparity);
       Stereo::RenderDisparity(disparity, numberOfDisparities);
-      Mat xyz;
-      reprojectImageTo3D(disparity, xyz, Q, true);
+      Mat img3d;
+      reprojectImageTo3D(disparity, img3d, Q, true);
+      ste.SetData(img3d);
+      ste.RenderGLWindow();
 
       int key = waitKey(0) & 0xff;
       switch (key)
