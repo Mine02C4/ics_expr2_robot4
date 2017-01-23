@@ -26,6 +26,9 @@ main()
 				scanf("%d", &input);
 				elevate_by_degrees(input);
 				break;
+      case 4:
+        turret_finalize();
+        return 0;
 
 			default:
 				fprintf(stderr, "Invalid\n");

@@ -1,4 +1,4 @@
-MODULES := motor_control i2c_sensor gun_turret voice_recognition
+MODULES := motor_control i2c_sensor gun_turret voice_recognition text_to_speech
 
 CXX := g++
 CXXFLAGS := -O2 -std=c++11 -Wall

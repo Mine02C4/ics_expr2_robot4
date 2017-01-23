@@ -4,6 +4,7 @@
 #include "MainLogic.hpp"
 #include "Sensor.hpp"
 #include "../voice_recognition/voice_recog.hpp"
+#include "../text_to_speech/text_to_speech.hpp"
 
 int main()
 {
@@ -13,6 +14,7 @@ int main()
   Gun::getInstance().Init();
   CVision::getInstance().Init();
   Voicerec::getInstance().Init();
+  Speech::getInstance().Init();
   printf("Finish init devices.\n");
   MainLogic logic;
   logic.Init();

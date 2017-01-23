@@ -8,22 +8,28 @@
 #include <unistd.h>
 
 #include <sys/ioctl.h>
-
 #define BAUDRATE B9600
 #define BUFSIE 255
 #define ANGLE_LIMIT 85
 #define DEPRESSION_LIM -20
 #define ELEVATION_LIM 70
 
-const static char *arduino_dev = "/dev/ttyACM0";
+const static char *arduino_dev = "/dev/ttyACM2";
 static int fd;
 static int curr_ev, curr_ang;
 struct termios oldtio, newtio;
 
+void sflush()
+{
+  tcflush(fd, TCIFLUSH);
+  tcflush(fd, TCOFLUSH);
+  return;
+}
+
 void turret_init()
 {
 	curr_ev = 0; curr_ang = 0;	/* initialize current pos */
-  fd = open(arduino_dev, O_RDWR);
+  fd = open(arduino_dev, O_RDWR | O_NOCTTY | O_NONBLOCK);
   if (fd < 0) {
     fprintf(stderr, "Error: cannot open Arduino tty.\n");
     exit(1);
@@ -50,12 +56,13 @@ void
 open_fire(int n_bullets)
 {
   char buf[BUFSIE];
-  sprintf(buf, "fire=%d\n", n_bullets);
+  sprintf(buf, "fire=%dx", n_bullets);
   int size = strlen(buf);
   if ((write(fd, buf, size)) != size) {
     fprintf(stderr, "Error: Error open fire\n");
     exit(1);
   }
+  sflush();
 }
 
 void
@@ -66,14 +73,7 @@ turn_by_degrees(int degrees)
 	// Left: positive, Right: negative
 	// Absolute
 	
-	/*
-	if (ANGLE_LIMIT <= curr_ang + degrees) {
-		degrees = ANGLE_LIMIT - curr_ang;
-	} else if (curr_ang + degrees <= -ANGLE_LIMIT) {	// neg
-		degrees = -ANGLE_LIMIT - degrees;
-	}
-	*/
-	if (-ANGLE_LIMIT <= degrees && degrees <= ANGLE_LIMIT) {
+	if (-ANGLE_LIMIT <= curr_ang + degrees && curr_ang + degrees <= ANGLE_LIMIT) {
 		curr_ang = degrees;
 	} else {
 		fprintf(stderr, "Invalid Angle\n");
@@ -82,11 +82,12 @@ turn_by_degrees(int degrees)
 
 	char buf[BUFSIE];
  	int size = strlen(buf);
-	sprintf(buf, "turn=%d\n", degrees);
+	sprintf(buf, "turn=%dx", degrees);
   if ((write(fd, buf, size)) != size) {
     fprintf(stderr, "Error: Error turn by degrees\n");
     exit(1);
   }
+  sflush();
 
 	fprintf(stderr, "Aiming at; Deg: %2d Ev: %2d\n", curr_ang, curr_ev);
 }
@@ -99,19 +100,20 @@ elevate_by_degrees(int degrees)
 	char buf[BUFSIE];
  	int size = strlen(buf);
 
-	if (-DEPRESSION_LIM <= degrees && degrees <= ELEVATION_LIM) {
+	if (-DEPRESSION_LIM <= degrees + curr_ev && curr_ev + degrees <= ELEVATION_LIM) {
 		curr_ev = degrees;
 	} else {
 		fprintf(stderr, "Invalid Angle\n");
 		return;
 	}
 
-	sprintf(buf, "turret=%d\n", degrees);
+	sprintf(buf, "turret=%dx", degrees);
 
   if ((write(fd, buf, size)) != size) {
     fprintf(stderr, "Error: Error elevate by degrees\n");
     exit(1);
   }
+  sflush();
 	fprintf(stderr, "Aiming at; Deg: %2d Ev: %2d\n", curr_ang, curr_ev);
 	return;
 }
@@ -122,6 +124,7 @@ turret_finalize()
 	/* revert to inital pos */
 	turn_by_degrees(-curr_ang);
 	elevate_by_degrees(-curr_ev);
+  sflush();
   close(fd);
 	return;
 }

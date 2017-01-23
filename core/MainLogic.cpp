@@ -15,7 +15,8 @@ MainLogic::MainLogic() :
   sensor_(Sensor::getInstance()),
   gun_(Gun::getInstance()),
   vision_(CVision::getInstance()),
-  voice_(Voicerec::getInstance())
+  voice_(Voicerec::getInstance()),
+  speech_(Speech::getInstance())
 {
 }
 
@@ -69,6 +70,7 @@ void MainLogic::Launch()
     std::string str = voice_.Wait_One_Sentence(5);
     if (str != "") {
       printf("%s\n", str.c_str());
+      speech_.Speak(str.c_str());
     }
     int key = cv::waitKey(1) & 0xff;
     if (key == 27) {

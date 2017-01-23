@@ -6,6 +6,7 @@
 #include "Sensor.hpp"
 #include "Gun.hpp"
 #include "../voice_recognition/voice_recog.hpp"
+#include "../text_to_speech/text_to_speech.hpp"
 
 class MainLogic
 {
@@ -20,6 +21,7 @@ private:
   Gun &gun_;
   CVision &vision_;
   Voicerec &voice_;
+  Speech &speech_;
 };
 
 #endif  // ROBOT_CORE_MAIN_LOGIC_H_
