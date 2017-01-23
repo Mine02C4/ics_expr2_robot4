@@ -41,6 +41,12 @@ void turret_init()
   newtio = oldtio;
   cfsetispeed(&newtio, BAUDRATE);
   cfsetospeed(&newtio, BAUDRATE);
+  newtio.c_iflag=0;
+  newtio.c_oflag=0;
+  newtio.c_cflag=CS8|CREAD|CLOCAL;
+  newtio.c_lflag=0;
+  newtio.c_cc[VMIN]=1;
+  newtio.c_cc[VTIME]=5;
   if (ioctl(fd, TCSETS, &newtio) < 0) {
     fprintf(stderr, "Error: cannot set termios.\n");
     exit(1);

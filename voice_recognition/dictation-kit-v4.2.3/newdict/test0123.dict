@@ -1,62 +1,58 @@
-1	[NS]	sp
-2	[silB]	silB
-3	[silE]	silE
-4	[蜑江	m a e n i
-4	[蜑江	m a e
-4	[蜑江	m a e e
-4	[蠕後ｍ]	u sh i r o n i
-4	[蠕後ｍ]	u sh i r o
-4	[蠕後ｍ]	u sh i r o e
-4	[蜿ｳ]	m i g i n i
-4	[蜿ｳ]	m i g i
-4	[蟾ｦ]	h i d a r i n i
-4	[蟾ｦ]	h i d a r i
-5	[繧ゅ≧]	m o u
-5	[繧ゅ≧]	m o:
-6	[荳]	i ch i
-6	[荳]	i q
-6	[莠珪	n i
-6	[莠珪	n i:
-6	[荳云	s a N
-6	[蝗嫋	y o N
-6	[莠脳	g o
-6	[莠脳	g o:
-6	[蜈ｭ]	r o k u
-6	[蜈ｭ]	r o q
-6	[荳ゾ	n a n a
-6	[荳ゾ	sh i ch i
-6	[荳ゾ	h i ch i
-6	[蜈ｫ]	h a ch i
-6	[蜈ｫ]	h a q
-6	[荵拆	ky u:
-6	[荵拆	k u
-6	[蜊‐	j u:
-6	[蜊‐	j u q
-6	[莠悟香]	n i j u:
-6	[莠悟香]	n i j u q
-6	[荳牙香]	s a N j u:
-6	[荳牙香]	s a N j u q
-6	[蝗帛香]	y o N j u:
-6	[蝗帛香]	y o N j u q
-6	[莠泌香]	g o j u:
-6	[莠泌香]	g o j u q
-7	[縺ｻ]	p o
-7	[縺ｻ]	h o
-8	[騾ｲ繧‐	s u s u m e
-8	[騾ｲ繧‐	s u s u m u
-8	[陦後￠]	i k e
-8	[陦後￠]	i k u
-8	[陦後￠]	g o:
-8	[縺ｾ繧上ｌ]	m a w a r e
-8	[縺ｾ繧上ｌ]	m a w a r u
-8	[縺ｾ繧上ｌ]	m a g a r e
-8	[縺ｾ繧上ｌ]	m a g a r u
-8	[縺ｨ縺ｾ繧珪	t o m a r e
-8	[縺ｨ縺ｾ繧珪	t o m a r u
-8	[縺ｨ縺ｾ繧珪	s u t o q p u
-8	[縺輔′繧珪	s a g a r e
-8	[縺輔′繧珪	s a g a r u
-8	[縺輔′繧珪	b a q k u
-9	[縺｡繧�縺｣縺ｨ]	ch o q t o
-9	[繧ゅ▲縺ｨ]	m o q t o
-9	[縺｡繧�縺｣縺ｨ]	ch o i
+0	[NS]	sp
+1	[silB]	silB
+2	[silE]	silE
+3	[前]	m a e n i
+3	[前]	m a e
+3	[前]	m a e e
+3	[後ろ]	u sh i r o n i
+3	[後ろ]	u sh i r o
+3	[後ろ]	u sh i r o e
+3	[右]	m i g i n i
+3	[右]	m i g i
+3	[左]	h i d a r i n i
+3	[左]	h i d a r i
+4	[一]	i ch i
+4	[一]	i q
+4	[二]	n i
+4	[二]	n i:
+4	[三]	s a N
+4	[四]	y o N
+4	[五]	g o
+4	[五]	g o:
+4	[六]	r o k u
+4	[六]	r o q
+4	[七]	n a n a
+4	[七]	sh i ch i
+4	[七]	h i ch i
+4	[八]	h a ch i
+4	[八]	h a q
+4	[九]	ky u:
+4	[九]	k u
+4	[十]	j u:
+4	[十]	j u q
+4	[二十]	n i j u:
+4	[二十]	n i j u q
+4	[三十]	s a N j u:
+4	[三十]	s a N j u q
+4	[四十]	y o N j u:
+4	[四十]	y o N j u q
+4	[五十]	g o j u:
+4	[五十]	g o j u q
+5	[進め]	s u s u m e
+5	[進め]	s u s u m u
+5	[行け]	i k e
+5	[行け]	i k u
+5	[行け]	g o:
+5	[まわれ]	m a w a r e
+5	[まわれ]	m a w a r u
+5	[まわれ]	m a g a r e
+5	[まわれ]	m a g a r u
+5	[とまれ]	t o m a r e
+5	[とまれ]	t o m a r u
+5	[とまれ]	s u t o q p u
+5	[さがれ]	s a g a r e
+5	[さがれ]	s a g a r u
+5	[さがれ]	b a q k u
+6	[ちょっと]	ch o q t o
+6	[もっと]	m o q t o
+6	[ちょっと]	ch o i
