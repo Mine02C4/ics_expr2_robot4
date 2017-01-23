@@ -52,7 +52,6 @@ void turret_init()
     exit(1);
   }
 	fprintf(stderr, "Testing stepping motor\n");
-	open_fire(1);
 	turn_by_degrees(0);
 	sleep(2);
 	elevate_by_degrees(0);
