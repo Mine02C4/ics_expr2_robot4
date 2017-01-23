@@ -608,13 +608,10 @@ int main(int argc, char** argv)
       imshow("rectified", canvas);
 
       Mat disparity;
-      Mat left_gray, right_gray;
       Mat rleft, rright;
       remap(src_image[preview_index * 2], rright, rmap[0][0], rmap[0][1], INTER_LINEAR);
       remap(src_image[preview_index * 2 + 1], rleft, rmap[1][0], rmap[1][1], INTER_LINEAR);
-      cvtColor(rright, right_gray, COLOR_BGR2GRAY);
-      cvtColor(rleft, left_gray, COLOR_BGR2GRAY);
-      int numberOfDisparities = Stereo::CalcDisparity(left_gray, right_gray, disparity);
+      int numberOfDisparities = Stereo::CalcDisparity(rleft, rright, disparity);
       Stereo::RenderDisparity(disparity, numberOfDisparities);
       Mat img3d;
       reprojectImageTo3D(disparity, img3d, Q, true);

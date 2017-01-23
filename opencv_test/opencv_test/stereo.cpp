@@ -36,6 +36,9 @@ int Stereo::CalcDisparity(cv::Mat & left_img, cv::Mat & right_img, cv::Mat & dis
   sgbm->setMode(StereoSGBM::MODE_SGBM);
   sgbm->compute(left_img, right_img, disparity);
 #else
+  Mat left_gray, right_gray;
+  cvtColor(right_img, right_gray, COLOR_BGR2GRAY);
+  cvtColor(left_img, left_gray, COLOR_BGR2GRAY);
   auto bm = StereoBM::create();
   bm->setROI1(validRoi[0]);
   bm->setROI2(validRoi[1]);
@@ -48,7 +51,7 @@ int Stereo::CalcDisparity(cv::Mat & left_img, cv::Mat & right_img, cv::Mat & dis
   bm->setSpeckleWindowSize(100);
   bm->setSpeckleRange(32);
   bm->setDisp12MaxDiff(1);
-  bm->compute(left_img, right_img, disparity);
+  bm->compute(left_gray, right_gray, disparity);
 #endif
   return numberOfDisparities;
 }
@@ -140,7 +143,7 @@ void Stereo::RenderGLWindow()
     for (int j = 0; j < img3d_.cols; ++j) {
       Vec3f p = img3d_.at<Vec3f>(i, j);
       if (!isinf(p[0])) {
-        glVertex3f(p[0], p[1], p[2] / 10.0);
+        glVertex3f(p[0], p[1], p[2]);
       }
     }
   }
