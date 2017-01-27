@@ -1,39 +1,39 @@
 0	[NS]	sp
 1	[silB]	silB
 2	[silE]	silE
-3	[前]	m a e n i
-3	[前]	m a e
-3	[前]	m a e e
-3	[後ろ]	u sh i r o n i
-3	[後ろ]	u sh i r o
-3	[後ろ]	u sh i r o e
-3	[右]	m i g i n i
-3	[右]	m i g i
-3	[左]	h i d a r i n i
-3	[左]	h i d a r i
-4	[上]	u e
-4	[上]	u e n i
-4	[下]	s i t a
-4	[下]	s i t a n i
-5	[進め]	s u s u m e
-5	[進め]	s u s u m u
-5	[行け]	i k e
-5	[行け]	i k u
-5	[行け]	g o:
-5	[まわれ]	m a w a r e
-5	[まわれ]	m a w a r u
-5	[まわれ]	m a g a r e
-5	[まわれ]	m a g a r u
-5	[とまれ]	t o m a r e
-5	[とまれ]	t o m a r u
-5	[とまれ]	s u t o q p u
-5	[さがれ]	s a g a r e
-5	[さがれ]	s a g a r u
-5	[さがれ]	b a q k u
-5	[モード変更]	m o: d o h e N k o u
-6	[うて]	u t e
-6	[発射]	h a q sh a
-6	[撃ち方はじめ]	u ch i k a t a h a j i m e
+3	[蜑江	m a e n i
+3	[蜑江	m a e
+3	[蜑江	m a e e
+3	[蠕後ｍ]	u sh i r o n i
+3	[蠕後ｍ]	u sh i r o
+3	[蠕後ｍ]	u sh i r o e
+3	[蜿ｳ]	m i g i n i
+3	[蜿ｳ]	m i g i
+3	[蟾ｦ]	h i d a r i n i
+3	[蟾ｦ]	h i d a r i
+4	[荳馨	u e
+4	[荳馨	u e n i
+4	[荳犠	s i t a
+4	[荳犠	s i t a n i
+5	[騾ｲ繧‐	s u s u m e
+5	[騾ｲ繧‐	s u s u m u
+5	[陦後￠]	i k e
+5	[陦後￠]	i k u
+5	[陦後￠]	g o:
+5	[縺ｾ繧上ｌ]	m a w a r e
+5	[縺ｾ繧上ｌ]	m a w a r u
+5	[縺ｾ繧上ｌ]	m a g a r e
+5	[縺ｾ繧上ｌ]	m a g a r u
+5	[縺ｨ縺ｾ繧珪	t o m a r e
+5	[縺ｨ縺ｾ繧珪	t o m a r u
+5	[縺ｨ縺ｾ繧珪	s u t o q p u
+5	[縺輔′繧珪	s a g a r e
+5	[縺輔′繧珪	s a g a r u
+5	[縺輔′繧珪	b a q k u
+5	[繝｢繝ｼ繝牙､画峩]	m o: d o h e N k o u
+6	[縺�縺ｦ]	u t e
+6	[逋ｺ蟆Ь	h a q sh a
+6	[謦�縺｡譁ｹ縺ｯ縺倥ａ]	u ch i k a t a h a j i m e
 7	[1]	i ch i
 7	[1]	i q
 7	[2]	n i
@@ -70,7 +70,7 @@
 7	[90]	ky u: j u:
 7	[90]	ky u: j u q
 7	[100]	hy a k u
-8	[センチ]	s e N ch i
-8	[度]	d o
-9	[発]	h a t u
-10	[砲塔]	h o u t o u
+8	[繧ｻ繝ｳ繝‐	s e N ch i
+8	[蠎ｦ]	d o
+9	[逋ｺ]	h a t u
+10	[遐ｲ蝪脳	h o u t o u

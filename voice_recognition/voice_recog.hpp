@@ -8,6 +8,7 @@
 typedef void (*FUNCTYPE1)(std::string);
 
 //Forward declaration
+struct voicecode;
 struct __Jconf__;
 struct __Recog__;
 typedef __Jconf__ Jconf;
@@ -22,7 +23,7 @@ public:
   }
   int Init(); //Initialize julius and setup
   std::string Wait_One_Sentence(int seconds);  //if not recognize in arg, int seconds, return null  //else return one sentence.
-  int Wait_One_Code(int seconds);
+  int Wait_One_Code(int seconds, struct voicecode & vc);
   void Register_Callback(FUNCTYPE1 f); //Register callback function returns result sentences.
   void Finalize();   //Finalize Julius
   int ChangeMode(int); //Change dictionaries and grammers //arg is jconfs. 
@@ -31,7 +32,7 @@ private:
   Jconf *jconf;
   Recog *recog;
   void ReturnOneString_Instance(std::string s);
-  int Convert_String_to_Code(std::string s);
+  int Convert_String_to_Code(std::string s, struct voicecode & vc);
   int Init(int filenum);
   static void Return_One_String(std::string s) {
     Voicerec::getInstance().ReturnOneString_Instance(s);

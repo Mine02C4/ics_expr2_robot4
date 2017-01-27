@@ -19,7 +19,7 @@ struct voicecode{
 #define VC_CODE_CANNON_RIGHT 17
 #define VC_CODE_CANNON_LEFT 18
 //one word
-#define VC_CODE_HOUTOU
+#define VC_CODE_HOUTOU 12
 
 #define VC_CODE_MODECHANGE 19
 #define VC_CODE_UCHIKATA 20
