@@ -22,7 +22,7 @@
 #define VC_CODE_CANNON_LEFT 18
 //one word
 #define VC_CODE_MODECHANGE 19
-#define VC_CODE_UCHIKATAHAJIME 20
+#define VC_CODE_UCHIKATA 20
 
 
 #define VC_CODE_FIRE 21

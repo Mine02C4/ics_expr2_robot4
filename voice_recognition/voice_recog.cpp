@@ -170,8 +170,8 @@ int Voicerec::Convert_String_to_Code(std::string s) {
   else if (s == "撃ち方はじめ") return VC_CODE_UCHIKATA;
   else if (s == "モード変更") return VC_CODE_MODECHANGE;
   if ((int)s.find("発") >= 0) {
-    char c = str[1];
-    int num = atoi(c);
+    std::string c = s.substr(1,1);
+    int num = atoi(c.c_str());
     return (num + VC_CODE_FIRENUM);
   }
   if ((int)s.find("砲塔") >= 0){
