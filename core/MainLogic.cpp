@@ -18,7 +18,7 @@ MainLogic::MainLogic() :
   gun_(Gun::getInstance()),
   vision_(CVision::getInstance())
 #ifndef _MSC_VER
-  ,voice_(Voicerec::getInstance()),
+  , voice_(Voicerec::getInstance()),
   speech_(Speech::getInstance())
 #endif
 {
@@ -51,66 +51,61 @@ void MainLogic::Launch()
         }
         if (area > 5000) {
         }
-        else{
-        //gun adjustment
-        /*
-          if (cy < -512) {
-            gun_.TurretUp();
-            printf("turretup");
-          }
-          else if (cy > 512) {
-            gun_.TurretDown();
-            printf("turretdown");
+        else {
+          //gun adjustment
+          /*
+            if (cy < -512) {
+              gun_.TurretUp();
+              printf("turretup");
+            }
+            else if (cy > 512) {
+              gun_.TurretDown();
+              printf("turretdown");
 
-         */
+           */
         }
       }
     }
 #ifndef _MSC_VER
-    std::string str = voice_.Wait_One_Sentence(10);
-  //    int code = voice_.Wait_One_Code(5);
-  // printf("code:%d\n", code);
-  printf("RECOGresult:%s\n", str.c_str());
-  speech_.Speak(str);
-    /*switch (code) {
-      case VC_CODE_FIRE:
-        printf("!FIRE\n");
-        break;
-      case VC_CODE_FORWARD:
-        printf("RunForward\n");
-        drive_.RunForward(200);
-        break;
-      case VC_CODE_BACK:
-        printf("RunBack\n");
-        drive_.RunForward(-200);
-        break;
-      case VC_CODE_LEFT:
-        printf("!Left\n");
-        break;
-      case VC_CODE_RIGHT:
-        printf("!Right\n");
-        break;
-      case VC_CODE_ROTATE:
-        printf("!Rotate\n");
-        break;
-      case VC_CODE_STOP:
-        printf("!STOP\n");
-        break;
-      default:
-        printf("UNDEFINED\n");
-        break;
-    }*/
+    //  std::string str = voice_.Wait_One_Sentence(5);
+    int code = voice_.Wait_One_Code(5);
+    printf("code:%d\n", code);
+    switch (code) {
+    case VC_CODE_FIRE:
+      printf("!FIRE\n");
+      break;
+    case VC_CODE_FORWARD:
+      printf("RunForward\n");
+      drive_.RunForward(200);
+      break;
+    case VC_CODE_BACK:
+      printf("RunBack\n");
+      drive_.RunForward(-200);
+      break;
+    case VC_CODE_LEFT:
+      printf("!Left\n");
+      break;
+    case VC_CODE_RIGHT:
+      printf("!Right\n");
+      break;
+    case VC_CODE_ROTATE:
+      printf("!Rotate\n");
+      break;
+    case VC_CODE_STOP:
+      printf("!STOP\n");
+      break;
+    default:
+      printf("UNDEFINED\n");
+      break;
+    }
 #endif
     int key = cv::waitKey(1) & 0xff;
     if (key == 27) {
       break;
     }
-    /*
-    printf("get_distance: %d, %d\n", 
-    sensor_.GetDistance(), 
-    sensor_.GetDistance(LeftFront));
+    printf("get_distance(left) : %d\n", sensor_.GetDistance(SensorID::LeftFront));
+    printf("get_distance(right) : %d\n", sensor_.GetDistance(SensorID::RightFront));
     printf("End loop\n");
-    */
   }
   cv::destroyAllWindows();
 }
