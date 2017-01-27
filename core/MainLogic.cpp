@@ -41,24 +41,28 @@ void MainLogic::Launch()
     vision_.getInstance().ReadFrame();
     if (vision_.getInstance().DetectBlueBox(area, cx, cy)) {
       printf("area = %d, cx = %d, cy = %d\n", area, cx, cy);
-     if (cx < -512) {
+      if (cx < -512) {
+
       }
       else if (cx > 512) {
       }
       else {
         if (area < 3000) {
-        } else if (area > 5000) {
+        }
+        if (area > 5000) {
         }
         else{
         //gun adjustment
-          if (cy < -50) {
+        /*
+          if (cy < -512) {
             gun_.TurretUp();
-            printf("turretup\n");
+            printf("turretup");
           }
-          else if (cy > 50) {
+          else if (cy > 512) {
             gun_.TurretDown();
-            printf("turretdown\n");
-          }
+            printf("turretdown");
+
+         */
         }
       }
     }
@@ -69,7 +73,6 @@ void MainLogic::Launch()
     switch (code) {
       case VC_CODE_FIRE:
         printf("!FIRE\n");
-        gun_.FireBurst(3);
         break;
       case VC_CODE_FORWARD:
         printf("RunForward\n");
@@ -100,7 +103,8 @@ void MainLogic::Launch()
     if (key == 27) {
       break;
     }
-    //printf("End loop\n");
+    printf("get_distance: %d\n", sensor_.GetDistance);
+    printf("End loop\n");
   }
   cv::destroyAllWindows();
 }
