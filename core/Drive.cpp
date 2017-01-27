@@ -4,7 +4,8 @@
 
 #include "../motor_control/interface.h"
 #define PI 3.14159265
-#define CONV_TO_DIST 10
+#define CONV_TO_DIST 1.43333
+#define CONV_TO_MTR  0.69767
 
 void Drive::Init()
 {
@@ -47,8 +48,11 @@ void Drive::SetCurrentPosition(int val[2])
 void Drive::RunForward(double rot)
 {
 	/* TODO: check cval */
+  int rotv[2] = {static_cast<int>(rot * CONV_TO_MTR), 
+  static_cast<int>(rot * CONV_TO_MTR)};
   static int currentrot;
   std::cout << "currentrot:" << currentrot;
+  SetCurrentPosition(rotv);
   currentrot += rot;
   run_forward(rot);
   return;
