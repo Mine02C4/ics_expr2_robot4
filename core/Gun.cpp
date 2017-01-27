@@ -22,7 +22,7 @@ void Gun::FireNum(int numbullets)
 	open_fire(numbullets);
 }
 
-void Gun::FirstBurst(int ntimes)
+void Gun::FireBurst(int ntimes)
 {
 	burst_fire(ntimes);
 }
