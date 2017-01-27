@@ -13,19 +13,18 @@ int CVision::Init()
     return 1;
   cap_.set(CV_CAP_PROP_FRAME_WIDTH, 320);
   cap_.set(CV_CAP_PROP_FRAME_HEIGHT, 240);
-  cv::namedWindow("CVision", CV_WINDOW_AUTOSIZE);
-  cv::namedWindow("Output", CV_WINDOW_AUTOSIZE);
   cap_.read(frame_);
   return 0;
 }
 
-void CVision::ReadFrame()
+bool CVision::ReadFrame()
 {
   if (cap_.grab() == false)
-    return;
+    return false;
   if (cap_.retrieve(frame_, 0) == false)
-    return;
+    return false;
   //cv::imshow("VideoTest", frame_);
+  return true;
 }
 
 void CVision::DetectTargetBlue(cv::Mat &hsv, cv::Mat &mask)

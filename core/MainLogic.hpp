@@ -24,6 +24,7 @@ private:
   Voicerec &voice_;
   Speech &speech_;
 #endif
+  void AdjustGunTurret();
 };
 
 #endif  // ROBOT_CORE_MAIN_LOGIC_H_

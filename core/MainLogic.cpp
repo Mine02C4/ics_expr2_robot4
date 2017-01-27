@@ -33,38 +33,42 @@ void MainLogic::Init()
 {
 }
 
+void MainLogic::AdjustGunTurret()
+{
+  int area, cx, cy;
+  if (vision_.getInstance().DetectBlueBox(area, cx, cy)) {
+    printf("area = %d, cx = %d, cy = %d\n", area, cx, cy);
+    if (cx < -512) {
+
+    }
+    else if (cx > 512) {
+    }
+    else {
+      if (area < 3000) {
+      }
+      if (area > 5000) {
+      }
+      else {
+        //gun adjustment
+        if (cy < -512) {
+          gun_.TurretRelativeUp(1 - cy / 10);
+          printf("turretup");
+        }
+        else if (cy > 512) {
+          gun_.TurretRelativeUp(-1 - cy / 10);
+          printf("turretdown");
+        }
+      }
+    }
+  }
+}
+
 void MainLogic::Launch()
 {
   // Get command from other interfaces.
   for (int i = 0; i < 1000; ++i) {
-    int area, cx, cy;
-    vision_.getInstance().ReadFrame();
-    if (vision_.getInstance().DetectBlueBox(area, cx, cy)) {
-      printf("area = %d, cx = %d, cy = %d\n", area, cx, cy);
-      if (cx < -512) {
-
-      }
-      else if (cx > 512) {
-      }
-      else {
-        if (area < 3000) {
-        }
-        if (area > 5000) {
-        }
-        else {
-          //gun adjustment
-          /*
-            if (cy < -512) {
-              gun_.TurretUp();
-              printf("turretup");
-            }
-            else if (cy > 512) {
-              gun_.TurretDown();
-              printf("turretdown");
-
-           */
-        }
-      }
+    if (vision_.getInstance().ReadFrame()) {
+      AdjustGunTurret();
     }
 #ifndef _MSC_VER
     //  std::string str = voice_.Wait_One_Sentence(5);
@@ -106,6 +110,5 @@ void MainLogic::Launch()
     printf("get_distance(left) : %d\n", sensor_.GetDistance(SensorID::LeftFront));
     printf("get_distance(right) : %d\n", sensor_.GetDistance(SensorID::RightFront));
     printf("End loop\n");
+    cv::destroyAllWindows();
   }
-  cv::destroyAllWindows();
-}
