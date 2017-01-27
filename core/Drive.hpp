@@ -15,6 +15,7 @@ public:
 	void TurnRight(double angle);
 	void TurnLeft(double angle);
 	void Turn(double angle);
+  void SetDesire(double [2], double [2]);
   void RunForwardPeriodInSeconds(double seconds);
   void TurnRightPeriodInSeconds(double seconds);
   void TurnLeftPeriodInSeconds(double seconds);
@@ -22,7 +23,7 @@ public:
   void Finalize();
 private:
   Drive();
-	int cval[2] = {0 , 0};
+	double cval[3] = {0.0 , 0.0, 0.0};
 };
 
 #endif  // ROBOT_CORE_DRIVE_H_

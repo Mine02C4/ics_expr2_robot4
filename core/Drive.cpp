@@ -1,5 +1,6 @@
 #include "Drive.hpp"
 #include <iostream>
+#include <math.h>
 
 #include "../motor_control/interface.h"
 #define PI 3.14159265
@@ -9,10 +10,10 @@ void Drive::Init()
 {
   std::cout << "Initializing motor, moving to inital pos...";
   motor_init();
-	std::cout << "complete!\n"
+	std::cout << "complete!\n";
 }
 
-void Drive::SetCurrentPosition(int cval[2])
+void Drive::SetCurrentPosition(int val[2])
 {
 	/* TODO: get current positon from cval */
 	/* TODO: set private in class */
@@ -20,11 +21,14 @@ void Drive::SetCurrentPosition(int cval[2])
 	const double R = 500;	// diamiter	[mm]
 	double dx, dy;		// [mm]
 	double dth;		// diff theta
-	double th;		// current theta [deg]
-	double x, y;
+  double x = cval[0];
+  double y = cval[1];
+	double th = cval[2];		// current theta [deg]
 
-	dsl = cval[0] * CONV_TO_DIST;		// LEFT
-	dsr = cval[1] * CONV_TO_DIST;		// RIGHT
+	std::cout << "Old Pos [x, y, th] = " << x << y << th;
+	
+  dsl = val[0] * CONV_TO_DIST;		// LEFT
+	dsr = val[1] * CONV_TO_DIST;		// RIGHT
 
 	ds = (dsr + dsl) / 2;
 	dth = ((dsr - dsl) / R);
@@ -50,7 +54,6 @@ void Drive::RunForward(double rot)
 
 void Drive::Turn(double angle)
 {
-	static int current angle;
 }
 
 void Drive::TurnRight(double angle)
