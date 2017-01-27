@@ -71,6 +71,19 @@ open_fire(int n_bullets)
 }
 
 void
+burst_fire(int n_bullets)
+{
+  char buf[BUFSIE];
+  sprintf(buf, "burst=%dx", n_bullets);
+  int size = strlen(buf);
+  if ((write(fd, buf, size)) != size) {
+    fprintf(stderr, "Error: Error burst fire\n");
+    exit(1);
+  }
+  sflush();
+}
+
+void
 turn_by_degrees(int degrees)
 {
 	/* check valid input */
