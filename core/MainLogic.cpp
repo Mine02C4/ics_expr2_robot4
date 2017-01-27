@@ -67,10 +67,12 @@ void MainLogic::Launch()
       }
     }
 #ifndef _MSC_VER
-//  std::string str = voice_.Wait_One_Sentence(5);
-    int code = voice_.Wait_One_Code(5);
-    printf("code:%d\n", code);
-    switch (code) {
+    std::string str = voice_.Wait_One_Sentence(10);
+  //    int code = voice_.Wait_One_Code(5);
+  // printf("code:%d\n", code);
+  printf("RECOGresult:%s\n", str.c_str());
+  speech_.Speak(str);
+    /*switch (code) {
       case VC_CODE_FIRE:
         printf("!FIRE\n");
         break;
@@ -97,14 +99,18 @@ void MainLogic::Launch()
       default:
         printf("UNDEFINED\n");
         break;
-    }
+    }*/
 #endif
     int key = cv::waitKey(1) & 0xff;
     if (key == 27) {
       break;
     }
-    printf("get_distance: %d\n", sensor_.GetDistance);
+    /*
+    printf("get_distance: %d, %d\n", 
+    sensor_.GetDistance(), 
+    sensor_.GetDistance(LeftFront));
     printf("End loop\n");
+    */
   }
   cv::destroyAllWindows();
 }
