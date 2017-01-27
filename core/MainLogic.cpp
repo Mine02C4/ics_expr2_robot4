@@ -97,8 +97,9 @@ void MainLogic::Launch()
     printf("get_distance(left) : %d\n", sensor_.GetDistance(SensorID::LeftFront));
     printf("get_distance(right) : %d\n", sensor_.GetDistance(SensorID::RightFront));
 #ifndef _MSC_VER
+    Wait_Voice_By_Code();
     //  std::string str = voice_.Wait_One_Sentence(5);
-    int code = voice_.Wait_One_Code(5);
+    /*int code = voice_.Wait_One_Code(5);
     printf("code:%d\n", code);
     switch (code) {
     case VC_CODE_FIRE:
@@ -127,7 +128,7 @@ void MainLogic::Launch()
     default:
       printf("UNDEFINED\n");
       break;
-    }
+      }*/
 #endif
     printf("get_distance(left) : %d\n", sensor_.GetDistance(SensorID::LeftFront));
     printf("get_distance(right) : %d\n", sensor_.GetDistance(SensorID::RightFront));
@@ -142,7 +143,7 @@ void MainLogic::Launch()
 void MainLogic::Wait_Voice_By_Code() {
   struct voicecode vc;
   voice_.Wait_One_Code(5, vc);
-  fprintf(stderr, "Voicerec:last sentence: %s\n", vcoice_.getString());
+  fprintf(stderr, "Voicerec:last sentence: %s\n", voice_.getString().c_str());
   fprintf(stderr, "Voicerec:code:%d num:%d\n", vc.code, vc.num);
   int num, dist;
   switch (vc.code) {
@@ -151,8 +152,8 @@ void MainLogic::Wait_Voice_By_Code() {
       speech_.Speak("モード変更します");
       break;
     case VC_CODE_UCHIKATA:
-      speech_.Speak("撃てー！", ANGREE_FEEL);
-      FireNUM(1);
+      speech_.Speak("撃てー！", ANGRY_FEEL);
+      gun_.FireNum(1);
       printf("!Uchikata\n");
       break;
     case VC_CODE_HOUTOU:
@@ -160,9 +161,9 @@ void MainLogic::Wait_Voice_By_Code() {
     break;
     case VC_CODE_FIRE:
       printf("!FIRE\n");
-      int num  = vc.num;
-      if (num >= 6) FireBurst(num/3);
-      else FireNUM(num);
+      num  = vc.num;
+      if (num >= 6) gun_.FireBurst(num/3);
+      else gun_.FireNum(num);
       break;
     case VC_CODE_FORWARD:
       dist = vc.num;
@@ -179,7 +180,7 @@ void MainLogic::Wait_Voice_By_Code() {
       printf("!Left\n");
       break;
     case VC_CODE_RIGHT:
-      dist = vc.num
+      dist = vc.num;
       printf("!Right\n");
       break;
     case VC_CODE_ROTATE:
