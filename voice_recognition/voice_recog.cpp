@@ -155,7 +155,7 @@ std::string Voicerec::getString (void) {
 int Voicerec::Wait_One_Code(int seconds) {
   return Convert_String_to_Code(Wait_One_Sentence(seconds));
 }
-int Convert_String_to_Code(std::string s) {
+int Voicerec::Convert_String_to_Code(std::string s) {
   if (s == "前") return VC_CODE_FORWARD;
   else if (s == "後ろ")  return VC_CODE_BACK;
   else if (s == "右")    return VC_CODE_RIGHT;
