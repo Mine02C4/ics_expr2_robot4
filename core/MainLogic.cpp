@@ -16,9 +16,11 @@ MainLogic::MainLogic() :
   drive_(Drive::getInstance()),
   sensor_(Sensor::getInstance()),
   gun_(Gun::getInstance()),
-  vision_(CVision::getInstance()),
-  voice_(Voicerec::getInstance()),
+  vision_(CVision::getInstance())
+#ifndef _MSC_VER
+  ,voice_(Voicerec::getInstance()),
   speech_(Speech::getInstance())
+#endif
 {
 }
 
@@ -40,6 +42,7 @@ void MainLogic::Launch()
     if (vision_.getInstance().DetectBlueBox(area, cx, cy)) {
       printf("area = %d, cx = %d, cy = %d\n", area, cx, cy);
       if (cx < -512) {
+
       }
       else if (cx > 512) {
       }
@@ -63,6 +66,7 @@ void MainLogic::Launch()
         }
       }
     }
+#ifndef _MSC_VER
 //  std::string str = voice_.Wait_One_Sentence(5);
     int code = voice_.Wait_One_Code(5);
     printf("code:%d\n", code);
@@ -94,13 +98,7 @@ void MainLogic::Launch()
         printf("UNDEFINED\n");
         break;
     }
-    /*
-    if (str != "") {
-      printf("%s\n", str.c_str());
-      speech_.Speak(str.c_str());
-    }
-    */
-
+#endif
     int key = cv::waitKey(1) & 0xff;
     if (key == 27) {
       break;
