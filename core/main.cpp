@@ -11,7 +11,7 @@ int main()
   printf("Start!\n");
   Drive::getInstance().Init();
   Sensor::getInstance().Init();
-  Gun::getInstance().Init();
+//  Gun::getInstance().Init();
   CVision::getInstance().Init();
   Voicerec::getInstance().Init();
   Speech::getInstance().Init();
@@ -21,7 +21,7 @@ int main()
   printf("Finish init mainlogic.\n");
   logic.Launch();
   Voicerec::getInstance().Finalize();
-  Gun::getInstance().Finalize();
+ // Gun::getInstance().Finalize();
   Sensor::getInstance().Finalize();
   Drive::getInstance().Finalize();
   return 0;
