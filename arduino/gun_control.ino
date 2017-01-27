@@ -18,6 +18,16 @@ void loop_gun_n(int n) {
   digitalWrite(7,LOW); 
   }
 
+void gun_burst (int n) {
+  int i = 0;
+  for (;i < n; i++){
+    digitalWrite(7,HIGH);
+    delay(150 * 3);
+    digitalWrite(7,LOW);  
+    delay(1000);
+  } 
+ }
+
 void test(){
   digitalWrite(7,HIGH);
 }

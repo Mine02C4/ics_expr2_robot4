@@ -8,6 +8,8 @@
 
 #include "../stub_library/common.h" // TODO: Will be removed.
 
+#include "../voice_recognition/voicecode.hpp"
+
 static int thold;
 
 MainLogic::MainLogic() :
@@ -40,24 +42,18 @@ void MainLogic::Launch()
     if (vision_.getInstance().DetectBlueBox(area, cx, cy)) {
       printf("area = %d, cx = %d, cy = %d\n", area, cx, cy);
       if (cx < -512) {
-        drive_.TurnLeft(3);
-        //        drive_.TurnLeftPeriodInSeconds(0.5);
+
       }
       else if (cx > 512) {
-        drive_.TurnRight(3);
-        //        drive_.TurnRightPeriodInSeconds(0.5);
       }
       else {
         if (area < 3000) {
-          drive_.RunForward(30);
-          //          drive_.RunForwardPeriodInSeconds(0.5);
         }
         if (area > 5000) {
-          drive_.RunForward(-30);
-          //          drive_.RunForwardPeriodInSeconds(-0.5);
         }
-        else {
-          //gun adjustment
+        else{
+        //gun adjustment
+        /*
           if (cy < -512) {
             gun_.TurretUp();
             printf("turretup");
@@ -65,17 +61,43 @@ void MainLogic::Launch()
           else if (cy > 512) {
             gun_.TurretDown();
             printf("turretdown");
-          }
+
+         */
         }
       }
     }
-#ifndef _MSC_VER
-    std::string str = voice_.Wait_One_Sentence(5);
-    if (str != "") {
-      printf("%s\n", str.c_str());
-      speech_.Speak(str.c_str());
+
+//  std::string str = voice_.Wait_One_Sentence(5);
+    int code = voice_.Wait_One_Code(5);
+    printf("code:%d\n", code);
+    switch (code) {
+      case VC_CODE_FIRE:
+        printf("!FIRE\n");
+        break;
+      case VC_CODE_FORWARD:
+        printf("RunForward\n");
+        drive_.RunForward(200);
+        break;
+      case VC_CODE_BACK:
+        printf("RunBack\n");
+        drive_.RunForward(-200);
+        break;
+      case VC_CODE_LEFT:
+        printf("!Left\n");
+        break;
+      case VC_CODE_RIGHT:
+        printf("!Right\n");
+        break;
+      case VC_CODE_ROTATE:
+        printf("!Rotate\n");
+        break;
+      case VC_CODE_STOP:
+        printf("!STOP\n");
+        break;
+      default:
+        printf("UNDEFINED\n");
+        break;
     }
-#endif
     int key = cv::waitKey(1) & 0xff;
     if (key == 27) {
       break;

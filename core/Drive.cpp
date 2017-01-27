@@ -11,6 +11,9 @@ void Drive::Init()
 
 void Drive::RunForward(double rot)
 {
+  static int currentrot;
+  std::cout << "currentrot:" << currentrot;
+  currentrot += rot;
   run_forward(rot);
   return;
 }
@@ -23,6 +26,7 @@ void Drive::TurnRight(double angle)
 
 void Drive::TurnLeft(double angle)
 {
+  static int currangle;
   turn_left(angle);
   return;
 }
