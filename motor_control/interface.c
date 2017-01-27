@@ -113,17 +113,16 @@ motor_init()
   for (i=0; i<4; i++) {
     obuf.ch[i].x = 0 << 5;	// x
     obuf.ch[i].d = 512 << 5; 	// v
-    obuf.ch[i].kp = 2;	// propotional
+    obuf.ch[i].kp = 1;	// propotional
     obuf.ch[i].kpx = 3;
-    obuf.ch[i].kd = 90;
+    obuf.ch[i].kd = 160;
     obuf.ch[i].kdx = 1;
     obuf.ch[i].ki = 1;
     obuf.ch[i].kix = 1;
   }
-  obuf.ch[MRIGHT].d = -250 << 5;
-  obuf.ch[MLEFT].d = 250 << 5;
+  obuf.ch[MRIGHT].d = -150 << 5;
+  obuf.ch[MLEFT].d = 150 << 5;
 	if (write(fd, &obuf, sizeof(obuf)) < 0) report_error_and_exit("motor_write_obuf", 3);
-	run_forward(0);
 }
 
 void set_stat (struct mstat *mstp) {
@@ -184,12 +183,11 @@ int motor_write (struct mstat *mstp) {
 
   obuf.ch[MRIGHT].d = -250; // set right rounds
   obuf.ch[MLEFT].d = 250; // set left rounds
-	obuf.ch[MRIGHT].x = 0 << 5;
-	obuf.ch[MLEFT].x = 0 << 5;
 	if (ioctl(fd, URBTC_DESIRE_SET) < 0) report_error_and_exit("motor_write_ioctl", 5);
 	if (write(fd, &obuf, sizeof(obuf)) < 0) report_error_and_exit("motor_write_obuf", 3);
 
-	fprintf(stderr, "wirteCMPL\n");
+	fprintf(stderr, "wirteCMPL[%hd:%hd]\n", 
+  obuf.ch[MRIGHT].x, obuf.ch[MLEFT].x);
 
 
   return 0;
