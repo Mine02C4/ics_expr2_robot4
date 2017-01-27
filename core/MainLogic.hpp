@@ -20,8 +20,10 @@ private:
   Sensor &sensor_;
   Gun &gun_;
   CVision &vision_;
+#ifndef _MSC_VER
   Voicerec &voice_;
   Speech &speech_;
+#endif
 };
 
 #endif  // ROBOT_CORE_MAIN_LOGIC_H_
