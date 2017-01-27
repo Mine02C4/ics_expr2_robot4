@@ -18,15 +18,22 @@ void loop_motor() {
       //シリアル送信側で終端文字\nが最後につけられることが前提
       //Serial.println("new line\n");
 
-      if (buff.equalsIgnoreCase("fire") || buff.equalsIgnoreCase("\nfire")) {
-        Serial.println("fire command");
-        loop_gun();
-      }
-      else if ((buff.equalsIgnoreCase("fire") || buff.equalsIgnoreCase("\nfire") ) && num_counter != 0) {
+      if ((buff.equalsIgnoreCase("fire") || buff.equalsIgnoreCase("\nfire") ) && num_counter != 0) {
         loop_gun_n(num);
         Serial.println("fire=n command");
       }
-      else if (buff.equalsIgnoreCase("turn") || buff.equalsIgnoreCase("\nturn")) {
+      else if (buff.equalsIgnoreCase("fire") || buff.equalsIgnoreCase("\nfire")) {
+        Serial.println("fire command");
+        loop_gun();
+      }
+       else if (buff.equalsIgnoreCase("burst") || buff.equalsIgnoreCase("\nburst")) {
+        Serial.println("burst command");
+        if (num_counter != 0)
+          gun_burst (num);
+        else
+          gun_burst(1);
+        
+      }else if (buff.equalsIgnoreCase("turn") || buff.equalsIgnoreCase("\nturn")) {
         Serial.println("turn command");
         if (minus_flag == 1) {
           tmp = -num;
@@ -79,6 +86,7 @@ void loop_motor() {
     }
 
     else if (data == '=') {
+      Serial.println("received = \n");
       num_counter++;
 
     }
