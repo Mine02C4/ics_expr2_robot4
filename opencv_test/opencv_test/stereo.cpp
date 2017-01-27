@@ -1,11 +1,14 @@
 #include "stereo.hpp"
 
-#include <opencv2/highgui/highgui.hpp>
+#include <iostream>
+
+#include <opencv2/imgproc/imgproc.hpp>
 #include <opencv2/calib3d/calib3d.hpp>
 
 #include <GL/freeglut.h>
 
 using namespace cv;
+using namespace std;
 
 int Stereo::CalcDisparity(cv::Mat & left_img, cv::Mat & right_img, cv::Mat & disparity)
 {
@@ -242,3 +245,71 @@ Stereo::Stereo()
   setCurrentCameraPose();
 }
 
+/* StereoCamera */
+
+void StereoCamera::Init()
+{
+  int right_id, left_id;
+  cout << "Input right camera ID: ";
+  cin >> right_id;
+  cout << "Input left camera ID: ";
+  cin >> left_id;
+  right_cap_.open(right_id);
+  left_cap_.open(left_id);
+  if (!right_cap_.isOpened() || !left_cap_.isOpened()) {
+    cerr << "Cannot open camera." << endl;
+    exit(1);
+  }
+
+
+  FileStorage fsi("intrinsics.xml", FileStorage::READ);
+  FileStorage fse("extrinsics.xml", FileStorage::READ);
+  if (fsi.isOpened() && fse.isOpened()) {
+
+    fsi["M1"] >> cameraMatrix[0];
+    fsi["M2"] >> cameraMatrix[1];
+    fsi["D1"] >> distCoeffs[0];
+    fsi["D2"] >> distCoeffs[1];
+    fse["R"] >> R;
+    fse["T"] >> T;
+    fse["R1"] >> R1;
+    fse["R2"] >> R2;
+    fse["P1"] >> P1;
+    fse["P2"] >> P2;
+    fse["Q"] >> Q;
+    fse["vroi0"] >> validRoi[0];
+    fse["vroi1"] >> validRoi[1];
+    fsi.release();
+    fse.release();
+  }
+  else {
+    cerr << "Cannot open calibration data." << endl;
+    exit(1);
+  }
+}
+
+void StereoCamera::Display()
+{
+  if (right_cap_.grab() == false)
+    return;
+  if (right_cap_.retrieve(right_frame_, 0) == false)
+    return;
+
+  Mat rmap[2][2];
+  initUndistortRectifyMap(cameraMatrix[0], distCoeffs[0], R1, P1, imageSize, CV_16SC2, rmap[0][0], rmap[0][1]);
+  initUndistortRectifyMap(cameraMatrix[1], distCoeffs[1], R2, P2, imageSize, CV_16SC2, rmap[1][0], rmap[1][1]);
+  Mat canvas;
+  double sf;
+  int w, h;
+  sf = 600. / MAX(imageSize.width, imageSize.height);
+  w = cvRound(imageSize.width*sf);
+  h = cvRound(imageSize.height*sf);
+  canvas.create(h, w * 2, CV_8UC3);
+
+  Stereo ste;
+  remap(img, rimg, rmap[k][0], rmap[k][1], INTER_LINEAR);
+}
+
+StereoCamera::StereoCamera()
+{
+}
