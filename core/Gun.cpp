@@ -12,7 +12,20 @@ void Gun::Finalize()
   turret_finalize();
 }
 
+void Gun::FireSingle()
+{
+	open_fire(1);
+}
 
+void Gun::FireNum(int numbullets)
+{
+	open_fire(numbullets);
+}
+
+void Gun::FirstBurst(int ntimes)
+{
+	burst_fire(ntimes);
+}
 
 void Gun::TurretUp()
 {
