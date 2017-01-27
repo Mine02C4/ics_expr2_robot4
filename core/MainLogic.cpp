@@ -41,31 +41,28 @@ void MainLogic::Launch()
     vision_.getInstance().ReadFrame();
     if (vision_.getInstance().DetectBlueBox(area, cx, cy)) {
       printf("area = %d, cx = %d, cy = %d\n", area, cx, cy);
-      if (cx < -512) {
-
+     if (cx < -512) {
       }
       else if (cx > 512) {
       }
       else {
         if (area < 3000) {
-        }
-        if (area > 5000) {
+        } else if (area > 5000) {
         }
         else{
         //gun adjustment
-        /*
-          if (cy < -512) {
+          if (cy < -50) {
             gun_.TurretUp();
-            printf("turretup");
+            printf("turretup\n");
           }
-          else if (cy > 512) {
+          else if (cy > 50) {
             gun_.TurretDown();
-            printf("turretdown");
-
-         */
+            printf("turretdown\n");
+          }
         }
       }
     }
+#ifdef PYONPYON
 #ifndef _MSC_VER
 //  std::string str = voice_.Wait_One_Sentence(5);
     int code = voice_.Wait_One_Code(5);
@@ -99,11 +96,12 @@ void MainLogic::Launch()
         break;
     }
 #endif
+#endif
     int key = cv::waitKey(1) & 0xff;
     if (key == 27) {
       break;
     }
-    printf("End loop\n");
+    //printf("End loop\n");
   }
   cv::destroyAllWindows();
 }

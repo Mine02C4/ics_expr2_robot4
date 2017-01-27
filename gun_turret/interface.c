@@ -11,7 +11,7 @@
 #define BAUDRATE B9600
 #define BUFSIE 255
 #define ANGLE_LIMIT 85
-#define DEPRESSION_LIM -20
+#define DEPRESSION_LIM -10
 #define ELEVATION_LIM 70
 
 const static char *arduino_dev = "/dev/ttyACM0";
@@ -103,9 +103,9 @@ elevate_by_degrees(int degrees)
 {
 	// TODO: taking care of servo motor
 	
-	char buf[BUFSIE];
+  char buf[BUFSIE];
 
-	if (-DEPRESSION_LIM <= degrees + curr_ev && curr_ev + degrees <= ELEVATION_LIM) {
+	if (DEPRESSION_LIM <= degrees + curr_ev && curr_ev + degrees <= ELEVATION_LIM) {
 		curr_ev = degrees;
 	} else {
 		fprintf(stderr, "Invalid Angle\n");
@@ -120,7 +120,7 @@ elevate_by_degrees(int degrees)
     exit(1);
   }
   sflush();
-	fprintf(stderr, "Aiming at; Deg: %2d Ev: %2d\n", curr_ang, curr_ev);
+  fprintf(stderr, "Aiming at; Deg: %2d Ev: %2d\n", curr_ang, curr_ev);
 	return;
 }
 
