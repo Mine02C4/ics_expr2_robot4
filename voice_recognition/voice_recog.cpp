@@ -1,4 +1,5 @@
 #include "voice_recog.hpp"
+#include "voicecode.hpp"
 #include <iostream>
 #include <string>
 #include <thread>
@@ -151,6 +152,47 @@ std::string Voicerec::Wait_One_Sentence(int seconds) {
 std::string Voicerec::getString (void) {
   return result;
 }
-
+int Voicerec::Wait_One_Code(int seconds) {
+  return Convert_String_to_Code(Wait_One_Sentence(seconds));
+}
+int Convert_String_to_Code(std::string s) {
+  switch(s) {
+    case "前":
+      return VC_CODE_FORWARD;
+    break;
+    case "後ろ":
+      return VC_CODE_BACK;
+    break;
+    case "右":
+      return VC_CODE_RIGHT;
+    break;
+    case "左":
+      return VC_CODE_LEFT;
+    break;
+    case "進め":
+      return VC_CODE_FORWARD;
+    break;
+    case "行け":
+      return VC_CODE_FORWARD;
+    break;
+    case "まわれ":
+      return VC_CODE_ROTATE;
+    break;
+    case "とまれ":
+      return VC_CODE_STOP;
+    break;
+    case "さがれ":
+      return VC_CODE_BACK;
+    break;
+    case "うて":
+      return VC_CODE_FIRE;
+    break;
+    default
+      return -1;
+    break;
+  
+  }
+  return -1;
+}
 Voicerec::Voicerec() :flag(0), result("") {
 }
