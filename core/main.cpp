@@ -26,12 +26,8 @@ int main()
   logic.Launch();
 #ifndef _MSC_VER
   Voicerec::getInstance().Finalize();
-<<<<<<< HEAD
 #endif
-  Gun::getInstance().Finalize();
-=======
  // Gun::getInstance().Finalize();
->>>>>>> origin/master
   Sensor::getInstance().Finalize();
   Drive::getInstance().Finalize();
   return 0;

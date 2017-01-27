@@ -66,7 +66,7 @@ void MainLogic::Launch()
         }
       }
     }
-
+#ifndef _MSC_VER
 //  std::string str = voice_.Wait_One_Sentence(5);
     int code = voice_.Wait_One_Code(5);
     printf("code:%d\n", code);
@@ -98,6 +98,7 @@ void MainLogic::Launch()
         printf("UNDEFINED\n");
         break;
     }
+#endif
     int key = cv::waitKey(1) & 0xff;
     if (key == 27) {
       break;
