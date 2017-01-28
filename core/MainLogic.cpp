@@ -62,7 +62,6 @@ void MainLogic::Launch()
         }
       }
     }
-#ifdef PYONPYON
 #ifndef _MSC_VER
 //  std::string str = voice_.Wait_One_Sentence(5);
     int code = voice_.Wait_One_Code(5);
@@ -70,6 +69,7 @@ void MainLogic::Launch()
     switch (code) {
       case VC_CODE_FIRE:
         printf("!FIRE\n");
+        gun_.FireBurst(3);
         break;
       case VC_CODE_FORWARD:
         printf("RunForward\n");
@@ -95,7 +95,6 @@ void MainLogic::Launch()
         printf("UNDEFINED\n");
         break;
     }
-#endif
 #endif
     int key = cv::waitKey(1) & 0xff;
     if (key == 27) {

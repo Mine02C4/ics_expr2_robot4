@@ -1,0 +1,292 @@
+Start!
+Initializing motor, moving to inital pos
+Finish init devices.
+Finish init mainlogic.
+area = 933, cx = 681, cy = 975
+area = 1947, cx = 691, cy = 932
+area = 3747, cx = 694, cy = 856
+area = 5026, cx = 697, cy = 799
+area = 5032, cx = 710, cy = 798
+area = 5449, cx = 711, cy = 775
+area = 5536, cx = 713, cy = 770
+area = 5331, cx = 721, cy = 774
+area = 5002, cx = 737, cy = 776
+area = 4909, cx = 747, cy = 773
+area = 5049, cx = 766, cy = 747
+area = 5691, cx = 783, cy = 696
+area = 6379, cx = 786, cy = 647
+area = 6670, cx = 792, cy = 619
+area = 7015, cx = 805, cy = 577
+area = 7702, cx = 802, cy = 543
+area = 9110, cx = 779, cy = 511
+area = 10858, cx = 750, cy = 480
+area = 11844, cx = 730, cy = 470
+area = 13893, cx = 683, cy = 463
+area = 15605, cx = 641, cy = 461
+area = 16142, cx = 628, cy = 460
+area = 16558, cx = 619, cy = 459
+area = 17183, cx = 603, cy = 459
+area = 17351, cx = 571, cy = 460
+area = 17094, cx = 543, cy = 465
+area = 16913, cx = 484, cy = 467
+area = 17439, cx = 429, cy = 446
+area = 17917, cx = 410, cy = 426
+area = 19319, cx = 381, cy = 380
+area = 20955, cx = 351, cy = 330
+area = 21713, cx = 332, cy = 306
+area = 23160, cx = 283, cy = 267
+area = 24335, cx = 226, cy = 235
+area = 24764, cx = 201, cy = 225
+area = 25142, cx = 148, cy = 219
+area = 24777, cx = 86, cy = 229
+area = 23419, cx = 15, cy = 257
+area = 22405, cx = -23, cy = 277
+area = 20205, cx = -107, cy = 316
+area = 18443, cx = -167, cy = 334
+area = 17930, cx = -182, cy = 334
+area = 17116, cx = -194, cy = 328
+area = 16357, cx = -206, cy = 331
+area = 15920, cx = -217, cy = 336
+area = 15016, cx = -246, cy = 354
+area = 13981, cx = -278, cy = 381
+area = 13368, cx = -294, cy = 397
+area = 12279, cx = -321, cy = 431
+area = 11697, cx = -332, cy = 448
+area = 10997, cx = -341, cy = 463
+area = 10786, cx = -347, cy = 459
+area = 10847, cx = -350, cy = 452
+area = 10769, cx = -366, cy = 422
+area = 10479, cx = -384, cy = 375
+area = 10252, cx = -391, cy = 355
+area = 9992, cx = -410, cy = 325
+area = 9794, cx = -437, cy = 314
+area = 9840, cx = -452, cy = 308
+area = 9767, cx = -484, cy = 290
+area = 9749, cx = -509, cy = 267
+area = 9714, cx = -514, cy = 260
+area = 9673, cx = -519, cy = 248
+area = 9572, cx = -519, cy = 243
+area = 9187, cx = -513, cy = 226
+area = 8374, cx = -508, cy = 209
+area = 8001, cx = -525, cy = 204
+area = 9081, cx = -607, cy = 257
+area = 9345, cx = -646, cy = 275
+area = 8847, cx = -643, cy = 275
+area = 8446, cx = -617, cy = 266
+area = 7944, cx = -549, cy = 196
+area = 7384, cx = -440, cy = 87
+area = 6862, cx = -384, cy = 20
+area = 6552, cx = -243, cy = -25
+area = 6288, cx = -183, cy = -31
+area = 5587, cx = -89, cy = -19
+area = 4526, cx = -25, cy = 16
+area = 4909, cx = -16, cy = 101
+turretdown
+area = 4701, cx = 8, cy = 178
+turretdown
+area = 4550, cx = 20, cy = 205
+turretdown
+area = 4348, cx = 36, cy = 248
+turretdown
+area = 4251, cx = 46, cy = 282
+turretdown
+area = 4135, cx = 51, cy = 312
+turretdown
+area = 4075, cx = 52, cy = 314
+turretdown
+area = 4024, cx = 63, cy = 227
+turretdown
+area = 4150, cx = 59, cy = 294
+turretdown
+area = 3969, cx = 64, cy = 285
+turretdown
+area = 4199, cx = 62, cy = 275
+turretdown
+area = 3894, cx = 50, cy = 359
+turretdown
+area = 3942, cx = 61, cy = 242
+turretdown
+area = 4045, cx = 50, cy = 344
+turretdown
+area = 3957, cx = 61, cy = 271
+turretdown
+area = 4175, cx = 57, cy = 277
+turretdown
+area = 3975, cx = 59, cy = 316
+turretdown
+area = 4073, cx = 69, cy = 224
+turretdown
+area = 3990, cx = 62, cy = 309
+turretdown
+area = 3951, cx = 77, cy = 239
+turretdown
+area = 3909, cx = 74, cy = 290
+turretdown
+area = 4144, cx = 85, cy = 192
+turretdown
+area = 3953, cx = 76, cy = 265
+turretdown
+area = 4195, cx = 82, cy = 200
+turretdown
+area = 4118, cx = 74, cy = 256
+turretdown
+area = 3959, cx = 72, cy = 263
+turretdown
+area = 4081, cx = 71, cy = 259
+turretdown
+area = 3957, cx = 70, cy = 269
+turretdown
+area = 4060, cx = 73, cy = 250
+turretdown
+area = 3951, cx = 71, cy = 269
+turretdown
+area = 3966, cx = 82, cy = 210
+turretdown
+area = 4096, cx = 79, cy = 240
+turretdown
+area = 3988, cx = 90, cy = 196
+turretdown
+area = 4118, cx = 90, cy = 190
+turretdown
+area = 3979, cx = 84, cy = 249
+turretdown
+area = 3994, cx = 93, cy = 194
+turretdown
+area = 3992, cx = 90, cy = 218
+turretdown
+area = 3966, cx = 94, cy = 200
+turretdown
+area = 3972, cx = 95, cy = 202
+turretdown
+area = 3994, cx = 97, cy = 192
+turretdown
+area = 3959, cx = 104, cy = 174
+turretdown
+area = 4000, cx = 110, cy = 154
+turretdown
+area = 3991, cx = 111, cy = 153
+turretdown
+area = 3985, cx = 114, cy = 145
+turretdown
+area = 3981, cx = 113, cy = 143
+turretdown
+area = 4009, cx = 113, cy = 138
+turretdown
+area = 4014, cx = 113, cy = 140
+turretdown
+area = 4023, cx = 113, cy = 153
+turretdown
+area = 4010, cx = 113, cy = 156
+turretdown
+area = 3981, cx = 117, cy = 149
+turretdown
+area = 3987, cx = 120, cy = 145
+turretdown
+area = 3988, cx = 123, cy = 141
+turretdown
+area = 3989, cx = 124, cy = 140
+turretdown
+area = 3998, cx = 124, cy = 145
+turretdown
+area = 4002, cx = 122, cy = 150
+turretdown
+area = 3998, cx = 118, cy = 160
+turretdown
+area = 4000, cx = 113, cy = 163
+turretdown
+area = 4079, cx = 108, cy = 168
+turretdown
+area = 4095, cx = 98, cy = 175
+turretdown
+area = 4089, cx = 95, cy = 174
+turretdown
+area = 4121, cx = 93, cy = 165
+turretdown
+area = 4152, cx = 90, cy = 159
+turretdown
+area = 4186, cx = 86, cy = 151
+turretdown
+area = 4187, cx = 85, cy = 139
+turretdown
+area = 4228, cx = 86, cy = 118
+turretdown
+area = 4219, cx = 86, cy = 115
+turretdown
+area = 4261, cx = 85, cy = 117
+turretdown
+area = 4292, cx = 79, cy = 145
+turretdown
+area = 4287, cx = 76, cy = 158
+turretdown
+area = 4302, cx = 71, cy = 190
+turretdown
+area = 4305, cx = 66, cy = 221
+turretdown
+area = 4253, cx = 66, cy = 258
+turretdown
+area = 4196, cx = 69, cy = 297
+turretdown
+area = 4207, cx = 69, cy = 299
+turretdown
+area = 4213, cx = 70, cy = 306
+turretdown
+area = 4229, cx = 70, cy = 323
+turretdown
+area = 4235, cx = 70, cy = 330
+turretdown
+area = 4236, cx = 68, cy = 342
+turretdown
+area = 4260, cx = 61, cy = 375
+turretdown
+area = 4245, cx = 55, cy = 399
+turretdown
+area = 4296, cx = 52, cy = 410
+turretdown
+area = 4262, cx = 43, cy = 451
+turretdown
+area = 4265, cx = 41, cy = 470
+turretdown
+area = 4230, cx = 37, cy = 490
+turretdown
+area = 4199, cx = 35, cy = 505
+turretdown
+area = 4170, cx = 35, cy = 519
+turretdown
+area = 4120, cx = 35, cy = 526
+turretdown
+area = 4129, cx = 38, cy = 524
+turretdown
+area = 4168, cx = 40, cy = 513
+turretdown
+area = 4178, cx = 44, cy = 492
+turretdown
+area = 4155, cx = 52, cy = 456
+turretdown
+area = 4213, cx = 73, cy = 340
+turretdown
+area = 4232, cx = 77, cy = 317
+turretdown
+area = 4207, cx = 87, cy = 272
+turretdown
+area = 4238, cx = 92, cy = 259
+turretdown
+area = 4231, cx = 94, cy = 247
+turretdown
+area = 4280, cx = 93, cy = 242
+turretdown
+area = 4272, cx = 92, cy = 242
+turretdown
+area = 4277, cx = 92, cy = 239
+turretdown
+area = 4277, cx = 94, cy = 234
+turretdown
+area = 4256, cx = 96, cy = 227
+turretdown
+area = 4275, cx = 100, cy = 214
+turretdown
+area = 4293, cx = 103, cy = 204
+turretdown
+area = 4310, cx = 107, cy = 184
+turretdown
+area = 4259, cx = 141, cy = -407
+turretup
