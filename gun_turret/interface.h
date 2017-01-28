@@ -14,6 +14,7 @@ extern void turret_init();
 extern void open_fire(int n_bullets);
 extern void turn_by_degrees(int degrees);
 extern void elevate_by_degrees(int degrees);
+extern void burst_fire(int n_bullets);
 
 /* Finalize API */
 extern void turret_finalize();
