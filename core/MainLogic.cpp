@@ -2,13 +2,25 @@
 
 #include <cstdio>
 
+#include <string>
+
+#include "CVision.hpp"
+
 #include "../stub_library/common.h" // TODO: Will be removed.
+
+#include "../voice_recognition/voicecode.hpp"
 
 static int thold;
 
 MainLogic::MainLogic() :
   drive_(Drive::getInstance()),
-  sensor_(Sensor::getInstance())
+  sensor_(Sensor::getInstance()),
+  gun_(Gun::getInstance()),
+  vision_(CVision::getInstance())
+#ifndef _MSC_VER
+  ,voice_(Voicerec::getInstance()),
+  speech_(Speech::getInstance())
+#endif
 {
 }
 
@@ -23,19 +35,72 @@ void MainLogic::Init()
 
 void MainLogic::Launch()
 {
-	// Get command from other interfaces.
-  for (int i = 0; i < 100; ++i) {
-    int rdist = Sensor::getInstance().GetDistance(SensorID::RightFront);
-    int ldist = Sensor::getInstance().GetDistance(SensorID::LeftFront);
-    printf("Distance RightFront = %d\n", rdist);
-    printf("Distance LeftFront = %d\n", ldist);
-    if (rdist - ldist > 10) {
-      drive_.TurnLeftPeriodInSeconds(0.5);
+  // Get command from other interfaces.
+  for (int i = 0; i < 1000; ++i) {
+    int area, cx, cy;
+    vision_.getInstance().ReadFrame();
+    if (vision_.getInstance().DetectBlueBox(area, cx, cy)) {
+      printf("area = %d, cx = %d, cy = %d\n", area, cx, cy);
+     if (cx < -512) {
+      }
+      else if (cx > 512) {
+      }
+      else {
+        if (area < 3000) {
+        } else if (area > 5000) {
+        }
+        else{
+        //gun adjustment
+          if (cy < -50) {
+            gun_.TurretUp();
+            printf("turretup\n");
+          }
+          else if (cy > 50) {
+            gun_.TurretDown();
+            printf("turretdown\n");
+          }
+        }
+      }
     }
-    else if (ldist - rdist > 10) {
-      drive_.TurnRightPeriodInSeconds(0.5);
+#ifndef _MSC_VER
+//  std::string str = voice_.Wait_One_Sentence(5);
+    int code = voice_.Wait_One_Code(5);
+    printf("code:%d\n", code);
+    switch (code) {
+      case VC_CODE_FIRE:
+        printf("!FIRE\n");
+        gun_.FireBurst(3);
+        break;
+      case VC_CODE_FORWARD:
+        printf("RunForward\n");
+        drive_.RunForward(200);
+        break;
+      case VC_CODE_BACK:
+        printf("RunBack\n");
+        drive_.RunForward(-200);
+        break;
+      case VC_CODE_LEFT:
+        printf("!Left\n");
+        break;
+      case VC_CODE_RIGHT:
+        printf("!Right\n");
+        break;
+      case VC_CODE_ROTATE:
+        printf("!Rotate\n");
+        break;
+      case VC_CODE_STOP:
+        printf("!STOP\n");
+        break;
+      default:
+        printf("UNDEFINED\n");
+        break;
     }
-    drive_.RunForwardPeriodInSeconds(1.5);
-	printf("End loop\n");
+#endif
+    int key = cv::waitKey(1) & 0xff;
+    if (key == 27) {
+      break;
+    }
+    //printf("End loop\n");
   }
+  cv::destroyAllWindows();
 }

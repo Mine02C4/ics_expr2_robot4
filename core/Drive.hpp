@@ -9,6 +9,10 @@ public:
     return singleton;
   }
   void Init();
+	void RunForward(double rot);
+	void TurnRight(double angle);
+	void TurnLeft(double angle);
+	void SetDesire(double rot[], double speed[]);
   void RunForwardPeriodInSeconds(double seconds);
   void TurnRightPeriodInSeconds(double seconds);
   void TurnLeftPeriodInSeconds(double seconds);

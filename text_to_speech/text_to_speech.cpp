@@ -3,14 +3,14 @@
 #include <iostream>
 #include "text_to_speech.hpp"
 
-#define VOICEDIR "./voices/"
+#define VOICEDIR "./text_to_speech/voices/"
 const std::string dict = "/var/lib/mecab/dic/open-jtalk/naist-jdic/";
 //voice file places
-const std::string normal_vf = "~/mei/mei_normal.htsvoice";
-const std::string angry_vf = "~/mei/mei_angry.htsvoice";
-const std::string happy_vf = "~/mei/mei_happy.htsvoice";
-const std::string sad_vf = "~/mei/mei_sad.htsvoice";
-const std::string bashful_vf = "~/mei/mei_bashful.htsvoice";
+const std::string normal_vf = "../mei/mei_normal.htsvoice";
+const std::string angry_vf = "../mei/mei_angry.htsvoice";
+const std::string happy_vf = "../mei/mei_happy.htsvoice";
+const std::string sad_vf = "../mei/mei_sad.htsvoice";
+const std::string bashful_vf = "../mei/mei_bashful.htsvoice";
 
 int Speech::Speak(std::string s) {
   int res = Speech::Speak(s, NORMAL_FEEL);

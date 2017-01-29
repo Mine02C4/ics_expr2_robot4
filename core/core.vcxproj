@@ -112,12 +112,17 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="CVision.cpp" />
     <ClCompile Include="Drive.cpp" />
+    <ClCompile Include="Gun.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="MainLogic.cpp" />
     <ClCompile Include="Sensor.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\gun_turret\gun_turret.vcxproj">
+      <Project>{182a983a-c368-46ef-bf9c-f1e2772b339b}</Project>
+    </ProjectReference>
     <ProjectReference Include="..\i2c_sensor\i2c_sensor.vcxproj">
       <Project>{88952215-9dd8-4bc9-b2ea-27cc8027ddbe}</Project>
     </ProjectReference>
@@ -129,7 +134,9 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="CVision.hpp" />
     <ClInclude Include="Drive.hpp" />
+    <ClInclude Include="Gun.hpp" />
     <ClInclude Include="MainLogic.hpp" />
     <ClInclude Include="Sensor.hpp" />
   </ItemGroup>

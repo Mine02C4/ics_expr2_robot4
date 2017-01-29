@@ -1,18 +1,34 @@
+#include "voice_recog.hpp"
+#include "voicecode.hpp"
 #include <iostream>
 #include <string>
+#include <thread>
+#include <ctime>
+#include <cstring>
+#include <utility>
 #include <julius/juliuslib.h>
-#include "voice_recog.hpp"
-#include <time.h>
+
+#ifdef MOD_MODE
+const std::string dictation_prefix = "voice_recognition/dictation-kit-v4.2.3/";
+#else
+const std::string dictation_prefix = "dictation-kit-v4.2.3/";
+#endif
+
 // Global variable
 FUNCTYPE1 fp1 = NULL;
-static char * mine_jconf = {(char *)"dictation-kit-v4.2.3/mine.jconf"};
-static char * fast_jconf = {(char *)"dictation-kit-v4.2.3/fast.jconf"};
+const std::string mine_jconf = dictation_prefix + "mine.jconf";
+const std::string fast_jconf = dictation_prefix + "fast.jconf";
 
 int Voicerec::Init() {
   //Initialize
   jlog_set_output(NULL);
   // 指定した.jconfファイルから設定を読み込む
-  jconf  = j_config_load_file_new(fast_jconf);
+  {
+    char *cstr = new char[mine_jconf.size() + 1];
+    strcpy(cstr, mine_jconf.c_str());
+    jconf  = j_config_load_file_new(cstr);
+    delete cstr;
+  }
   if (jconf == NULL) {
     fprintf(stderr, "jconf load miss\n");
     return -1;
@@ -42,20 +58,34 @@ int Voicerec::Init() {
   }
   std::cout << "ok1" << std::endl;
   callback_add(recog, CALLBACK_RESULT, Output_Result, NULL);
-  std::cout << "ok2" << std::endl;
-  int ret = j_recognize_stream(recog);// here  is stop point 
-  std::cout << "ok3" << std::endl;
+  auto th = std::thread([this] {
+  int ret = j_recognize_stream(recog);
   if (ret == -1) return -1;
+    });
+  th.detach();
   return 0;
 }
 
 int Voicerec::ChangeMode(int status) {
+  int flag;
   switch(status) {
   case MINEJCONF:
-    return j_config_load_file(jconf,mine_jconf);
+    {
+      char *cstr = new char[mine_jconf.size() + 1];
+      strcpy(cstr, mine_jconf.c_str());
+      flag = j_config_load_file(jconf,cstr);
+      delete cstr;
+    }
+    return flag;
     break;
   case FASTJCONF:
-    return j_config_load_file(jconf, fast_jconf);
+    {
+      char *cstr = new char[fast_jconf.size() + 1];
+      strcpy(cstr, fast_jconf.c_str());
+      flag = j_config_load_file(jconf, cstr);
+      delete cstr;
+    }
+    return flag;
     break;
   default:
     return -1;
@@ -92,7 +122,7 @@ void Voicerec::Output_Result(Recog * recog, void * dummy) {
 	       //fp1(winfo->woutput[seq[i]]);
       }
       Voicerec::Return_One_String(tmp);
-      printf("\n");
+      //      printf("\n");
     }
   }
   fflush(stdout);
@@ -113,6 +143,7 @@ std::string Voicerec::Wait_One_Sentence(int seconds) {
   flag = 0;
   time_t t1, t2;
   t1 = time(NULL);
+  t2 = time(NULL);
   while (flag == 0 && (int)(t2-t1) <= seconds) {
     t2 = time(NULL);
   }//waitcallback
@@ -122,6 +153,21 @@ std::string Voicerec::Wait_One_Sentence(int seconds) {
 std::string Voicerec::getString (void) {
   return result;
 }
-
+int Voicerec::Wait_One_Code(int seconds) {
+  return Convert_String_to_Code(Wait_One_Sentence(seconds));
+}
+int Voicerec::Convert_String_to_Code(std::string s) {
+  if (s == "前") return VC_CODE_FORWARD;
+  else if (s == "後ろ")  return VC_CODE_BACK;
+  else if (s == "右")    return VC_CODE_RIGHT;
+  else if (s == "左")    return VC_CODE_LEFT;
+  else if (s == "進め")  return VC_CODE_FORWARD;
+  else if (s == "行け")  return VC_CODE_FORWARD;
+  else if (s == "まわれ") return VC_CODE_ROTATE;   
+  else if (s == "とまれ") return VC_CODE_STOP;
+  else if (s == "さがれ") return VC_CODE_BACK;
+  else if (s == "うて")   return VC_CODE_FIRE;
+  else  return -1;
+}
 Voicerec::Voicerec() :flag(0), result("") {
 }

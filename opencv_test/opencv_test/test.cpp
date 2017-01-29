@@ -9,8 +9,17 @@
 
 #include "videotest.h"
 #include "calibration.hpp"
+#include "stereo.hpp"
+
+#if defined(__linux__) || defined(__APPLE__)
 
 #define kOPENCV_KEY_ENTER 10
+
+#elif _MSC_VER
+
+#define kOPENCV_KEY_ENTER 13
+
+#endif
 
 using namespace cv;
 using namespace std;
@@ -236,14 +245,14 @@ int main(int argc, char** argv)
     const float SCALE = 23;
 
     vector<string> calibfiles = {
-      "calibration0.xml",
-      "calibration1.xml"
+      "calibration_r.xml",
+      "calibration_l.xml"
     };
 
     vector<Mat> src_image(N_BOARDS * 2);
     bool files_exist = true;
     for (int i = 0; i < N_BOARDS; i++) {
-      src_image[i * 2] = imread("stereo_cboard_" + to_string(i) + "_0.png");
+      src_image[i * 2] = imread("stereo_cboard_" + to_string(i) + "_r.png");
       if (src_image[i * 2].data == NULL) {
         files_exist = false;
         for (i = i * 2 - 1; i >= 0; --i) {
@@ -251,7 +260,7 @@ int main(int argc, char** argv)
         }
         break;
       }
-      src_image[i * 2 + 1] = imread("stereo_cboard_" + to_string(i) + "_1.png");
+      src_image[i * 2 + 1] = imread("stereo_cboard_" + to_string(i) + "_l.png");
       if (src_image[i * 2 + 1].data == NULL) {
         files_exist = false;
         for (i = i * 2; i >= 0; --i) {
@@ -305,8 +314,13 @@ int main(int argc, char** argv)
     if (!files_exist) {
       Mat frame0, frame1;
       VideoCapture cap[2];
-      cap[0].open(0);
-      cap[1].open(1);
+      int right_id, left_id;
+      cout << "Input right camera ID: ";
+      cin >> right_id;
+      cout << "Input left camera ID: ";
+      cin >> left_id;
+      cap[0].open(right_id);
+      cap[1].open(left_id);
       if (!cap[0].isOpened() || !cap[1].isOpened()) {
         cerr << "Cannot open camera." << endl;
         exit(1);
@@ -316,10 +330,9 @@ int main(int argc, char** argv)
         while (capture_phase) {
           cap[0] >> frame0;
           cap[1] >> frame1;
-          imshow("chessboard camera 0", frame0);
-          imshow("chessboard camera 1", frame1);
+          imshow("chessboard camera Right", frame0);
+          imshow("chessboard camera Left", frame1);
           int key = waitKey(10) & 0xff;
-          cout << "kwey = " << key << endl;
           switch (key)
           {
           case kOPENCV_KEY_ENTER: // Enter
@@ -353,15 +366,15 @@ int main(int argc, char** argv)
           cboard_preview[1] = src_image[i * 2 + 1].clone();
           drawChessboardCorners(cboard_preview[0], BOARD_SIZE, imageCorners[0], found);
           drawChessboardCorners(cboard_preview[1], BOARD_SIZE, imageCorners[1], found);
-          imshow("chessboard camera 0", cboard_preview[0]);
-          imshow("chessboard camera 1", cboard_preview[1]);
+          imshow("chessboard camera Right", cboard_preview[0]);
+          imshow("chessboard camera Left", cboard_preview[1]);
           int key = waitKey(0) & 0xff;
           switch (key)
           {
           case kOPENCV_KEY_ENTER: // Enter
             if (found[0] && found[1]) {
-              imwrite("stereo_cboard_" + to_string(i) + "_0.png", src_image[i * 2]);
-              imwrite("stereo_cboard_" + to_string(i) + "_1.png", src_image[i * 2 + 1]);
+              imwrite("stereo_cboard_" + to_string(i) + "_r.png", src_image[i * 2]);
+              imwrite("stereo_cboard_" + to_string(i) + "_l.png", src_image[i * 2 + 1]);
               imagePoints[0].push_back(imageCorners[0]);
               imagePoints[1].push_back(imageCorners[1]);
             }
@@ -447,7 +460,7 @@ int main(int argc, char** argv)
         imageSize, R, T, E, F,
         CALIB_FIX_ASPECT_RATIO +
         CALIB_ZERO_TANGENT_DIST +
-        CALIB_USE_INTRINSIC_GUESS +
+        CALIB_FIX_INTRINSIC +
         CALIB_SAME_FOCAL_LENGTH +
         CALIB_RATIONAL_MODEL +
         CALIB_FIX_K3 + CALIB_FIX_K4 + CALIB_FIX_K5,
@@ -549,23 +562,6 @@ int main(int argc, char** argv)
     initUndistortRectifyMap(cameraMatrix[0], distCoeffs[0], R1, P1, imageSize, CV_16SC2, rmap[0][0], rmap[0][1]);
     initUndistortRectifyMap(cameraMatrix[1], distCoeffs[1], R2, P2, imageSize, CV_16SC2, rmap[1][0], rmap[1][1]);
 
-    //int numberOfDisparities = numberOfDisparities > 0 ? numberOfDisparities : ((img_size.width / 8) + 15) & -16;
-    int numberOfDisparities = ((imageSize.width / 8) + 15) & -16;
-    int SADWindowSize = 0;
-
-    auto bm = StereoBM::create();
-    bm->setROI1(validRoi[0]);
-    bm->setROI2(validRoi[1]);
-    bm->setPreFilterCap(31);
-    bm->setBlockSize(SADWindowSize > 0 ? SADWindowSize : 9);
-    bm->setMinDisparity(0);
-    bm->setNumDisparities(numberOfDisparities);
-    bm->setTextureThreshold(10);
-    bm->setUniquenessRatio(15);
-    bm->setSpeckleWindowSize(100);
-    bm->setSpeckleRange(32);
-    bm->setDisp12MaxDiff(1);
-
     Mat canvas;
     double sf;
     int w, h;
@@ -585,6 +581,10 @@ int main(int argc, char** argv)
     }
     bool preview_phase = true;
     int preview_index = 0;
+
+    // GLUT
+    Stereo ste;
+
     while (preview_phase) {
       for (int k = 0; k < 2; k++)
       {
@@ -607,19 +607,16 @@ int main(int argc, char** argv)
           line(canvas, Point(j, 0), Point(j, canvas.rows), Scalar(0, 255, 0), 1, 8);
       imshow("rectified", canvas);
 
-      Mat disparity, disparity8;
-      // Disparity
-      Mat left_gray, right_gray;
+      Mat disparity;
       Mat rleft, rright;
       remap(src_image[preview_index * 2], rright, rmap[0][0], rmap[0][1], INTER_LINEAR);
       remap(src_image[preview_index * 2 + 1], rleft, rmap[1][0], rmap[1][1], INTER_LINEAR);
-      cvtColor(rright, right_gray, COLOR_BGR2GRAY);
-      cvtColor(rleft, left_gray, COLOR_BGR2GRAY);
-      bm->compute(left_gray, right_gray, disparity);
-      disparity.convertTo(disparity8, CV_8U, 255 / (numberOfDisparities * 16.0));
-      imshow("disparity", disparity8);
-      Mat xyz;
-      reprojectImageTo3D(disparity, xyz, Q, true);
+      int numberOfDisparities = Stereo::CalcDisparity(rleft, rright, disparity);
+      Stereo::RenderDisparity(disparity, numberOfDisparities);
+      Mat img3d;
+      reprojectImageTo3D(disparity, img3d, Q, true);
+      ste.SetData(img3d);
+      ste.RenderGLWindow();
 
       int key = waitKey(0) & 0xff;
       switch (key)
@@ -651,17 +648,20 @@ int main(int argc, char** argv)
       vt.ReadFrame();
       vt.DetectionByColor();
       int key = waitKey(1) & 0xff;
-      if (key != 27) {
+      if (key == 27) {
         break;
       }
     }
     break;
   }
+  case 5:
+  {
+    // TODO
+    break;
+  }
   default:
     break;
   }
-
-
 
   return 0;
 }

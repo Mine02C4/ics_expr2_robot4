@@ -12,7 +12,11 @@
 # 4) 各オプションの書式は，コマンドラインで与える場合と同一です．
 # 5) このファイル内の各値は Julius のデフォルト値です．
 #
--w rapiro/rapiro.dict
+#-w rapiro/rapiro.dict
+#-w newdict/test0123.dict
+-w commands/word.dict
+#-dfa rapiro/rapiro.dfa
+#-v rapiro/rapiro.dict
 -v model/lang_m/web.60k.htkdic
 -h model/phone_m/hmmdefs_ptm_gid.binhmm
 -hlist model/phone_m/logicalTri

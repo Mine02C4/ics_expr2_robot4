@@ -124,6 +124,8 @@
   <ItemGroup>
     <ClCompile Include="calibration.cpp" />
     <ClCompile Include="recognition.cpp" />
+    <ClCompile Include="reconstruction.cpp" />
+    <ClCompile Include="stereo.cpp" />
     <ClCompile Include="test.cpp" />
     <ClCompile Include="videotest.cpp" />
   </ItemGroup>
@@ -143,6 +145,8 @@
   <ItemGroup>
     <ClInclude Include="calibration.hpp" />
     <ClInclude Include="recognition.h" />
+    <ClInclude Include="reconstruction.hpp" />
+    <ClInclude Include="stereo.hpp" />
     <ClInclude Include="videotest.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

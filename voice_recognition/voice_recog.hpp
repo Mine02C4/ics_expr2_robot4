@@ -20,29 +20,25 @@ public:
     static Voicerec singleton;
     return singleton;
   }
-  //Initialize julius and setup
-  int Init();
-  //if not recognize in arg, int seconds, return null
-  //else return one sentence.
-  std::string Wait_One_Sentence(int seconds);
-  //Register callback function returns result sentences.
-  void Register_Callback(FUNCTYPE1 f);
-  //Finalize Julius
-  void Finalize();
-  //Change dictionaries and grammers
-  int ChangeMode(int); //arg is jconfs.
-  //Get the last recognized sentence
-  std::string getString(void);
+  int Init(); //Initialize julius and setup
+  std::string Wait_One_Sentence(int seconds);  //if not recognize in arg, int seconds, return null  //else return one sentence.
+  int Wait_One_Code(int seconds);
+  void Register_Callback(FUNCTYPE1 f); //Register callback function returns result sentences.
+  void Finalize();   //Finalize Julius
+  int ChangeMode(int); //Change dictionaries and grammers //arg is jconfs. 
+  std::string getString(void); //Get the last recognized sentence
 private:
   Jconf *jconf;
   Recog *recog;
   void ReturnOneString_Instance(std::string s);
+  int Convert_String_to_Code(std::string s);
   static void Return_One_String(std::string s) {
     Voicerec::getInstance().ReturnOneString_Instance(s);
   }
   static void Output_Result(Recog *recog, void * dummy);
   int flag;
   std::string result;
+protected:
   Voicerec();
 };
 
