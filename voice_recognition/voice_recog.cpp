@@ -20,16 +20,39 @@ const std::string mine_jconf = dictation_prefix + "mine.jconf";
 const std::string fast_jconf = dictation_prefix + "fast.jconf";
 
 int Voicerec::Init() {
+  return Init(0);
+}
+int Voicerec::Init(int filenum) {
   //Initialize
   jlog_set_output(NULL);
   // 指定した.jconfファイルから設定を読み込む
-  {
-    char *cstr = new char[mine_jconf.size() + 1];
-    strcpy(cstr, mine_jconf.c_str());
-    jconf  = j_config_load_file_new(cstr);
-    delete cstr;
-  }
-  if (jconf == NULL) {
+switch(filenum) {
+  case MINEJCONF:
+    {
+      char *cstr = new char[mine_jconf.size() + 1];
+      strcpy(cstr, mine_jconf.c_str());
+      jconf = j_config_load_file_new(cstr);
+      delete cstr;
+    }
+    break;
+  case FASTJCONF:
+    {
+      char *cstr = new char[fast_jconf.size() + 1];
+      strcpy(cstr, fast_jconf.c_str());
+      jconf =  j_config_load_file_new(cstr);
+      delete cstr;
+    }
+    break;
+ default:
+   {
+      char *cstr = new char[mine_jconf.size() + 1];
+      strcpy(cstr, mine_jconf.c_str());
+      jconf = j_config_load_file_new(cstr);
+      delete cstr;
+    }
+   break;
+ }
+   if (jconf == NULL) {
     fprintf(stderr, "jconf load miss\n");
     return -1;
   }
@@ -56,7 +79,6 @@ int Voicerec::Init() {
     fprintf(stderr, "failed to begin input stream\n");
     return 0;
   }
-  std::cout << "ok1" << std::endl;
   callback_add(recog, CALLBACK_RESULT, Output_Result, NULL);
   auto th = std::thread([this] {
   int ret = j_recognize_stream(recog);
@@ -65,32 +87,9 @@ int Voicerec::Init() {
   th.detach();
   return 0;
 }
-
 int Voicerec::ChangeMode(int status) {
-  int flag;
-  switch(status) {
-  case MINEJCONF:
-    {
-      char *cstr = new char[mine_jconf.size() + 1];
-      strcpy(cstr, mine_jconf.c_str());
-      flag = j_config_load_file(jconf,cstr);
-      delete cstr;
-    }
-    return flag;
-    break;
-  case FASTJCONF:
-    {
-      char *cstr = new char[fast_jconf.size() + 1];
-      strcpy(cstr, fast_jconf.c_str());
-      flag = j_config_load_file(jconf, cstr);
-      delete cstr;
-    }
-    return flag;
-    break;
-  default:
-    return -1;
-    break;
-  }
+  j_close_stream(recog);
+  return Init(status);
 }
 
 void Voicerec::Output_Result(Recog * recog, void * dummy) {
