@@ -40,8 +40,11 @@ int Voicerec::Init() {
     fprintf(stderr, "failed to begin input stream\n");
     return 0;
   }
+  std::cout << "ok1" << std::endl;
   callback_add(recog, CALLBACK_RESULT, Output_Result, NULL);
-  int ret = j_recognize_stream(recog);
+  std::cout << "ok2" << std::endl;
+  int ret = j_recognize_stream(recog);// here  is stop point 
+  std::cout << "ok3" << std::endl;
   if (ret == -1) return -1;
   return 0;
 }
