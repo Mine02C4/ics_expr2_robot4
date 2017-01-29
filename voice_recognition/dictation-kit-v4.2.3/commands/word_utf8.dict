@@ -1,28 +1,68 @@
-0	[silB]	silB
-1	[silE]	silE
-2	[前]	m a e n i
-2	[前]	m a e
-2	[前]	m a e e
-2	[後ろ]	u sh i r o n i
-2	[後ろ]	u sh i r o
-2	[後ろ]	u sh i r o e
-2	[右]	m i g i n i
-2	[右]	m i g i
-2	[左]	h i d a r i n i
-2	[左]	h i d a r i
-2	[進め]	s u s u m e
-2	[進め]	s u s u m u
-2	[行け]	i k e
-2	[行け]	i k u
-2	[行け]	g o:
-2	[まわれ]	m a w a r e
-2	[まわれ]	m a w a r u
-2	[まわれ]	m a g a r e
-2	[まわれ]	m a g a r u
-2	[とまれ]	t o m a r e
-2	[とまれ]	t o m a r u
-2	[とまれ]	s u t o q p u
-2	[さがれ]	s a g a r e
-2	[さがれ]	s a g a r u
-2	[さがれ]	b a q k u
-2	[うて]	u t e
+0	[NS]	sp
+1	[silB]	silB
+2	[silE]	silE
+3	[前]	m a e n i
+3	[前]	m a e
+3	[前]	m a e e
+3	[後ろ]	u sh i r o n i
+3	[後ろ]	u sh i r o
+3	[後ろ]	u sh i r o e
+3	[右]	m i g i n i
+3	[右]	m i g i
+3	[左]	h i d a r i n i
+3	[左]	h i d a r i
+4	[上]	u e
+4	[上]	u e n i
+4	[下]	s i t a
+4	[下]	s i t a n i
+5	[進め]	s u s u m e
+5	[進め]	s u s u m u
+5	[行け]	i k e
+5	[行け]	i k u
+5	[行け]	g o:
+5	[まわれ]	m a w a r e
+5	[まわれ]	m a w a r u
+5	[まわれ]	m a g a r e
+5	[まわれ]	m a g a r u
+5	[とまれ]	t o m a r e
+5	[とまれ]	t o m a r u
+5	[とまれ]	s u t o q p u
+5	[さがれ]	s a g a r e
+5	[さがれ]	s a g a r u
+5	[さがれ]	b a q k u
+5	[モード変更]	m o: d o h e n k o u
+6	[うて]	u t e
+6	[発射]	h a q s h a
+6	[撃ち方はじめ]	u t i k a t a h a j i m e
+7	[一]	i ch i
+7	[一]	i q
+7	[二]	n i
+7	[二]	n i:
+7	[三]	s a N
+7	[四]	y o N
+7	[五]	g o
+7	[五]	g o:
+7	[六]	r o k u
+7	[六]	r o q
+7	[七]	n a n a
+7	[七]	sh i ch i
+7	[七]	h i ch i
+7	[八]	h a ch i
+7	[八]	h a q
+7	[九]	ky u:
+7	[九]	k u
+7	[十]	j u:
+7	[十]	j u q
+7	[二十]	n i j u:
+7	[二十]	n i j u q
+7	[三十]	s a N j u:
+7	[三十]	s a N j u q
+7	[四十]	y o N j u:
+7	[四十]	y o N j u q
+7	[五十]	g o j u:
+7	[五十]	g o j u q
+8	[発]	h a t u
+9	[少し]	s u k o s i
+9	[大きく]	o o k i ku
+9	[大きく]	o: k i k u
+10	[砲塔]	h o u t o u
