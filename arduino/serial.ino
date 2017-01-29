@@ -66,7 +66,12 @@ void loop_motor() {
         Serial.println("turret command");
         if (minus_flag == 1)
           num = -num;
-        servo.write(num + 50);
+        int i = 0;
+        while(i < num){
+          delay(10);
+          servo.write(i + 50);
+          i++;
+        }
       }
       Serial.println("buff:");
       Serial.println(buff);
