@@ -40,6 +40,12 @@ elevate_by_degrees(int degrees)
   printf("Elevate degree = %d\n.", degrees);
 }
 
+void burst_fire(int n_bullets)
+{
+  assert(init_flag == 1);
+  printf("Burst fire %d\n", n_bullets);
+}
+
 void
 turret_finalize()
 {
