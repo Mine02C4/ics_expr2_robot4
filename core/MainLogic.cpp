@@ -1,4 +1,4 @@
-#include "MainLogic.hpp"
+﻿#include "MainLogic.hpp"
 
 #include <cstdio>
 
@@ -138,6 +138,7 @@ void MainLogic::Launch()
   cv::destroyAllWindows();
 }
 
+#ifndef _MSC_VER
 void MainLogic::Wait_Voice_By_Code() {
   struct voicecode vc;
   voice_.Wait_One_Code(5, vc);
@@ -195,3 +196,4 @@ void MainLogic::Wait_Voice_By_Code() {
   }
   return;
 }
+#endif
