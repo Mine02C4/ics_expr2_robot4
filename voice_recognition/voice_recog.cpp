@@ -115,13 +115,14 @@ void Voicerec::Output_Result(Recog * recog, void * dummy) {
       //printf("結果:", n+1);
       std::string tmp = "";
       for(i=0;i<seqnum;i++) {
+	std::string word = winfo->woutput[seq[i]];
        // ワードの数だけ回す
-        tmp += winfo->woutput[seq[i]];
+	if (word != "silB" && word != "silE")
+	  tmp += word;
         if (fp1 != NULL) fp1(winfo->woutput[seq[i]]);
 	       //fp1(winfo->woutput[seq[i]]);
       }
       Voicerec::Return_One_String(tmp);
-      //      printf("\n");
     }
   }
   fflush(stdout);
