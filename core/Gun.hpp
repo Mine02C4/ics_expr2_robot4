@@ -15,7 +15,7 @@ public:
   void Finalize();
   void TurretAbsoluteElevate(int degrees);
   void TurretRelativeUp(int degrees);
-  void TurnByDegrees(int degrees);
+  void TurnAbsoluteDegrees(int degrees);
 private:
   Gun();
   int current_elevation_;

@@ -41,7 +41,7 @@ void MainLogic::AdjustGunTurret()
     printf("area = %d, cx = %d, cy = %d\n", area, cx, cy);
     
     int angle = cx / 1024 * 60;
-    gun_.TurnByDegrees(angle);
+    gun_.TurnAbsoluteDegrees(angle);
     printf("MainLogic TurnByDegrees %d\n", angle);
       if (area < 3000) {
         drive_.RunForward(1);
