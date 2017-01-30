@@ -1,6 +1,8 @@
 #ifndef ROBOT_CORE_GUN_H_
 #define ROBOT_CORE_GUN_H_
 
+#include <mutex>
+
 class Gun
 {
 public:
@@ -23,6 +25,8 @@ private:
   const int kElevationLowerLimit = -20;
   int current_angle_;
   const int kAngleLimit = 90;
+  std::mutex turn_mtx_;
+  std::mutex elevate_mtx_;
 };
 
 #endif  // ROBOT_CORE_GUN_H_

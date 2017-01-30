@@ -52,16 +52,24 @@ void Gun::TurretRelativeUp(int degrees)
 }
 
 void Gun::TurnAbsoluteDegrees(int degrees) {
-  if (degrees < -kAngleLimit) {
-    std::cerr << "Core Gun: Turn too lower " << degrees << std::endl;
-    degrees = -kAngleLimit;
-  }
-  else if (degrees > kAngleLimit)
-  {
-    degrees = kAngleLimit;
-  }
-  turn_by_degrees(degrees);
-  std::this_thread::sleep_for(std::chrono::seconds(1));
+  std::thread([this, degrees] {
+    int td = degrees;
+    if (!turn_mtx_.try_lock()) {
+      return;
+    }
+    if (degrees < -kAngleLimit) {
+      std::cerr << "Core Gun: Turn too lower " << degrees << std::endl;
+      td = -kAngleLimit;
+    }
+    else if (degrees > kAngleLimit)
+    {
+      std::cerr << "Core Gun: Turn too upper " << degrees << std::endl;
+      td = kAngleLimit;
+    }
+    turn_by_degrees(td);
+    std::this_thread::sleep_for(std::chrono::seconds(5));
+    turn_mtx_.unlock();
+  }).detach();
 }
 
 Gun::Gun()
