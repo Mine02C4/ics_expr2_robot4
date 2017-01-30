@@ -112,3 +112,4 @@ void MainLogic::Launch()
     printf("End loop\n");
     cv::destroyAllWindows();
   }
+}
