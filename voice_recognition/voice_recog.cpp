@@ -159,6 +159,8 @@ int Voicerec::Wait_One_Code(int seconds, struct voicecode & vc) {
 int Voicerec::Convert_String_to_Code(std::string s, struct voicecode & vc) {
   int num;
 //  fprintf(stderr, "Voicerec debug the sentence is:%s", s);
+  vc.code = VC_CODE_UNDEFINED;
+  vc.num = VC_CODE_UNDEFINED;
   if (s == "前")  {vc.code = VC_CODE_FORWARD; vc.num = 1; return 0;}
   else if (s == "後ろ") {vc.code = VC_CODE_BACK; vc.num = 1; return 0;}
   else if (s == "右") {vc.code = VC_CODE_RIGHT; vc.num = 1; return 0;}
@@ -169,13 +171,14 @@ int Voicerec::Convert_String_to_Code(std::string s, struct voicecode & vc) {
   else if (s == "とまれ") {vc.code = VC_CODE_STOP; vc.num = 1; return 0;}
   else if (s == "さがれ") {vc.code = VC_CODE_BACK; vc.num = 1; return 0;}
   else if (s == "うて")  {vc.code = VC_CODE_FIRE; vc.num = 1; return 0;}
+  else if (s == "発射")  {vc.code = VC_CODE_FIRE; vc.num = 1; return 0;}
   else if (s == "撃ち方はじめ") {vc.code = VC_CODE_UCHIKATA; vc.num = 1; return 0;}
   else if (s == "モード変更") {vc.code = VC_CODE_MODECHANGE; vc.num = 1; return 0;}
   if ((int)s.find("発") >= 0) {
-    std::string c = s.substr(1,1);
-    int burstnum = atoi(c.c_str());
-    vc.code = VC_CODE_FIRE; vc.num = burstnum;
-    return 0;
+    sscanf(s.c_str(),"%d", &num);
+    vc.num = num;
+    vc.code = VC_CODE_FIRE;
+    return 0;   
   }
   if ((int)s.find("砲塔") >= 0){
     if ((int)s.find("上") >= 0) {vc.code = VC_CODE_HOUTOU; vc.num = 1; return 0;}
@@ -184,7 +187,12 @@ int Voicerec::Convert_String_to_Code(std::string s, struct voicecode & vc) {
     if ((int)s.find("左") >= 0) {vc.code = VC_CODE_HOUTOU; vc.num = 4; return 0;}
     else return -1;
   }
-
+  if ((int)s.find("前") >= 0){
+    sscanf(s.c_str(),"%d", &num);
+    vc.num = num;
+    vc.code = VC_CODE_FORWARD;
+    return 0;
+  }
   if ((int)s.find("進め") >= 0){
     sscanf(s.c_str(),"%d", &num);
     vc.num = num;

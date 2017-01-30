@@ -6,7 +6,7 @@ struct voicecode{
 	int num;
 };
 
-
+#define VC_CODE_UNDEFINED -1
 #define VC_CODE_FORWARD 2
 #define VC_CODE_BACK 5
 #define VC_CODE_RIGHT 8
