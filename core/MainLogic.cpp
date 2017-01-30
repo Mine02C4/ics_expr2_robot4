@@ -152,7 +152,7 @@ void MainLogic::Wait_Voice_By_Code() {
     case VC_CODE_MODECHANGE:
 			mode++;
       printf("!Modechange\n");
-			speech_.Speak("モード変更します");
+			speech_.Speak("モード変更");
 			if (mode%2 == 0) {
 				speech_.Speak("モード。シングルファイヤ");
 			} else if (mode%2 == 1) {
@@ -160,7 +160,7 @@ void MainLogic::Wait_Voice_By_Code() {
 			}
       break;
     case VC_CODE_UCHIKATA:
-      speech_.Speak("目標を殲滅します", ANGRY_FEEL);
+      speech_.Speak("目標を殲滅", ANGRY_FEEL);
 			if (mode%2 == 0) {
 				gun_.FireNum(1);
 			} else if (mode%2 == 1) {
