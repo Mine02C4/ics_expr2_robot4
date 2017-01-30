@@ -74,6 +74,7 @@ void MainLogic::StartPursuingBox()
         break;
       }
     }
+    printf("Core MainLogic: StartPursuingBox\n");
   });
 }
 
