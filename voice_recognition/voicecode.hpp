@@ -1,5 +1,5 @@
-#ifndef VOICE_CODE_H
-#define VOICE_CODE_H
+#ifndef VOICE_RECOGNITION_VOICECODE_H_
+#define VOICE_RECOGNITION_VOICECODE_H_
 //move
 struct voicecode{
 	int code;
@@ -27,4 +27,4 @@ struct voicecode{
 
 #define VC_CODE_FIRE 21
 
-#endif //VOICE_CODE_H
+#endif  // VOICE_RECOGNITION_VOICECODE_H_
