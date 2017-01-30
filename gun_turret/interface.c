@@ -11,12 +11,10 @@
 #define BAUDRATE B9600
 #define BUFSIE 255
 #define ANGLE_LIMIT 85
-#define DEPRESSION_LIM -10
-#define ELEVATION_LIM 70
 
 const static char *arduino_dev = "/dev/ttyACM0";
 static int fd;
-static int curr_ev, curr_ang;
+static int curr_ang;
 struct termios oldtio, newtio;
 
 void sflush()
@@ -28,7 +26,7 @@ void sflush()
 
 void turret_init()
 {
-	curr_ev = 0; curr_ang = 0;	/* initialize current pos */
+  curr_ang = 0;
   fd = open(arduino_dev, O_RDWR | O_NOCTTY | O_NONBLOCK);
   if (fd < 0) {
     fprintf(stderr, "Error: cannot open Arduino tty.\n");
@@ -51,10 +49,10 @@ void turret_init()
     fprintf(stderr, "Error: cannot set termios.\n");
     exit(1);
   }
-	fprintf(stderr, "Testing stepping motor\n");
-	turn_by_degrees(0);
-	sleep(2);
-	elevate_by_degrees(0);
+  fprintf(stderr, "Testing stepping motor\n");
+  turn_by_degrees(0);
+  sleep(2);
+  elevate_by_degrees(0);
 }
 
 void
@@ -108,43 +106,33 @@ turn_by_degrees(int degrees)
   }
   sflush();
 
-	fprintf(stderr, "Aiming at; Deg: %2d Ev: %2d\n", curr_ang, curr_ev);
+  fprintf(stderr, "Aiming at; Deg: %2d\n", curr_ang);
 }
 
 void
 elevate_by_degrees(int degrees)
 {
-	// TODO: taking care of servo motor
-	
   char buf[BUFSIE];
-
-	if (DEPRESSION_LIM <= degrees + curr_ev && curr_ev + degrees <= ELEVATION_LIM) {
-		curr_ev = degrees;
-	} else {
-		fprintf(stderr, "Invalid Angle\n");
-		return;
-	}
-
-	sprintf(buf, "turret=%dx", degrees);
- 	int size = strlen(buf);
+  sprintf(buf, "turret=%dx", degrees);
+  int size = strlen(buf);
 
   if ((write(fd, buf, size)) != size) {
     fprintf(stderr, "Error: Error elevate by degrees\n");
     exit(1);
   }
   sflush();
-  fprintf(stderr, "Aiming at; Deg: %2d Ev: %2d\n", curr_ang, curr_ev);
-	return;
+  fprintf(stderr, "Aiming at; Deg: %2d\n", curr_ang);
+  return;
 }
 
 void
 turret_finalize()
 {
-	/* revert to inital pos */
-	turn_by_degrees(-curr_ang);
-	elevate_by_degrees(-curr_ev);
+  /* revert to inital pos */
+  turn_by_degrees(-curr_ang);
+  elevate_by_degrees(0);
   sflush();
   close(fd);
-	return;
+  return;
 }
 
