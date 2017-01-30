@@ -179,7 +179,7 @@ void MainLogic::Wait_Voice_By_Code() {
       break;
     case VC_CODE_FORWARD:
       dist = vc.num;
-      printf("RunForward\n");
+      printf("RunForward:%d\n", dist);
       drive_.RunForward(dist * 10);
       break;
     case VC_CODE_BACK:
