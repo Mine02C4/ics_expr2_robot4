@@ -11,45 +11,48 @@ void Drive::Init()
 {
   std::cout << "Initializing motor, moving to inital pos...";
   motor_init();
-	std::cout << "complete!\n";
+  std::cout << "complete!\n";
 }
 
 void Drive::SetCurrentPosition(int val[2])
 {
-	/* TODO: get current positon from cval */
-	/* TODO: set private in class */
-	double dsl, dsr, ds;
-	const double R = 430;	// diamiter	[mm]
-	double dx, dy;		// [mm]
-	double dth;		// diff theta
+  /* TODO: get current positon from cval */
+  /* TODO: set private in class */
+  double dsl, dsr, ds;
+  const double R = 430;	// diamiter	[mm]
+  double dx, dy;		// [mm]
+  double dth;		// diff theta
   double x = cval[0];
   double y = cval[1];
-	double th = cval[2];		// current theta [deg]
+  double th = cval[2];		// current theta [deg]
 
-	std::cout << "Old Pos [x, y, th] = " << x << y << th;
-	
+  std::cout << "Old Pos [x, y, th] = " << x << y << th;
+
   dsl = val[0] * CONV_TO_DIST;		// LEFT
-	dsr = val[1] * CONV_TO_DIST;		// RIGHT
+  dsr = val[1] * CONV_TO_DIST;		// RIGHT
 
-	ds = (dsr + dsl) / 2;
-	dth = ((dsr - dsl) / R);
-	dx = ds * cos((th + (dth / 2)) * (PI / 180.0));
-	dy = ds * sin((th + (dth / 2)) * (PI / 180.0));
-	
-	x = x + dx;
-	y = y + dy;
-	th = th + dth;
-	std::cout << "Current Pos [x, y, th] = " << x << y << th;
-	cval[0] = x;
-	cval[1] = y;
-	cval[2] = th;
+  ds = (dsr + dsl) / 2;
+  dth = ((dsr - dsl) / R);
+  dx = ds * cos((th + (dth / 2)) * (PI / 180.0));
+  dy = ds * sin((th + (dth / 2)) * (PI / 180.0));
+
+  x = x + dx;
+  y = y + dy;
+  th = th + dth;
+  std::cout << "Current Pos [x, y, th] = " << x << y << th;
+  cval[0] = x;
+  cval[1] = y;
+  cval[2] = th;
 }
 
+/* rot(unit mm) */
 void Drive::RunForward(double rot)
 {
-	/* TODO: check cval */
-  int rotv[2] = {static_cast<int>(rot * CONV_TO_MTR), 
-  static_cast<int>(rot * CONV_TO_MTR)};
+  /* TODO: check cval */
+  int rotv[2] = {
+    static_cast<int>(rot * CONV_TO_MTR),
+    static_cast<int>(rot * CONV_TO_MTR)
+  };
   static int currentrot;
   std::cout << "currentrot:" << currentrot;
   SetCurrentPosition(rotv);
