@@ -39,14 +39,15 @@ void MainLogic::AdjustGunTurret()
   if (vision_.getInstance().DetectBlueBox(area, cx, cy)) {
     printf("area = %d, cx = %d, cy = %d\n", area, cx, cy);
     if (cx < -512) {
-
     }
     else if (cx > 512) {
     }
     else {
       if (area < 3000) {
+        drive_.RunForward(1);
       }
       if (area > 5000) {
+        drive_.RunForward(-1);
       }
       else {
         //gun adjustment
@@ -120,6 +121,6 @@ void MainLogic::Launch()
     printf("get_distance(left) : %d\n", sensor_.GetDistance(SensorID::LeftFront));
     printf("get_distance(right) : %d\n", sensor_.GetDistance(SensorID::RightFront));
     printf("End loop\n");
-    cv::destroyAllWindows();
   }
+  cv::destroyAllWindows();
 }

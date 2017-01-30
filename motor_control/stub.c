@@ -25,7 +25,7 @@ run_forward(double seconds)
 {
   assert(init_flag == 1);
   printf("Start run forward\n");
-  RunForwardViaNumberOfRotations(0.8 * seconds);
+  RunForwardViaNumberOfRotations(0.01 * seconds);
   printf("Stop run forward\n");
 }
 
