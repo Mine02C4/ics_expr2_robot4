@@ -4,9 +4,11 @@
 #include <stdlib.h>
 #include <fcntl.h>
 #include <unistd.h>
+#include <string.h>
 
 #include <sys/ioctl.h>
 #include <linux/i2c-dev.h>
+#include <errno.h>
 
 #define SENSOR_NUM 2
 
@@ -53,7 +55,7 @@ get_distance(enum sensor s)
     buf[i] = 0x00;
   }
   if ((write(fd[id], buf, 2)) != 2) {
-    fprintf(stderr, "Error: Error send the read command. Sensor = %d\n", id);
+    fprintf(stderr, "Error: Error send the read command. Sensor = %d\n%s\n", id, strerror(errno));
     exit(1);
   }
   // 音波だから、"行って" "帰ってくる" のに時間がかかる

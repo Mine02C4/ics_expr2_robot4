@@ -12,7 +12,7 @@ public:
   }
   int Init();
   //void Finalize();
-  void ReadFrame();
+  bool ReadFrame();
   bool DetectBlueBox(int &area, int& cx, int& cy);
   
 private:

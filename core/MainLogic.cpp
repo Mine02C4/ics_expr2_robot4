@@ -33,39 +33,58 @@ void MainLogic::Init()
 {
 }
 
+void MainLogic::AdjustGunTurret()
+{
+  int area, cx, cy;
+  if (vision_.getInstance().DetectBlueBox(area, cx, cy)) {
+    printf("area = %d, cx = %d, cy = %d\n", area, cx, cy);
+    if (cx < -512) {
+    }
+    else if (cx > 512) {
+    }
+    else {
+      if (area < 3000) {
+        drive_.RunForward(1);
+      }
+      if (area > 5000) {
+        drive_.RunForward(-1);
+      }
+      else {
+        //gun adjustment
+        if (cy < -512) {
+          gun_.TurretRelativeUp(1 - cy / 10);
+          printf("turretup");
+        }
+        else if (cy > 512) {
+          gun_.TurretRelativeUp(-1 - cy / 10);
+          printf("turretdown");
+        }
+      }
+    }
+  }
+}
+
 void MainLogic::Launch()
 {
   // Get command from other interfaces.
   for (int i = 0; i < 1000; ++i) {
-    int area, cx, cy;
-    vision_.getInstance().ReadFrame();
-    if (vision_.getInstance().DetectBlueBox(area, cx, cy)) {
-      printf("area = %d, cx = %d, cy = %d\n", area, cx, cy);
-      if (cx < -512) {
-
-      }
-      else if (cx > 512) {
-      }
-      else {
-        if (area < 3000) {
-        }
-        if (area > 5000) {
-        }
-        else {
-          //gun adjustment
-          /*
-            if (cy < -512) {
-              gun_.TurretUp();
-              printf("turretup");
-            }
-            else if (cy > 512) {
-              gun_.TurretDown();
-              printf("turretdown");
-
-           */
-        }
-      }
+    if (vision_.getInstance().ReadFrame()) {
+      AdjustGunTurret();
     }
+
+    int key = cv::waitKey(1) & 0xff;
+    if (key == 27) {
+      break;
+    }
+    int leftfront, rightfront;
+    leftfront = sensor_.GetDistance(SensorID::LeftFront);
+    rightfront = sensor_.GetDistance(SensorID::RightFront);
+    if (leftfront < 50 || rightfront < 50) {
+      printf("stop\n");
+      drive_.RunForward(0);
+    }
+    printf("get_distance(left) : %d\n", sensor_.GetDistance(SensorID::LeftFront));
+    printf("get_distance(right) : %d\n", sensor_.GetDistance(SensorID::RightFront));
 #ifndef _MSC_VER
     //  std::string str = voice_.Wait_One_Sentence(5);
     int code = voice_.Wait_One_Code(5);
@@ -99,10 +118,6 @@ void MainLogic::Launch()
       break;
     }
 #endif
-    int key = cv::waitKey(1) & 0xff;
-    if (key == 27) {
-      break;
-    }
     printf("get_distance(left) : %d\n", sensor_.GetDistance(SensorID::LeftFront));
     printf("get_distance(right) : %d\n", sensor_.GetDistance(SensorID::RightFront));
     printf("End loop\n");
