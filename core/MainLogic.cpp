@@ -22,6 +22,7 @@ MainLogic::MainLogic() :
   speech_(Speech::getInstance())
 #endif
 {
+  cv_task_flag_ = false;
 }
 
 
@@ -64,18 +65,27 @@ void MainLogic::AdjustGunTurret()
   }
 }
 
+void MainLogic::StartPursuingBox()
+{
+  cv_thread_ = std::thread([this] {
+    while (cv_task_flag_) {
+      if (vision_.getInstance().ReadFrame()) {
+        AdjustGunTurret();
+      }
+      int key = cv::waitKey(1) & 0xff;
+      if (key == 27) {
+        break;
+      }
+    }
+  });
+}
+
 void MainLogic::Launch()
 {
   // Get command from other interfaces.
+  cv_task_flag_ = true;
+  StartPursuingBox();
   for (int i = 0; i < 1000; ++i) {
-    if (vision_.getInstance().ReadFrame()) {
-      AdjustGunTurret();
-    }
-
-    int key = cv::waitKey(1) & 0xff;
-    if (key == 27) {
-      break;
-    }
     int leftfront, rightfront;
     leftfront = sensor_.GetDistance(SensorID::LeftFront);
     rightfront = sensor_.GetDistance(SensorID::RightFront);
@@ -122,5 +132,7 @@ void MainLogic::Launch()
     printf("get_distance(right) : %d\n", sensor_.GetDistance(SensorID::RightFront));
     printf("End loop\n");
   }
+  cv_task_flag_ = false;
+  cv_thread_.join();
   cv::destroyAllWindows();
 }

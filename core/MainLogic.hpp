@@ -1,6 +1,8 @@
 #ifndef ROBOT_CORE_MAIN_LOGIC_H_
 #define ROBOT_CORE_MAIN_LOGIC_H_
 
+#include <thread>
+
 #include "CVision.hpp"
 #include "Drive.hpp"
 #include "Sensor.hpp"
@@ -15,16 +17,19 @@ public:
   ~MainLogic();
   void Init();
   void Launch();
+  bool cv_task_flag_;
 private:
   Drive &drive_;
   Sensor &sensor_;
   Gun &gun_;
   CVision &vision_;
+  std::thread cv_thread_;
 #ifndef _MSC_VER
   Voicerec &voice_;
   Speech &speech_;
 #endif
   void AdjustGunTurret();
+  void StartPursuingBox();
 };
 
 #endif  // ROBOT_CORE_MAIN_LOGIC_H_
