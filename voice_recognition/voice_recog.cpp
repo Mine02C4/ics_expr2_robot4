@@ -166,7 +166,44 @@ int Voicerec::Convert_String_to_Code(std::string s) {
   else if (s == "とまれ") return VC_CODE_STOP;
   else if (s == "さがれ") return VC_CODE_BACK;
   else if (s == "うて")   return VC_CODE_FIRE;
-  else  return -1;
+  else if (s == "撃ち方はじめ") return VC_CODE_UCHIKATA;
+  else if (s == "モード変更") return VC_CODE_MODECHANGE;
+  if ((int)s.find("発") >= 0) {
+    char c = str[1];
+    int num = atoi(c);
+    return (num + VC_CODE_FIRENUM);
+  }
+  if ((int)s.find("砲塔") >= 0){
+    if ((int)s.find("上") >= 0) return VC_CODE_CANNON_UP;
+    if ((int)s.find("下") >= 0) return VC_CODE_CANNON_DOWN;
+    if ((int)s.find("右") >= 0) return VC_CODE_CANNON_RIGHT;
+    if ((int)s.find("左") >= 0) return VC_CODE_CANNON_LEFT;
+    else return -1;
+  }
+
+  if ((int)s.find("少し") >= 0){
+    if ("少し進め"== 0) return VC_CODE_FORWARD_LITTLE;
+    if ("少し右"== 0) return VC_CODE_RIGHT_LITTLE;
+    if ("少し左"== 0) return VC_CODE_LEFT_LITTLE;
+    if ("少し前"== 0) return VC_CODE_FORWARD_LITTLE;
+    if ("少し後ろ"== 0) return VC_CODE_BACK_LITTLE;
+    if ("少しさがれ"== 0) return VC_CODE_BACK_LITTLE;
+    if ("少し行け"== 0) return VC_CODE_FORWARD_LITTLE;
+    else return -1;
+  }
+  if ((int)s.find("大きく") >= 0){
+    if ("大きく進め"== 0) return VC_CODE_FORWARD_FAR;
+    if ("大きく右"== 0) return VC_CODE_RIGHT_FAR;
+    if ("大きく左"== 0) return VC_CODE_LEFT_FAR;
+    if ("大きく前"== 0) return VC_CODE_FORWARD_FAR;
+    if ("大きく後ろ"== 0) return VC_CODE_BACK_FAR;
+    if ("大きくさがれ"== 0) return VC_CODE_BACK_FAR;
+    if ("大きく行け"== 0) return VC_CODE_FORWARD_FAR;
+    else return -1;
+  }
+
+
+  return -1;
 }
 Voicerec::Voicerec() :flag(0), result("") {
 }
