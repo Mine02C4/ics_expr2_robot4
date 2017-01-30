@@ -109,3 +109,56 @@ void MainLogic::Launch()
   }
   cv::destroyAllWindows();
 }
+
+void MainLogic::Wait_Voice_By_Code() {
+  struct voicecode vc;
+  voice_.Wait_One_Code(5, vc);
+  fprintf(stderr, "Voicerec:last sentence: %s\n", vcoice_.getString());
+  fprintf(stderr, "Voicerec:code:%d num:%d\n", vc.code, vc.num);
+  int num, dist;
+  switch (vc.code) {
+    case VC_CODE_MODECHANGE:
+      printf("!Modechange\n");
+      break;
+    case VC_CODE_UCHIKATA:
+      printf("!Uchikata\n");
+      break;
+    case VC_CODE_HOUTOU:
+      printf("!Houtou\n");
+    break;
+    case VC_CODE_FIRE:
+      int num  = vc.num;
+      printf("!FIRE\n");
+      break;
+    case VC_CODE_FORWARD:
+      dist = vc.num;
+      printf("RunForward\n");
+      drive_.RunForward(200);
+      break;
+    case VC_CODE_BACK:
+      dist = vc.num;
+      printf("RunBack\n");
+      drive_.RunForward(-200);
+      break;
+    case VC_CODE_LEFT:
+      dist = vc.num;
+      printf("!Left\n");
+      break;
+    case VC_CODE_RIGHT:
+      dist = vc.num
+      printf("!Right\n");
+      break;
+    case VC_CODE_ROTATE:
+      dist = vc.num;
+      printf("!Rotate\n");
+      break;
+    case VC_CODE_STOP:
+      dist = vc.num;
+      printf("!STOP\n");
+      break;
+    default:
+      printf("UNDEFINED\n");
+      break; 
+  }
+  return;
+}

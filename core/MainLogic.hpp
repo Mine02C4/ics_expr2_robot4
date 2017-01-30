@@ -20,6 +20,7 @@ private:
   Sensor &sensor_;
   Gun &gun_;
   CVision &vision_;
+  void Wait_Input_By_Code();
 #ifndef _MSC_VER
   Voicerec &voice_;
   Speech &speech_;
