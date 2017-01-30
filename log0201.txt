@@ -1,0 +1,665 @@
+Initializing motor...
+Found controller #0.
+wirteCMPL[0:0]
+Testing stepping motor
+input device ok
+wirteCMPL[4800:-4800]
+Start!
+Initializing motor, moving to inital pos...complete!
+Finish init devices.
+Finish init mainlogic.
+Core MainLogic: Start StartPursuingBox
+area = 1536, cx = -423, cy = -948
+MainLogic TurnByDegrees 0
+currentrot:0Old Pos [x, y, th] = 000
+Current Pos [x, y, th] = 149.06600
+Core Gun: Elevate too upper 95
+wirteCMPL[9600:-9600]
+get_distance(left) : 193
+get_distance(right) : 115
+MainLogic TurretRelativeUp 95
+area = 1567, cx = -426, cy = -948
+MainLogic TurnByDegrees 0
+currentrot:150Old Pos [x, y, th] = 149.06600
+Current Pos [x, y, th] = 298.13300
+Core Gun: Elevate too upper 95
+wirteCMPL[14400:-14400]
+MainLogic TurretRelativeUp 95
+area = 1550, cx = -424, cy = -948
+MainLogic TurnByDegrees 0
+currentrot:300Old Pos [x, y, th] = 298.13300
+Current Pos [x, y, th] = 447.19900
+Core Gun: Elevate too upper 95
+wirteCMPL[19200:-19200]
+MainLogic TurretRelativeUp 95
+area = 1567, cx = -425, cy = -948
+MainLogic TurnByDegrees 0
+currentrot:450Old Pos [x, y, th] = 447.19900
+Current Pos [x, y, th] = 596.26500
+Core Gun: Elevate too upper 95
+wirteCMPL[24000:-24000]
+MainLogic TurretRelativeUp 95
+area = 1483, cx = -425, cy = -951
+MainLogic TurnByDegrees 0
+currentrot:600Old Pos [x, y, th] = 596.26500
+Current Pos [x, y, th] = 745.33200
+Core Gun: Elevate too upper 96
+Voicerec:last sentence: 
+Voicerec:code:-1 num:-1
+wirteCMPL[8000:-8000]
+wirteCMPL[12800:-12800]
+MainLogic TurretRelativeUp 96
+UNDEFINED
+get_distance(left) : 0
+get_distance(right) : 116
+End loop
+stop
+currentrot:750Old Pos [x, y, th] = 745.33200
+Current Pos [x, y, th] = 246.53300
+get_distance(left) : 0
+area = 687, cx = -180, cy = 985
+MainLogic TurnByDegrees 0
+currentrot:250Old Pos [x, y, th] = 246.53300
+Current Pos [x, y, th] = 395.59900
+Core Gun: Elevate too lower -99
+wirteCMPL[17600:-17600]
+get_distance(right) : 116
+MainLogic TurretRelativeUp -99
+area = 914, cx = -151, cy = 974
+MainLogic TurnByDegrees 0
+currentrot:400Old Pos [x, y, th] = 395.59900
+Current Pos [x, y, th] = 544.66500
+Core Gun: Elevate too lower -98
+wirteCMPL[22400:-22400]
+MainLogic TurretRelativeUp -98
+area = 1271, cx = -124, cy = 956
+MainLogic TurnByDegrees 0
+currentrot:550Old Pos [x, y, th] = 544.66500
+Current Pos [x, y, th] = 693.73200
+Core Gun: Elevate too lower -96
+wirteCMPL[27200:-27200]
+MainLogic TurretRelativeUp -96
+area = 2429, cx = -95, cy = 902
+MainLogic TurnByDegrees 0
+currentrot:700Old Pos [x, y, th] = 693.73200
+Current Pos [x, y, th] = 842.79800
+Core Gun: Elevate too lower -91
+wirteCMPL[32000:-32000]
+MainLogic TurretRelativeUp -91
+area = 2994, cx = -70, cy = 877
+MainLogic TurnByDegrees 0
+currentrot:850Old Pos [x, y, th] = 842.79800
+Current Pos [x, y, th] = 991.86400
+Core Gun: Elevate too lower -88
+MainLogic TurretRelativeUp -88
+area = 4529, cx = -764, cy = 562
+MainLogic TurnByDegrees 0
+Core Gun: Elevate too lower -57
+Voicerec:last sentence: 
+Voicerec:code:-1 num:-1
+wirteCMPL[16000:-16000]
+wirteCMPL[11200:-11200]
+wirteCMPL[6400:-6400]
+wirteCMPL[1600:-1600]
+wirteCMPL[-3200:3200]
+wirteCMPL[-8000:8000]
+wirteCMPL[-12800:12800]
+wirteCMPL[-17600:17600]
+wirteCMPL[-22400:22400]
+wirteCMPL[-27200:27200]
+wirteCMPL[-32000:32000]
+wirteCMPL[28736:-28736]
+wirteCMPL[23936:-23936]
+wirteCMPL[19136:-19136]
+wirteCMPL[14336:-14336]
+wirteCMPL[9536:-9536]
+wirteCMPL[4736:-4736]
+wirteCMPL[-64:64]
+wirteCMPL[-4864:4864]
+wirteCMPL[-9664:9664]
+wirteCMPL[-14464:14464]
+wirteCMPL[-19264:19264]
+wirteCMPL[-24064:24064]
+wirteCMPL[-28864:28864]
+wirteCMPL[31872:-31872]
+wirteCMPL[27072:-27072]
+wirteCMPL[22272:-22272]
+wirteCMPL[17472:-17472]
+UNDEFINED
+get_distance(left) : 41
+get_distance(right) : 115
+End loop
+stop
+currentrot:1000Old Pos [x, y, th] = 991.86400
+Current Pos [x, y, th] = 493.06600
+get_distance(left) : 41
+get_distance(right) : 115
+MainLogic TurretRelativeUp -57
+area = 12102, cx = -365, cy = 460
+MainLogic TurnByDegrees 0
+currentrot:500Old Pos [x, y, th] = 493.06600
+Current Pos [x, y, th] = 343.99900
+area = 8139, cx = -415, cy = 572
+MainLogic TurnByDegrees 0
+currentrot:350Old Pos [x, y, th] = 343.99900
+Current Pos [x, y, th] = 194.93300
+area = 8717, cx = 35, cy = 510
+MainLogic TurnByDegrees 0
+currentrot:200Old Pos [x, y, th] = 194.93300
+Current Pos [x, y, th] = 45.866600
+area = 8143, cx = 87, cy = 461
+MainLogic TurnByDegrees 0
+currentrot:50Old Pos [x, y, th] = 45.866600
+Current Pos [x, y, th] = -103.200
+area = 8866, cx = 187, cy = 311
+MainLogic TurnByDegrees 0
+currentrot:-100Old Pos [x, y, th] = -103.200
+Current Pos [x, y, th] = -252.26600
+area = 8860, cx = 188, cy = 302
+MainLogic TurnByDegrees 0
+currentrot:-250Old Pos [x, y, th] = -252.26600
+Current Pos [x, y, th] = -401.33200
+area = 8834, cx = 181, cy = 301
+MainLogic TurnByDegrees 0
+currentrot:-400Old Pos [x, y, th] = -401.33200
+Current Pos [x, y, th] = -550.39900
+area = 8689, cx = 169, cy = 288
+MainLogic TurnByDegrees 0
+currentrot:-550Old Pos [x, y, th] = -550.39900
+Current Pos [x, y, th] = -699.46500
+area = 8624, cx = 150, cy = 252
+MainLogic TurnByDegrees 0
+currentrot:-700Old Pos [x, y, th] = -699.46500
+Current Pos [x, y, th] = -848.53100
+area = 8527, cx = 117, cy = 212
+MainLogic TurnByDegrees 0
+currentrot:-850Old Pos [x, y, th] = -848.53100
+Current Pos [x, y, th] = -997.59800
+area = 8445, cx = 97, cy = 197
+MainLogic TurnByDegrees 0
+currentrot:-1000Old Pos [x, y, th] = -997.59800
+Current Pos [x, y, th] = -1146.6600
+area = 8372, cx = 66, cy = 180
+MainLogic TurnByDegrees 0
+currentrot:-1150Old Pos [x, y, th] = -1146.6600
+Current Pos [x, y, th] = -1295.7300
+area = 8407, cx = 55, cy = 178
+MainLogic TurnByDegrees 0
+currentrot:-1300Old Pos [x, y, th] = -1295.7300
+Current Pos [x, y, th] = -1444.800
+area = 8446, cx = 66, cy = 163
+MainLogic TurnByDegrees 0
+currentrot:-1450Old Pos [x, y, th] = -1444.800
+Current Pos [x, y, th] = -1593.8600
+area = 8480, cx = 76, cy = 139
+MainLogic TurnByDegrees 0
+currentrot:-1600Old Pos [x, y, th] = -1593.8600
+Current Pos [x, y, th] = -1742.9300
+area = 8441, cx = 71, cy = 119
+MainLogic TurnByDegrees 0
+currentrot:-1750Old Pos [x, y, th] = -1742.9300
+Current Pos [x, y, th] = -189200
+area = 8382, cx = 46, cy = 60
+MainLogic TurnByDegrees 0
+currentrot:-1900Old Pos [x, y, th] = -189200
+Current Pos [x, y, th] = -2041.0600
+area = 8142, cx = -4, cy = 4
+MainLogic TurnByDegrees 0
+currentrot:-2050Old Pos [x, y, th] = -2041.0600
+Current Pos [x, y, th] = -2190.1300
+area = 7736, cx = -82, cy = -45
+MainLogic TurnByDegrees 0
+currentrot:-2200Old Pos [x, y, th] = -2190.1300
+Current Pos [x, y, th] = -2339.1900
+area = 7393, cx = -144, cy = -83
+MainLogic TurnByDegrees 0
+currentrot:-2350Old Pos [x, y, th] = -2339.1900
+Current Pos [x, y, th] = -2488.2600
+area = 6952, cx = -176, cy = -119
+MainLogic TurnByDegrees 0
+currentrot:-2500Old Pos [x, y, th] = -2488.2600
+Current Pos [x, y, th] = -2637.3300
+area = 6556, cx = -197, cy = -139
+MainLogic TurnByDegrees 0
+currentrot:-2650Old Pos [x, y, th] = -2637.3300
+Current Pos [x, y, th] = -2786.3900
+area = 6312, cx = -210, cy = -149
+MainLogic TurnByDegrees 0
+currentrot:-2800Old Pos [x, y, th] = -2786.3900
+Current Pos [x, y, th] = -2935.4600
+area = 6200, cx = -212, cy = -153
+MainLogic TurnByDegrees 0
+currentrot:-2950Old Pos [x, y, th] = -2935.4600
+Current Pos [x, y, th] = -3084.5300
+area = 5826, cx = -213, cy = -174
+MainLogic TurnByDegrees 0
+currentrot:-3100Old Pos [x, y, th] = -3084.5300
+Current Pos [x, y, th] = -3233.5900
+area = 5536, cx = -214, cy = -191
+MainLogic TurnByDegrees 0
+currentrot:-3250Old Pos [x, y, th] = -3233.5900
+Current Pos [x, y, th] = -3382.6600
+area = 5371, cx = -221, cy = -197
+MainLogic TurnByDegrees 0
+currentrot:-3400Old Pos [x, y, th] = -3382.6600
+Current Pos [x, y, th] = -3531.7300
+area = 5293, cx = -225, cy = -198
+MainLogic TurnByDegrewirteCMPL[12672:-12672]
+wirteCMPL[7872:-7872]
+wirteCMPL[3072:-3072]
+Voicerec:last sentence: 
+Voicerec:code:-1 num:-1
+es 0
+currentrot:-3550Old Pos [x, y, th] = -3531.7300
+Current Pos [x, y, th] = -3680.7900
+area = 5137, cx = -237, cy = -197
+MainLogic TurnByDegrees 0
+currentrot:-3700Old Pos [x, y, th] = -3680.7900
+Current Pos [x, y, th] = -3829.8600
+area = 5015, cx = -255, cy = -191
+MainLogic TurnByDegrees 0
+currentrot:-3850Old Pos [x, y, th] = -3829.8600
+Current Pos [x, y, th] = -3978.9200
+area = 4847, cx = -281, cy = -187
+MainLogic TurnByDegrees 0
+area = 4788, cx = -310, cy = -181
+MainLogic TurnByDegrees 0
+area = 4621, cx = -341, cy = -183
+MainLogic TurnByDegrees 0
+area = 4563, cx = -367, cy = -179
+MainLogic TurnByDegrees 0
+area = 4510, cx = -392, cy = -170
+MainLogic TurnByDegrees 0
+area = 4523, cx = -415, cy = -156
+MainLogic TurnByDegrees 0
+area = 4498, cx = -423, cy = -147
+MainLogic TurnByDegrees 0
+area = 4427, cx = -435, cy = -129
+MainLogic TurnByDegrees 0
+area = 4408, cx = -443, cy = -122
+MainLogic TurnByDegrees 0
+area = 4401, cx = -450, cy = -122
+MainLogic TurnByDegrees 0
+area = 4388, cx = -468, cy = -118
+MainLogic TurnByDegrees 0
+area = 4362, cx = -488, cy = -102
+MainLogic TurnByDegrees 0
+area = 4316, cx = -507, cy = -75
+MainLogic TurnByDegrees 0
+area = 4266, cx = -515, cy = -55
+MainLogic TurnByDegrees 0
+area = 4247, cx = -507, cy = -50
+MainLogic TurnByDegrees 0
+area = 4201, cx = -479, cy = -62
+MainLogic TurnByDegrees 0
+area = 4118, cx = -449, cy = -69
+MainLogic TurnByDegrees 0
+area = 4087, cx = -436, cy = -71
+MainLogic TurnByDegrees 0
+area = 4120, cx = -435, cy = -70
+MainLogic TurnByDegrees 0
+area = 4164, cx = -438, cy = -69
+MainLogic TurnByDegrees 0
+area = 4177, cx = -443, cy = -75
+MainLogic TurnByDegrees 0
+area = 4164, cx = -449, cy = -81
+MainLogic TurnByDegrees 0
+area = 4185, cx = -450, cy = -84
+MainLogic TurnByDegrees 0
+area = 4203, cx = -452, cy = -79
+MainLogic TurnByDegrees 0
+area = 4210, cx = -450, cy = -70
+MainLogic TurnByDegrees 0
+area = 4216, cx = -446, cy = -61
+MainLogic TurnByDegrees 0
+area = 4197, cx = -444, cy = -58
+MainLogic TurnByDegrees 0
+area = 4200, cx = -445, cy = -57
+MainLogic TurnByDegrees 0
+area = 4202, cx = -446, cy = -58
+MainLogic TurnByDegrees 0
+area = 4179, cx = -444, cy = -60
+MainLogic TurnByDegrees 0
+area = 4192, cx = -437, cy = -60
+MainLogic TurnByDegrees 0
+area = 4195, cx = -438, cy = -58
+MainLogic TurnByDegrees 0
+area = 4172, cx = -433, cy = -48
+MainLogic TurnByDegrees 0
+area = 4161, cx = -420, cy = -32
+MainLogic TurnByDegrees 0
+area = 4173, cx = -409, cy = -19
+MainLogic TurnByDegrees 0
+area = 4185, cx = -388, cy = 12
+MainLogic TurnByDegrees 0
+area = 4191, cx = -372, cy = 33
+MainLogic TurnByDegrees 0
+area = 4194, cx = -340, cy = 74
+MainLogic TurnByDegrees 0
+area = 4128, cx = -307, cy = 110
+MainLogic TurnByDegrees 0
+area = 4077, cx = -278, cy = 139
+MainLogic TurnByDegrees 0
+area = 4042, cx = -248, cy = 164
+MainLogic TurnByDegrees 0
+area = 4021, cx = -236, cy = 174
+MainLogic TurnByDegrees 0
+area = 3998, cx = -214, cy = 189
+MainLogic TurnByDegrees 0
+area = 4011, cx = -202, cy = 198
+MainLogic TurnByDegrees 0
+area = 4031, cx = -177, cy = 207
+MainLogic TurnByDegrees 0
+area = 4084, cx = -150, cy = 224
+MainLogic TurnByDegrees 0
+area = 4090, cx = -137, cy = 237
+MainLogic TurnByDegrees 0
+area = 4106, cx = -110, cy = 262
+MainLogic TurnByDegrees 0
+area = 4058, cx = -82, cy = 288
+MainLogic TurnByDegrees 0
+area = 4048, cx = -68, cy = 302
+MainLogic TurnByDegrees 0
+area = 4041, cx = -42, cy = 333
+MainLogic TurnByDegrees 0
+area = 4023, cx = -21, cy = 369
+MainLogic TurnByDegrees 0
+area = 4017, cx = -8, cy = 389
+MainLogic TurnByDegrees 0
+area = 4017, cx = 15, cy = 425
+MainLogic TurnByDegrees 0
+area = 4003, cx = 35, cy = 454
+MainLogic TurnByDegrees 0
+area = 4004, cx = 41, cy = 467
+MainLogic TurnByDegrees 0
+area = 3968, cx = 55, cy = 480
+MainLogic TurnByDegrees 0
+area = 3952, cx = 60, cy = 482
+MainLogic TurnByDegrees 0
+area = 3944, cx = 65, cy = 484
+MainLogic TurnByDegrees 0
+UNDEFINED
+area = 3947, cx = 68, cy = 490
+MainLogic TurnByDegrees 0
+area = 3971, cx = 70, cy = 495
+MainLogic TurnByDegrees 0
+get_distance(left) : 50
+area = 3990, cx = 75, cy = 513
+MainLogic TurnByDegrees 0
+Core Gun: Elevate too lower -52
+get_distance(right) : 115
+End loop
+get_distance(left) : 50
+get_distance(right) : 116
+MainLogic TurretRelativeUp -52
+area = 3975, cx = 82, cy = 537
+MainLogic TurnByDegrees 0
+Core Gun: Elevate too lower -54
+MainLogic TurretRelativeUp -54
+area = 3971, cx = 86, cy = 549
+MainLogic TurnByDegrees 0
+Core Gun: Elevate too lower -55
+MainLogic TurretRelativeUp -55
+area = 3972, cx = 90, cy = 577
+MainLogic TurnByDegrees 0
+Core Gun: Elevate too lower -58
+MainLogic TurretRelativeUp -58
+area = 3931, cx = 95, cy = 600
+MainLogic TurnByDegrees 0
+Core Gun: Elevate too lower -61
+MainLogic TurretRelativeUp -61
+area = 3497, cx = 103, cy = 709
+MainLogic TurnByDegrees 0
+Core Gun: Elevate too lower -71
+Voicerec:last sentence: 
+Voicerec:code:-1 num:-1
+wirteCMPL[-12928:12928]
+UNDEFINED
+get_distance(left) : 43
+get_distance(right) : 82
+End loop
+stop
+currentrot:-4000Old Pos [x, y, th] = -3978.9200
+Current Pos [x, y, th] = -4477.7200
+get_distance(left) : 64
+get_distance(right) : 78
+MainLogic TurretRelativeUp -71
+area = 3018, cx = 88, cy = 752
+MainLogic TurnByDegrees 0
+Core Gun: Elevate too lower -76
+wirteCMPL[-8128:8128]
+MainLogic TurretRelativeUp -76
+area = 2475, cx = 78, cy = 816
+MainLogic TurnByDegrees 0
+currentrot:-4500Old Pos [x, y, th] = -4477.7200
+Current Pos [x, y, th] = -4328.6600
+Core Gun: Elevate too lower -82
+wirteCMPL[-3328:3328]
+MainLogic TurretRelativeUp -82
+area = 1536, cx = 87, cy = 897
+MainLogic TurnByDegrees 0
+currentrot:-4350Old Pos [x, y, th] = -4328.6600
+Current Pos [x, y, th] = -4179.5900
+Core Gun: Elevate too lower -90
+wirteCMPL[1472:-1472]
+MainLogic TurretRelativeUp -90
+area = 2454, cx = 55, cy = 830
+MainLogic TurnByDegrees 0
+currentrot:-4200Old Pos [x, y, th] = -4179.5900
+Current Pos [x, y, th] = -4030.5200
+Core Gun: Elevate too lower -84
+wirteCMPL[6272:-6272]
+MainLogic TurretRelativeUp -84
+area = 1878, cx = -39, cy = 866
+MainLogic TurnByDegrees 0
+currentrot:-4050Old Pos [x, y, th] = -4030.5200
+Current Pos [x, y, th] = -3881.4600
+Core Gun: Elevate too lower -87
+MainLogic TurretRelativeUp -87
+area = 4162, cx = -196, cy = 730
+MainLogic TurnByDegrees 0
+Core Gun: Elevate too lower -74
+Voicerec:last sentence: 
+Voicerec:code:-1 num:-1
+wirteCMPL[-9728:9728]
+UNDEFINED
+get_distance(left) : 47
+get_distance(right) : 115
+End loop
+stop
+currentrot:-3900Old Pos [x, y, th] = -3881.4600
+Current Pos [x, y, th] = -4380.2600
+get_distance(left) : 47
+get_distance(right) : 115
+MainLogic TurretRelativeUp -74
+area = 4424, cx = -245, cy = 736
+MainLogic TurnByDegrees 0
+Core Gun: Elevate too lower -74
+wirteCMPL[-14528:14528]
+wirteCMPL[-19328:19328]
+wirteCMPL[-24128:24128]
+wirteCMPL[-28928:28928]
+wirteCMPL[31808:-31808]
+wirteCMPL[27008:-27008]
+wirteCMPL[22208:-22208]
+wirteCMPL[17408:-17408]
+wirteCMPL[12608:-12608]
+wirteCMPL[7808:-7808]
+wirteCMPL[3008:-3008]
+wirteCMPL[-1792:1792]
+wirteCMPL[-6592:6592]
+wirteCMPL[-11392:11392]
+wirteCMPL[-16192:16192]
+wirteCMPL[-20992:20992]
+wirteCMPL[-25792:25792]
+wirteCMPL[-30592:30592]
+wirteCMPL[30144:-30144]
+wirteCMPL[25344:-25344]
+wirteCMPL[20544:-20544]
+wirteCMPL[15744:-15744]
+wirteCMPL[10944:-10944]
+wirteCMPL[6144:-6144]
+wirteCMPL[1344:-1344]
+MainLogic TurretRelativeUp -74
+area = 6585, cx = -41, cy = 547
+MainLogic TurnByDegrees 0
+currentrot:-4400Old Pos [x, y, th] = -4380.2600
+Current Pos [x, y, th] = -4529.3200
+area = 6225, cx = -279, cy = 521
+MainLogic TurnByDegrees 0
+currentrot:-4550Old Pos [x, y, th] = -4529.3200
+Current Pos [x, y, th] = -4678.3900
+area = 6881, cx = -352, cy = 129
+MainLogic TurnByDegrees 0
+currentrot:-4700Old Pos [x, y, th] = -4678.3900
+Current Pos [x, y, th] = -4827.4600
+area = 6964, cx = -354, cy = 126
+MainLogic TurnByDegrees 0
+currentrot:-4850Old Pos [x, y, th] = -4827.4600
+Current Pos [x, y, th] = -4976.5200
+area = 6959, cx = -374, cy = 110
+MainLogic TurnByDegrees 0
+currentrot:-5000Old Pos [x, y, th] = -4976.5200
+Current Pos [x, y, th] = -5125.5900
+area = 6974, cx = -376, cy = 110
+MainLogic TurnByDegrees 0
+currentrot:-5150Old Pos [x, y, th] = -5125.5900
+Current Pos [x, y, th] = -5274.6500
+area = 6996, cx = -379, cy = 111
+MainLogic TurnByDegrees 0
+currentrot:-5300Old Pos [x, y, th] = -5274.6500
+Current Pos [x, y, th] = -5423.7200
+area = 6988, cx = -381, cy = 111
+MainLogic TurnByDegrees 0
+currentrot:-5450Old Pos [x, y, th] = -5423.7200
+Current Pos [x, y, th] = -5572.7900
+area = 6998, cx = -380, cy = 112
+MainLogic TurnByDegrees 0
+currentrot:-5600Old Pos [x, y, th] = -5572.7900
+Current Pos [x, y, th] = -5721.8500
+area = 7037, cx = -380, cy = 114
+MainLogic TurnByDegrees 0
+currentrot:-5750Old Pos [x, y, th] = -5721.8500
+Current Pos [x, y, th] = -5870.9200
+area = 7023, cx = -383, cy = 115
+MainLogic TurnByDegrees 0
+currentrot:-5900Old Pos [x, y, th] = -5870.9200
+Current Pos [x, y, th] = -6019.9900
+area = 7040, cx = -383, cy = 118
+MainLogic TurnByDegrees 0
+currentrot:-6050Old Pos [x, y, th] = -6019.9900
+Current Pos [x, y, th] = -6169.0500
+area = 7065, cx = -382, cy = 124
+MainLogic TurnByDegrees 0
+currentrot:-6200Old Pos [x, y, th] = -6169.0500
+Current Pos [x, y, th] = -6318.1200
+area = 7022, cx = -379, cy = 128
+MainLogic TurnByDegrees 0
+currentrot:-6350Old Pos [x, y, th] = -6318.1200
+Current Pos [x, y, th] = -6467.1800
+area = 7033, cx = -380, cy = 127
+MainLogic TurnByDegrees 0
+currentrot:-6500Old Pos [x, y, th] = -6467.1800
+Current Pos [x, y, th] = -6616.2500
+area = 6993, cx = -381, cy = 106
+MainLogic TurnByDegrees 0
+currentrot:-6650Old Pos [x, y, th] = -6616.2500
+Current Pos [x, y, th] = -6765.3200
+area = 7036, cx = -383, cy = 84
+MainLogic TurnByDegrees 0
+currentrot:-6800Old Pos [x, y, th] = -6765.3200
+Current Pos [x, y, th] = -6914.3800
+area = 7222, cx = -392, cy = 11
+MainLogic TurnByDegrees 0
+currentrot:-6950Old Pos [x, y, th] = -6914.3800
+Current Pos [x, y, th] = -7063.4500
+area = 7435, cx = -416, cy = -92
+MainLogic TurnByDegrees 0
+currentrot:-7100Old Pos [x, y, th] = -7063.4500
+Current Pos [x, y, th] = -7212.5200
+area = 7844, cx = -455, cy = -230
+MainLogic TurnByDegrees 0
+currentrot:-7250Old Pos [x, y, th] = -7212.5200
+Current Pos [x, y, th] = -7361.5800
+area = 8133, cx = -504, cy = -390
+MainLogic TurnByDegrees 0
+currentrot:-7400Old Pos [x, y, th] = -7361.5800
+Current Pos [x, y, th] = -7510.6500
+area = 7665, cx = -572, cy = -571
+MainLogic TurnByDegrees 0
+currentrot:-7550Old Pos [x, y, th] = -7510.6500
+Current Pos [x, y, th] = -7659.7200
+area = 7116, cx = -590, cy = -611
+MainLogic TurnByDegrees 0
+currentrot:-7700Old Pos [x, y, th] = -7659.7200
+Current Pos [x, y, th] = -7808.7800
+area = 6065, cx = -609, cy = -675
+MainLogic TurnByDegrees 0
+currentrot:-7850Old Pos [x, y, th] = -7808.7800
+Current Pos [x, y, th] = -7957.8500
+area = 5159, cx = -614, cy = -729
+MainLogic TurnByDegrees 0
+currentrot:-8000Old Pos [x, y, th] = -7957.8500
+Current Pos [x, y, th] = -8106.9100
+area = 3966, cx = -621, cy = -801
+MainLogic TurnByDegrees 0
+Core Gun: Elevate too upper 81
+MainLogic TurretRelativeUp 81
+area = 3732, cx = -639, cy = -816
+MainLogic TurnByDegrees 0
+Core Gun: Elevate too upper 82
+MainLogic TurretRelativeUp 82
+area = 4187, cx = -725, cy = -793
+MainLogic TurnByDegrees 0
+Core Gun: Elevate too upper 80
+Voicerec:last sentence: 
+Voicerec:code:-1 num:-1
+wirteCMPL[-14656:14656]
+UNDEFINED
+get_distance(left) : 24
+get_distance(right) : 116
+End loop
+stop
+currentrot:-8150Old Pos [x, y, th] = -8106.9100
+Current Pos [x, y, th] = -8605.7100
+get_distance(left) : 24
+get_distance(right) : 27
+MainLogic TurretRelativeUp 80
+area = 4270, cx = -789, cy = -784
+MainLogic TurnByDegrees 0
+Core Gun: Elevate too upper 79
+MainLogic TurretRelativeUp 79
+area = 3664, cx = -824, cy = -793
+MainLogic TurnByDegrees 0
+Core Gun: Elevate too upper 80
+Voicerec:last sentence: 
+Voicerec:code:-1 num:-1
+wirteCMPL[-30656:30656]
+Voicerec:last sentence: 
+Voicerec:code:-1 num:-1
+wirteCMPL[18880:-18880]
+Voicerec:last sentence: 
+Voicerec:code:-1 num:-1
+Error: Error on select the range high byte. Sensor = 0
+MainLogic TurretRelativeUp 80
+Core MainLogic: End StartPursuingBox
+UNDEFINED
+get_distance(left) : 24
+get_distance(right) : 120
+End loop
+stop
+currentrot:-8650Old Pos [x, y, th] = -8605.7100
+Current Pos [x, y, th] = -9104.5100
+get_distance(left) : 24
+get_distance(right) : 118
+UNDEFINED
+get_distance(left) : 25
+get_distance(right) : 116
+End loop
+stop
+currentrot:-9150Old Pos [x, y, th] = -9104.5100
+Current Pos [x, y, th] = -9603.3100
+get_distance(left) : 25
+get_distance(right) : 80
+UNDEFINED
+get_distance(left) : 27
