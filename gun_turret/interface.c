@@ -14,7 +14,6 @@
 
 const static char *arduino_dev = "/dev/ttyACM0";
 static int fd;
-static int curr_ang;
 struct termios oldtio, newtio;
 
 void sflush()
@@ -26,7 +25,6 @@ void sflush()
 
 void turret_init()
 {
-  curr_ang = 0;
   fd = open(arduino_dev, O_RDWR | O_NOCTTY | O_NONBLOCK);
   if (fd < 0) {
     fprintf(stderr, "Error: cannot open Arduino tty.\n");
@@ -84,29 +82,19 @@ burst_fire(int n_bullets)
 void
 turn_by_degrees(int degrees)
 {
-	/* check valid input */
-	// TODO: implement pid
-	// Left: positive, Right: negative
-	// Absolute
-	
-	if (-ANGLE_LIMIT <= curr_ang + degrees && curr_ang + degrees <= ANGLE_LIMIT) {
-		curr_ang = degrees;
-	} else {
-		fprintf(stderr, "Invalid Angle\n");
-		return;
-	}
+  /* check valid input */
+  // TODO: implement pid
+  // Left: positive, Right: negative
+  // Absolute
 
-	char buf[BUFSIE];
-	sprintf(buf, "turn=%dx", degrees);
- 	int size = strlen(buf);
-
-  if ((write(fd, buf, size)) != size) {
+  char buf[BUFSIE];
+  sprintf(buf, "turn=%dx", degrees);
+  int size = strlen(buf);
+  if (write(fd, buf, size) != size) {
     fprintf(stderr, "Error: Error turn by degrees\n");
     exit(1);
   }
   sflush();
-
-  fprintf(stderr, "Aiming at; Deg: %2d\n", curr_ang);
 }
 
 void
@@ -121,15 +109,13 @@ elevate_by_degrees(int degrees)
     exit(1);
   }
   sflush();
-  fprintf(stderr, "Aiming at; Deg: %2d\n", curr_ang);
-  return;
 }
 
 void
 turret_finalize()
 {
   /* revert to inital pos */
-  turn_by_degrees(-curr_ang);
+  turn_by_degrees(0);
   elevate_by_degrees(0);
   sflush();
   close(fd);

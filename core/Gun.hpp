@@ -21,6 +21,8 @@ private:
   int current_elevation_;
   const int kElevationUpperLimit = 70;
   const int kElevationLowerLimit = -20;
+  int current_angle_;
+  const int kAngleLimit = 90;
 };
 
 #endif  // ROBOT_CORE_GUN_H_

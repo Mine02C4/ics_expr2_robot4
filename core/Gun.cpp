@@ -9,6 +9,7 @@ void Gun::Init()
 {
   turret_init();
   current_elevation_ = 0;
+  current_angle_ = 0;
 }
 
 void Gun::Finalize()
@@ -50,9 +51,18 @@ void Gun::TurretRelativeUp(int degrees)
   TurretAbsoluteElevate(current_elevation_ + degrees);
 }
 
-void Gun::TurnByDegrees(int degrees) {
+void Gun::TurnAbsoluteDegrees(int degrees) {
+  if (degrees < -kAngleLimit) {
+    std::cerr << "Core Gun: Turn too lower " << degrees << std::endl;
+    degrees = -kAngleLimit;
+  }
+  else if (degrees > kAngleLimit)
+  {
+    degrees = kAngleLimit;
+  }
   turn_by_degrees(degrees);
 }
+
 Gun::Gun()
 {
 }
