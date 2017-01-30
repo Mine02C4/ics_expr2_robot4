@@ -61,6 +61,7 @@ void Gun::TurnAbsoluteDegrees(int degrees) {
     degrees = kAngleLimit;
   }
   turn_by_degrees(degrees);
+  std::this_thread::sleep_for(std::chrono::seconds(1));
 }
 
 Gun::Gun()
