@@ -9,9 +9,9 @@ public:
     return singleton;
   }
   void Init();
-	void FireNum(int);
-	void FireBurst(int);
-	void FireSingle();
+  void FireNum(int);
+  void FireBurst(int);
+  void FireSingle();
   void Finalize();
   void TurretAbsoluteElevate(int degrees);
   void TurretRelativeUp(int degrees);
