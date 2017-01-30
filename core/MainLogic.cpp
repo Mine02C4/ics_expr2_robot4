@@ -70,6 +70,10 @@ void MainLogic::Launch()
     if (vision_.getInstance().ReadFrame()) {
       AdjustGunTurret();
     }
+    int key = cv::waitKey(1) & 0xff;
+    if (key == 27) {
+      break;
+    }
 #ifndef _MSC_VER
     //  std::string str = voice_.Wait_One_Sentence(5);
     int code = voice_.Wait_One_Code(5);
@@ -103,10 +107,6 @@ void MainLogic::Launch()
       break;
     }
 #endif
-    int key = cv::waitKey(1) & 0xff;
-    if (key == 27) {
-      break;
-    }
     printf("get_distance(left) : %d\n", sensor_.GetDistance(SensorID::LeftFront));
     printf("get_distance(right) : %d\n", sensor_.GetDistance(SensorID::RightFront));
     printf("End loop\n");
