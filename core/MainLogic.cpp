@@ -39,12 +39,9 @@ void MainLogic::AdjustGunTurret()
   int area, cx, cy;
   if (vision_.getInstance().DetectBlueBox(area, cx, cy)) {
     printf("area = %d, cx = %d, cy = %d\n", area, cx, cy);
-    if (cx < -512) {
-     // gun_.TurnByDegrees();
-    }
-    else if (cx > 512) {
-    }
-    else {
+    
+    gun_.TurnByDegrees(cx / 1024 * 60);
+     
       if (area < 3000) {
         drive_.RunForward(1);
       }
@@ -62,7 +59,6 @@ void MainLogic::AdjustGunTurret()
           printf("turretdown");
         }
       }
-    }
   }
 }
 
