@@ -20,16 +20,39 @@ const std::string mine_jconf = dictation_prefix + "mine.jconf";
 const std::string fast_jconf = dictation_prefix + "fast.jconf";
 
 int Voicerec::Init() {
+  return Init(0);
+}
+int Voicerec::Init(int filenum) {
   //Initialize
   jlog_set_output(NULL);
   // 指定した.jconfファイルから設定を読み込む
-  {
-    char *cstr = new char[mine_jconf.size() + 1];
-    strcpy(cstr, mine_jconf.c_str());
-    jconf  = j_config_load_file_new(cstr);
-    delete cstr;
-  }
-  if (jconf == NULL) {
+switch(filenum) {
+  case MINEJCONF:
+    {
+      char *cstr = new char[mine_jconf.size() + 1];
+      strcpy(cstr, mine_jconf.c_str());
+      jconf = j_config_load_file_new(cstr);
+      delete cstr;
+    }
+    break;
+  case FASTJCONF:
+    {
+      char *cstr = new char[fast_jconf.size() + 1];
+      strcpy(cstr, fast_jconf.c_str());
+      jconf =  j_config_load_file_new(cstr);
+      delete cstr;
+    }
+    break;
+ default:
+   {
+      char *cstr = new char[mine_jconf.size() + 1];
+      strcpy(cstr, mine_jconf.c_str());
+      jconf = j_config_load_file_new(cstr);
+      delete cstr;
+    }
+   break;
+ }
+   if (jconf == NULL) {
     fprintf(stderr, "jconf load miss\n");
     return -1;
   }
@@ -64,32 +87,9 @@ int Voicerec::Init() {
   th.detach();
   return 0;
 }
-
 int Voicerec::ChangeMode(int status) {
-  int flag;
-  switch(status) {
-  case MINEJCONF:
-    {
-      char *cstr = new char[mine_jconf.size() + 1];
-      strcpy(cstr, mine_jconf.c_str());
-      flag = j_config_load_file(jconf,cstr);
-      delete cstr;
-    }
-    return flag;
-    break;
-  case FASTJCONF:
-    {
-      char *cstr = new char[fast_jconf.size() + 1];
-      strcpy(cstr, fast_jconf.c_str());
-      flag = j_config_load_file(jconf, cstr);
-      delete cstr;
-    }
-    return flag;
-    break;
-  default:
-    return -1;
-    break;
-  }
+  j_close_stream(recog);
+  return Init(status);
 }
 
 void Voicerec::Output_Result(Recog * recog, void * dummy) {
@@ -115,13 +115,14 @@ void Voicerec::Output_Result(Recog * recog, void * dummy) {
       //printf("結果:", n+1);
       std::string tmp = "";
       for(i=0;i<seqnum;i++) {
+	std::string word = winfo->woutput[seq[i]];
        // ワードの数だけ回す
-        tmp += winfo->woutput[seq[i]];
+	if (word != "silB" && word != "silE")
+	  tmp += word;
         if (fp1 != NULL) fp1(winfo->woutput[seq[i]]);
 	       //fp1(winfo->woutput[seq[i]]);
       }
       Voicerec::Return_One_String(tmp);
-      //      printf("\n");
     }
   }
   fflush(stdout);
@@ -166,7 +167,44 @@ int Voicerec::Convert_String_to_Code(std::string s) {
   else if (s == "とまれ") return VC_CODE_STOP;
   else if (s == "さがれ") return VC_CODE_BACK;
   else if (s == "うて")   return VC_CODE_FIRE;
-  else  return -1;
+  else if (s == "撃ち方はじめ") return VC_CODE_UCHIKATA;
+  else if (s == "モード変更") return VC_CODE_MODECHANGE;
+  if ((int)s.find("発") >= 0) {
+    char c = str[1];
+    int num = atoi(c);
+    return (num + VC_CODE_FIRENUM);
+  }
+  if ((int)s.find("砲塔") >= 0){
+    if ((int)s.find("上") >= 0) return VC_CODE_CANNON_UP;
+    if ((int)s.find("下") >= 0) return VC_CODE_CANNON_DOWN;
+    if ((int)s.find("右") >= 0) return VC_CODE_CANNON_RIGHT;
+    if ((int)s.find("左") >= 0) return VC_CODE_CANNON_LEFT;
+    else return -1;
+  }
+
+  if ((int)s.find("少し") >= 0){
+    if ("少し進め"== 0) return VC_CODE_FORWARD_LITTLE;
+    if ("少し右"== 0) return VC_CODE_RIGHT_LITTLE;
+    if ("少し左"== 0) return VC_CODE_LEFT_LITTLE;
+    if ("少し前"== 0) return VC_CODE_FORWARD_LITTLE;
+    if ("少し後ろ"== 0) return VC_CODE_BACK_LITTLE;
+    if ("少しさがれ"== 0) return VC_CODE_BACK_LITTLE;
+    if ("少し行け"== 0) return VC_CODE_FORWARD_LITTLE;
+    else return -1;
+  }
+  if ((int)s.find("大きく") >= 0){
+    if ("大きく進め"== 0) return VC_CODE_FORWARD_FAR;
+    if ("大きく右"== 0) return VC_CODE_RIGHT_FAR;
+    if ("大きく左"== 0) return VC_CODE_LEFT_FAR;
+    if ("大きく前"== 0) return VC_CODE_FORWARD_FAR;
+    if ("大きく後ろ"== 0) return VC_CODE_BACK_FAR;
+    if ("大きくさがれ"== 0) return VC_CODE_BACK_FAR;
+    if ("大きく行け"== 0) return VC_CODE_FORWARD_FAR;
+    else return -1;
+  }
+
+
+  return -1;
 }
 Voicerec::Voicerec() :flag(0), result("") {
 }

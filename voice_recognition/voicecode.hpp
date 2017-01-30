@@ -1,7 +1,31 @@
-#define VC_CODE_FORWARD 0
-#define VC_CODE_BACK 1
-#define VC_CODE_RIGHT 2
-#define VC_CODE_LEFT 3
-#define VC_CODE_ROTATE 4
-#define VC_CODE_STOP 5
-#define VC_CODE_FIRE 6
+#ifndef VOICE_CODE_H
+#define VOICE_CODE_H
+//move
+#define VC_CODE_FORWARD_LITTLE 1
+#define VC_CODE_FORWARD 2
+#define VC_CODE_FORWARD_FAR 3
+#define VC_CODE_BACK_LITTLE 4
+#define VC_CODE_BACK 5
+#define VC_CODE_BACK_FAR 6
+#define VC_CODE_RIGHT_LITTLE 7
+#define VC_CODE_RIGHT 8
+#define VC_CODE_RIGHT_FAR 9
+#define VC_CODE_LEFT_LITTLE 10
+#define VC_CODE_LEFT 11
+#define VC_CODE_LEFT_FAR 12
+#define VC_CODE_ROTATE 13
+#define VC_CODE_STOP 14
+//cannon
+#define VC_CODE_CANNON_UP 15
+#define VC_CODE_CANNON_DOWN 16
+#define VC_CODE_CANNON_RIGHT 17
+#define VC_CODE_CANNON_LEFT 18
+//one word
+#define VC_CODE_MODECHANGE 19
+#define VC_CODE_UCHIKATAHAJIME 20
+
+
+#define VC_CODE_FIRE 21
+#define VC_CODE_FIRENUM 100
+
+#endif //VOICE_CODE_H

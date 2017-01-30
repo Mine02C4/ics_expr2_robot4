@@ -32,6 +32,7 @@ private:
   Recog *recog;
   void ReturnOneString_Instance(std::string s);
   int Convert_String_to_Code(std::string s);
+  int Init(int filenum);
   static void Return_One_String(std::string s) {
     Voicerec::getInstance().ReturnOneString_Instance(s);
   }

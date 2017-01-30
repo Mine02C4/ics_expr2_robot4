@@ -14,10 +14,12 @@
 #
 #-w rapiro/rapiro.dict
 #-w newdict/test0123.dict
--w commands/word.dict
+#-w commands/word.dict
+-dfa commands/word.dfa
+-v commands/word.dict
 #-dfa rapiro/rapiro.dfa
 #-v rapiro/rapiro.dict
--v model/lang_m/web.60k.htkdic
+#-v model/lang_m/web.60k.htkdic
 -h model/phone_m/hmmdefs_ptm_gid.binhmm
 -hlist model/phone_m/logicalTri
 -n 5

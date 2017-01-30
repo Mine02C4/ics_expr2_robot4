@@ -17,6 +17,7 @@ public:
   void TurretDown();
 private:
   Gun();
+  int current_elevation_;
 };
 
 #endif  // ROBOT_CORE_GUN_H_
