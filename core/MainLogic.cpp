@@ -67,8 +67,9 @@ void MainLogic::Launch()
 {
   // Get command from other interfaces.
   for (int i = 0; i < 1000; ++i) {
-    vision_.getInstance().ReadFrame();
-    AdjustGunTurret();
+    if (vision_.getInstance().ReadFrame()) {
+      AdjustGunTurret();
+    }
 #ifndef _MSC_VER
     //  std::string str = voice_.Wait_One_Sentence(5);
     int code = voice_.Wait_One_Code(5);

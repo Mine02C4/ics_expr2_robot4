@@ -17,13 +17,14 @@ int CVision::Init()
   return 0;
 }
 
-void CVision::ReadFrame()
+bool CVision::ReadFrame()
 {
   if (cap_.grab() == false)
-    return;
+    return false;
   if (cap_.retrieve(frame_, 0) == false)
-    return;
+    return false;
   //cv::imshow("VideoTest", frame_);
+  return true;
 }
 
 void CVision::DetectTargetBlue(cv::Mat &hsv, cv::Mat &mask)
