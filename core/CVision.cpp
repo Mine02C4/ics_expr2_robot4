@@ -13,8 +13,6 @@ int CVision::Init()
     return 1;
   cap_.set(CV_CAP_PROP_FRAME_WIDTH, 320);
   cap_.set(CV_CAP_PROP_FRAME_HEIGHT, 240);
-  cv::namedWindow("CVision", CV_WINDOW_AUTOSIZE);
-  cv::namedWindow("Output", CV_WINDOW_AUTOSIZE);
   cap_.read(frame_);
   return 0;
 }
