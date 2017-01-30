@@ -103,7 +103,8 @@ void MainLogic::Launch()
     if (key == 27) {
       break;
     }
-    printf("get_distance: %d\n", sensor_.GetDistance(SensorID::LeftFront));
+    printf("get_distance(left) : %d\n", sensor_.GetDistance(SensorID::LeftFront));
+    printf("get_distance(right) : %d\n", sensor_.GetDistance(SensorID::RightFront));
     printf("End loop\n");
   }
   cv::destroyAllWindows();
