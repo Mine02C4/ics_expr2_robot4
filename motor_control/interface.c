@@ -179,8 +179,8 @@ int motor_write (struct mstat *mstp) {
   /* todo one of the motor should be reversed */
   short rotl = mstp -> rot_l; // left motor rotation
   short rotr = mstp -> rot_r; // 512
-	obuf.ch[MRIGHT].x += rotr << 5;
-	obuf.ch[MLEFT].x += rotl << 5;
+	obuf.ch[MRIGHT].x -= rotr << 5;
+	obuf.ch[MLEFT].x -= rotl << 5;
 
   obuf.ch[MRIGHT].d = -250; // set right rounds
   obuf.ch[MLEFT].d = 250; // set left rounds
