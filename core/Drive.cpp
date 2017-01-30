@@ -63,29 +63,30 @@ void Drive::RunForward(double rot)
 
 void Drive::Turn(double angle)
 {
-	if (angle > 0) {
-		TurnLeft(angle);
-	} else (angle < 0) {
-		TurnRight(-angle);
-	}
-	return;
+  if (angle > 0.0) {
+    TurnLeft(angle);
+  }
+  else if (angle < 0.0) {
+    TurnRight(-angle);
+  }
+  return;
 }
 
 void Drive::TurnRight(double angle)
 {
-	int mot = (int) angle * 430;		// converting to mot scale
-	int motv[2] = {mot, 0};
+  int mot = (int)angle * 430;		// converting to mot scale
+  int motv[2] = { mot, 0 };
   turn_right(mot);
-	SetCurrentPosition(motv);
+  SetCurrentPosition(motv);
   return;
 }
 
 void Drive::TurnLeft(double angle)
 {
-	int mot = (int) angle * 430;		// converting to mot scale
-	int motv[2] = {0, mot};
+  int mot = (int)angle * 430;		// converting to mot scale
+  int motv[2] = { 0, mot };
   turn_left(mot);
-	SetCurrentPosition(motv);
+  SetCurrentPosition(motv);
   return;
 }
 
