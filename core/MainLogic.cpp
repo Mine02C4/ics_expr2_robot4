@@ -146,26 +146,31 @@ void MainLogic::Wait_Voice_By_Code() {
   switch (vc.code) {
     case VC_CODE_MODECHANGE:
       printf("!Modechange\n");
+      speech_.Speak("モード変更します");
       break;
     case VC_CODE_UCHIKATA:
+      speech_.Speak("撃てー！", ANGREE_FEEL);
+      FireNUM(1);
       printf("!Uchikata\n");
       break;
     case VC_CODE_HOUTOU:
       printf("!Houtou\n");
     break;
     case VC_CODE_FIRE:
-      int num  = vc.num;
       printf("!FIRE\n");
+      int num  = vc.num;
+      if (num >= 6) FireBurst(num/3);
+      else FireNUM(num);
       break;
     case VC_CODE_FORWARD:
       dist = vc.num;
       printf("RunForward\n");
-      drive_.RunForward(200);
+      drive_.RunForward(dist * 10);
       break;
     case VC_CODE_BACK:
       dist = vc.num;
       printf("RunBack\n");
-      drive_.RunForward(-200);
+      drive_.RunForward(dist * -10);
       break;
     case VC_CODE_LEFT:
       dist = vc.num;
