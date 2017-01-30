@@ -66,14 +66,32 @@ silE	silE
 8	h a q
 9	ky u:
 9	k u
+10	j u:
+10	j u q
+20	n i j u:
+20	n i j u q
+30	s a N j u:
+30	s a N j u q
+40	y o N j u:
+40	y o N j u q
+50	g o j u:
+50	g o j u q
+60	r o k u j u:
+60	r o k u j u q
+70	n a n a j u:
+70	n a n a j u q
+80	h a ch i j u:
+80	h a ch i j u q
+90	ky u: j u:
+90	ky u: j u q
+100	hy a k u
+
+%DEGREE
+ÉZÉìÉ`	s e N ch i
+ìx	d o
 
 %ZYOSUSI
 î≠	h a t u
-
-%TEIDO
-è≠Çµ	s u k o s i
-ëÂÇ´Ç≠	o o k i k u
-ëÂÇ´Ç≠	o: k i k u
 
 %HOUTOU
 ñCìÉ	h o u t o u

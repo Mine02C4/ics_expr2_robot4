@@ -39,14 +39,15 @@ void MainLogic::AdjustGunTurret()
   if (vision_.getInstance().DetectBlueBox(area, cx, cy)) {
     printf("area = %d, cx = %d, cy = %d\n", area, cx, cy);
     if (cx < -512) {
-
     }
     else if (cx > 512) {
     }
     else {
       if (area < 3000) {
+        drive_.RunForward(1);
       }
       if (area > 5000) {
+        drive_.RunForward(-1);
       }
       else {
         //gun adjustment
@@ -120,6 +121,59 @@ void MainLogic::Launch()
     printf("get_distance(left) : %d\n", sensor_.GetDistance(SensorID::LeftFront));
     printf("get_distance(right) : %d\n", sensor_.GetDistance(SensorID::RightFront));
     printf("End loop\n");
-    cv::destroyAllWindows();
   }
+  cv::destroyAllWindows();
+}
+
+void MainLogic::Wait_Voice_By_Code() {
+  struct voicecode vc;
+  voice_.Wait_One_Code(5, vc);
+  fprintf(stderr, "Voicerec:last sentence: %s\n", vcoice_.getString());
+  fprintf(stderr, "Voicerec:code:%d num:%d\n", vc.code, vc.num);
+  int num, dist;
+  switch (vc.code) {
+    case VC_CODE_MODECHANGE:
+      printf("!Modechange\n");
+      break;
+    case VC_CODE_UCHIKATA:
+      printf("!Uchikata\n");
+      break;
+    case VC_CODE_HOUTOU:
+      printf("!Houtou\n");
+    break;
+    case VC_CODE_FIRE:
+      int num  = vc.num;
+      printf("!FIRE\n");
+      break;
+    case VC_CODE_FORWARD:
+      dist = vc.num;
+      printf("RunForward\n");
+      drive_.RunForward(200);
+      break;
+    case VC_CODE_BACK:
+      dist = vc.num;
+      printf("RunBack\n");
+      drive_.RunForward(-200);
+      break;
+    case VC_CODE_LEFT:
+      dist = vc.num;
+      printf("!Left\n");
+      break;
+    case VC_CODE_RIGHT:
+      dist = vc.num
+      printf("!Right\n");
+      break;
+    case VC_CODE_ROTATE:
+      dist = vc.num;
+      printf("!Rotate\n");
+      break;
+    case VC_CODE_STOP:
+      dist = vc.num;
+      printf("!STOP\n");
+      break;
+    default:
+      printf("UNDEFINED\n");
+      break; 
+  }
+  return;
 }
