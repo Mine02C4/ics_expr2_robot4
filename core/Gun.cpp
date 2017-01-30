@@ -50,6 +50,9 @@ void Gun::TurretRelativeUp(int degrees)
   TurretAbsoluteElevate(current_elevation_ + degrees);
 }
 
+void Gun::TurnByDegrees(int degrees) {
+  turn_by_degrees(degrees);
+}
 Gun::Gun()
 {
 }

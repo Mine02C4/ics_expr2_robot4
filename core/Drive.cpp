@@ -6,6 +6,7 @@
 #define PI 3.14159265
 #define CONV_TO_DIST 1.43333
 #define CONV_TO_MTR  0.69767
+#define MOT_R 430	
 
 void Drive::Init()
 {
@@ -60,18 +61,29 @@ void Drive::RunForward(double rot)
 
 void Drive::Turn(double angle)
 {
+	if (angle > 0.0) {
+		TurnLeft(angle);
+	} else if (angle < 0.0) {
+		TurnRight(-angle);
+	}
+	return;
 }
 
 void Drive::TurnRight(double angle)
 {
-  turn_right(angle);
+	int mot = (int) angle * MOT_R;
+	int motv[2] = {mot, 0};
+  turn_right(mot);
+	SetCurrentPosition(motv);
   return;
 }
 
 void Drive::TurnLeft(double angle)
 {
-  static int currangle;
-  turn_left(angle);
+	int mot = (int) angle * MOT_R;
+	int motv[2] = {mot, 0};
+	turn_left(mot);
+	SetCurrentPosition(motv);
   return;
 }
 
