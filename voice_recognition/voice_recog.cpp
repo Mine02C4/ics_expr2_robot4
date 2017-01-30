@@ -157,6 +157,7 @@ int Voicerec::Wait_One_Code(int seconds, struct voicecode & vc) {
   return Convert_String_to_Code(Wait_One_Sentence(seconds), vc);
 }
 int Voicerec::Convert_String_to_Code(std::string s, struct voicecode & vc) {
+  int num;
 //  fprintf(stderr, "Voicerec debug the sentence is:%s", s);
   if (s == "前")  {vc.code = VC_CODE_FORWARD; vc.num = 1; return 0;}
   else if (s == "後ろ") {vc.code = VC_CODE_BACK; vc.num = 1; return 0;}
@@ -172,8 +173,8 @@ int Voicerec::Convert_String_to_Code(std::string s, struct voicecode & vc) {
   else if (s == "モード変更") {vc.code = VC_CODE_MODECHANGE; vc.num = 1; return 0;}
   if ((int)s.find("発") >= 0) {
     std::string c = s.substr(1,1);
-    int num = atoi(c.c_str());
-    vc.code = VC_CODE_FIRE; vc.num = num;
+    int burstnum = atoi(c.c_str());
+    vc.code = VC_CODE_FIRE; vc.num = burstnum;
     return 0;
   }
   if ((int)s.find("砲塔") >= 0){
@@ -185,32 +186,38 @@ int Voicerec::Convert_String_to_Code(std::string s, struct voicecode & vc) {
   }
 
   if ((int)s.find("進め") >= 0){
-    sscanf(s.c_str(),"%d", &(vc.num));
+    sscanf(s.c_str(),"%d", &num);
+    vc.num = num;
     vc.code = VC_CODE_FORWARD;
     return 0;
   }
   if ((int)s.find("後ろ") >= 0){
-    sscanf(s.c_str(),"%d", &(vc.num));
+    sscanf(s.c_str(),"%d", &num);
+    vc.num = num;
     vc.code = VC_CODE_BACK;
     return 0;
   }
   if ((int)s.find("行け") >= 0){
-    sscanf(s.c_str(),"%d", &(vc.num));
+    sscanf(s.c_str(),"%d", &num);
+    vc.num = num;
     vc.code = VC_CODE_FORWARD;
     return 0;
   }
   if ((int)s.find("右") >= 0){
-    sscanf(s.c_str(),"%d", &(vc.num));
+    sscanf(s.c_str(),"%d", &num);
+    vc.num = num;
     vc.code = VC_CODE_RIGHT;
     return 0;
   }
   if ((int)s.find("左") >= 0){
-    sscanf(s.c_str(),"%d", &(vc.num));
+    sscanf(s.c_str(),"%d", &num);
+    vc.num = num;
     vc.code = VC_CODE_LEFT;
     return 0;
   }
   if ((int)s.find("さがれ") >= 0){
-    sscanf(s.c_str(),"%d", &(vc.num));
+    sscanf(s.c_str(),"%d", &num);
+    vc.num = num;
     vc.code = VC_CODE_BACK;
     return 0;
   }
