@@ -91,7 +91,7 @@ void MainLogic::Launch()
     rightfront = sensor_.GetDistance(SensorID::RightFront);
     if (leftfront < 50 || rightfront < 50) {
       printf("stop\n");
-      drive_.RunForward(0);
+      drive_.RunForward(-500);
     }
     printf("get_distance(left) : %d\n", sensor_.GetDistance(SensorID::LeftFront));
     printf("get_distance(right) : %d\n", sensor_.GetDistance(SensorID::RightFront));
