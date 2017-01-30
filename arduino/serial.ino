@@ -59,7 +59,11 @@ void loop_motor() {
 
         }
         // Serial.println("turning");
-        delay(3000 / 90 * num);
+        if (num > 0)
+          delay(3000 / 90 * num);
+        else
+          delay(3000 / 90 * (- num));
+        
       }
       else if (buff.equalsIgnoreCase("turret") || buff.equalsIgnoreCase("\nturret")) {
         //27is min
