@@ -13,7 +13,7 @@ int main()
   printf("Start!\n");
   Drive::getInstance().Init();
   Sensor::getInstance().Init();
-//  Gun::getInstance().Init();
+  Gun::getInstance().Init();
   CVision::getInstance().Init();
 #ifndef _MSC_VER
   Voicerec::getInstance().Init();
@@ -27,7 +27,7 @@ int main()
 #ifndef _MSC_VER
   Voicerec::getInstance().Finalize();
 #endif
- // Gun::getInstance().Finalize();
+  Gun::getInstance().Finalize();
   Sensor::getInstance().Finalize();
   Drive::getInstance().Finalize();
   return 0;

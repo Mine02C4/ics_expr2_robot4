@@ -1,10 +1,13 @@
+%NOISE	
+NS	sp
+
 %B	
 silB	silB
 	
 %E	
 silE	silE
 
-%TANGO
+%HOUKOU
 前	m a e n i
 前	m a e
 前	m a e e
@@ -15,6 +18,14 @@ silE	silE
 右	m i g i
 左	h i d a r i n i
 左	h i d a r i
+
+%UESHITA
+上	u e
+上	u e n i
+下	s i t a
+下	s i t a n i
+
+%TANGO
 進め	s u s u m e
 進め	s u s u m u
 行け	i k e
@@ -30,6 +41,40 @@ silE	silE
 さがれ	s a g a r e
 さがれ	s a g a r u
 さがれ	b a q k u
-うて	u t e
+モード変更	m o: d o h e N k o u
 
+%FIRE
+うて	u t e
+発射	h a q sh a
+撃ち方はじめ	u ch i k a t a h a j i m e
+
+%KAZU
+1	i ch i
+1	i q
+2	n i
+2	n i:
+3	s a N
+4	y o N
+5	g o
+5	g o:
+6	r o k u
+6	r o q
+7	n a n a
+7	sh i ch i
+7	h i ch i
+8	h a ch i
+8	h a q
+9	ky u:
+9	k u
+
+%ZYOSUSI
+発	h a t u
+
+%TEIDO
+少し	s u k o s i
+大きく	o o k i k u
+大きく	o: k i k u
+
+%HOUTOU
+砲塔	h o u t o u
 

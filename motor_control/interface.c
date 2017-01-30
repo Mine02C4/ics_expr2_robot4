@@ -123,6 +123,7 @@ motor_init()
   obuf.ch[MRIGHT].d = -150 << 5;
   obuf.ch[MLEFT].d = 150 << 5;
 	if (write(fd, &obuf, sizeof(obuf)) < 0) report_error_and_exit("motor_write_obuf", 3);
+  run_forward(0);
 }
 
 void set_stat (struct mstat *mstp) {
