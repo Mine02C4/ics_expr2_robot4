@@ -51,12 +51,14 @@ void MainLogic::AdjustGunTurret()
       else {
         //gun adjustment
         if (cy < -512) {
+          int degrees = 1 - cy / 10;
           gun_.TurretRelativeUp(1 - cy / 10);
-          printf("turretup");
+          printf("MainLogic TurretRelativeUp %d\n", degrees);
         }
         else if (cy > 512) {
+          int degrees = -1 - cy / 10;
           gun_.TurretRelativeUp(-1 - cy / 10);
-          printf("turretdown");
+          printf("MainLogic TurretRelativeUp %d\n", degrees);
         }
       }
   }
@@ -65,6 +67,7 @@ void MainLogic::AdjustGunTurret()
 void MainLogic::StartPursuingBox()
 {
   cv_thread_ = std::thread([this] {
+    printf("Core MainLogic: Start StartPursuingBox\n");
     while (cv_task_flag_) {
       if (vision_.getInstance().ReadFrame()) {
         AdjustGunTurret();
@@ -74,7 +77,7 @@ void MainLogic::StartPursuingBox()
         break;
       }
     }
-    printf("Core MainLogic: StartPursuingBox\n");
+    printf("Core MainLogic: End StartPursuingBox\n");
   });
 }
 
