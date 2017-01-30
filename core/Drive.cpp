@@ -18,7 +18,7 @@ void Drive::SetCurrentPosition(int val[2])
 	/* TODO: get current positon from cval */
 	/* TODO: set private in class */
 	double dsl, dsr, ds;
-	const double R = 500;	// diamiter	[mm]
+	const double R = 430;	// diamiter	[mm]
 	double dx, dy;		// [mm]
 	double dth;		// diff theta
   double x = cval[0];
@@ -39,7 +39,9 @@ void Drive::SetCurrentPosition(int val[2])
 	y = y + dy;
 	th = th + dth;
 	std::cout << "Current Pos [x, y, th] = " << x << y << th;
-
+	cval[0] = x;
+	cval[1] = y;
+	cval[2] = th;
 }
 
 void Drive::RunForward(double rot)
