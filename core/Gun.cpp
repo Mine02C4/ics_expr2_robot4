@@ -5,6 +5,7 @@
 void Gun::Init()
 {
   turret_init();
+  current_elevation_ = 0;
 }
 
 void Gun::Finalize()
