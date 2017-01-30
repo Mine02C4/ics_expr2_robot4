@@ -141,6 +141,7 @@ void MainLogic::Launch()
 
 #ifndef _MSC_VER
 void MainLogic::Wait_Voice_By_Code() {
+	static int mode = 0;
   struct voicecode vc;
   voice_.Wait_One_Code(5, vc);
   fprintf(stderr, "Voicerec:last sentence: %s\n", voice_.getString().c_str());
@@ -148,12 +149,22 @@ void MainLogic::Wait_Voice_By_Code() {
   int num, dist;
   switch (vc.code) {
     case VC_CODE_MODECHANGE:
+			mode++;
       printf("!Modechange\n");
-      speech_.Speak("モード変更します");
+			speech_.Speak("モード変更します");
+			if (mode%2 == 0) {
+				speech_.Speak("モード。シングルファイヤ");
+			} else if (mode%2 == 1) {
+				speech_.Speak("モード。バースト");
+			}
       break;
     case VC_CODE_UCHIKATA:
-      speech_.Speak("撃てー！", ANGRY_FEEL);
-      gun_.FireNum(1);
+      speech_.Speak("目標を殲滅します", ANGRY_FEEL);
+			if (mode%2 == 0) {
+				gun_.FireNum(1);
+			} else if (mode%2 == 1) {
+				gun_.FireBurst(1);
+			}
       printf("!Uchikata\n");
       break;
     case VC_CODE_HOUTOU:
