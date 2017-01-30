@@ -153,58 +153,69 @@ std::string Voicerec::Wait_One_Sentence(int seconds) {
 std::string Voicerec::getString (void) {
   return result;
 }
-int Voicerec::Wait_One_Code(int seconds) {
-  return Convert_String_to_Code(Wait_One_Sentence(seconds));
+int Voicerec::Wait_One_Code(int seconds, struct voicecode & vc) {
+  return Convert_String_to_Code(Wait_One_Sentence(seconds), vc);
 }
-int Voicerec::Convert_String_to_Code(std::string s) {
-  if (s == "前") return VC_CODE_FORWARD;
-  else if (s == "後ろ")  return VC_CODE_BACK;
-  else if (s == "右")    return VC_CODE_RIGHT;
-  else if (s == "左")    return VC_CODE_LEFT;
-  else if (s == "進め")  return VC_CODE_FORWARD;
-  else if (s == "行け")  return VC_CODE_FORWARD;
-  else if (s == "まわれ") return VC_CODE_ROTATE;   
-  else if (s == "とまれ") return VC_CODE_STOP;
-  else if (s == "さがれ") return VC_CODE_BACK;
-  else if (s == "うて")   return VC_CODE_FIRE;
-  else if (s == "撃ち方はじめ") return VC_CODE_UCHIKATA;
-  else if (s == "モード変更") return VC_CODE_MODECHANGE;
+int Voicerec::Convert_String_to_Code(std::string s, struct voicecode & vc) {
+//  fprintf(stderr, "Voicerec debug the sentence is:%s", s);
+  if (s == "前")  {vc.code = VC_CODE_FORWARD; vc.num = 1; return 0;}
+  else if (s == "後ろ") {vc.code = VC_CODE_BACK; vc.num = 1; return 0;}
+  else if (s == "右") {vc.code = VC_CODE_RIGHT; vc.num = 1; return 0;}
+  else if (s == "左")  {vc.code = VC_CODE_LEFT; vc.num = 1; return 0;}
+  else if (s == "進め") {vc.code = VC_CODE_FORWARD; vc.num = 1; return 0;}
+  else if (s == "行け") {vc.code = VC_CODE_FORWARD; vc.num = 1; return 0;}
+  else if (s == "まわれ") {vc.code = VC_CODE_ROTATE; vc.num = 1; return 0;} 
+  else if (s == "とまれ") {vc.code = VC_CODE_STOP; vc.num = 1; return 0;}
+  else if (s == "さがれ") {vc.code = VC_CODE_BACK; vc.num = 1; return 0;}
+  else if (s == "うて")  {vc.code = VC_CODE_FIRE; vc.num = 1; return 0;}
+  else if (s == "撃ち方はじめ") {vc.code = VC_CODE_UCHIKATA; vc.num = 1; return 0;}
+  else if (s == "モード変更") {vc.code = VC_CODE_MODECHANGE; vc.num = 1; return 0;}
   if ((int)s.find("発") >= 0) {
     std::string c = s.substr(1,1);
     int num = atoi(c.c_str());
-    return (num + VC_CODE_FIRENUM);
+    vc.code = VC_CODE_FIRE; vc.num = num;
+    return 0;
   }
   if ((int)s.find("砲塔") >= 0){
-    if ((int)s.find("上") >= 0) return VC_CODE_CANNON_UP;
-    if ((int)s.find("下") >= 0) return VC_CODE_CANNON_DOWN;
-    if ((int)s.find("右") >= 0) return VC_CODE_CANNON_RIGHT;
-    if ((int)s.find("左") >= 0) return VC_CODE_CANNON_LEFT;
+    if ((int)s.find("上") >= 0) {vc.code = VC_CODE_HOUTOU; vc.num = 1; return 0;}
+    if ((int)s.find("下") >= 0) {vc.code = VC_CODE_HOUTOU; vc.num = 2; return 0;}
+    if ((int)s.find("右") >= 0) {vc.code = VC_CODE_HOUTOU; vc.num = 3; return 0;}
+    if ((int)s.find("左") >= 0) {vc.code = VC_CODE_HOUTOU; vc.num = 4; return 0;}
     else return -1;
   }
 
-  if ((int)s.find("少し") >= 0){
-    if ("少し進め"== 0) return VC_CODE_FORWARD_LITTLE;
-    if ("少し右"== 0) return VC_CODE_RIGHT_LITTLE;
-    if ("少し左"== 0) return VC_CODE_LEFT_LITTLE;
-    if ("少し前"== 0) return VC_CODE_FORWARD_LITTLE;
-    if ("少し後ろ"== 0) return VC_CODE_BACK_LITTLE;
-    if ("少しさがれ"== 0) return VC_CODE_BACK_LITTLE;
-    if ("少し行け"== 0) return VC_CODE_FORWARD_LITTLE;
-    else return -1;
+  if ((int)s.find("進め") >= 0){
+    sscanf(s.c_str(),"%d", &(vc.num));
+    vc.code = VC_CODE_FORWARD;
+    return 0;
   }
-  if ((int)s.find("大きく") >= 0){
-    if ("大きく進め"== 0) return VC_CODE_FORWARD_FAR;
-    if ("大きく右"== 0) return VC_CODE_RIGHT_FAR;
-    if ("大きく左"== 0) return VC_CODE_LEFT_FAR;
-    if ("大きく前"== 0) return VC_CODE_FORWARD_FAR;
-    if ("大きく後ろ"== 0) return VC_CODE_BACK_FAR;
-    if ("大きくさがれ"== 0) return VC_CODE_BACK_FAR;
-    if ("大きく行け"== 0) return VC_CODE_FORWARD_FAR;
-    else return -1;
+  if ((int)s.find("後ろ") >= 0){
+    sscanf(s.c_str(),"%d", &(vc.num));
+    vc.code = VC_CODE_BACK;
+    return 0;
   }
-
-
+  if ((int)s.find("行け") >= 0){
+    sscanf(s.c_str(),"%d", &(vc.num));
+    vc.code = VC_CODE_FORWARD;
+    return 0;
+  }
+  if ((int)s.find("右") >= 0){
+    sscanf(s.c_str(),"%d", &(vc.num));
+    vc.code = VC_CODE_RIGHT;
+    return 0;
+  }
+  if ((int)s.find("左") >= 0){
+    sscanf(s.c_str(),"%d", &(vc.num));
+    vc.code = VC_CODE_LEFT;
+    return 0;
+  }
+  if ((int)s.find("さがれ") >= 0){
+    sscanf(s.c_str(),"%d", &(vc.num));
+    vc.code = VC_CODE_BACK;
+    return 0;
+  }
   return -1;
 }
+
 Voicerec::Voicerec() :flag(0), result("") {
 }

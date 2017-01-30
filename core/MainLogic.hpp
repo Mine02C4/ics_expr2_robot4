@@ -24,6 +24,7 @@ private:
   Gun &gun_;
   CVision &vision_;
   std::thread cv_thread_;
+  void Wait_Input_By_Code();
 #ifndef _MSC_VER
   Voicerec &voice_;
   Speech &speech_;
