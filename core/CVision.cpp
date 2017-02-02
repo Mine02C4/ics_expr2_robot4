@@ -72,7 +72,7 @@ void  CVision::DetectPointer(Mat &rgb, Mat &hsv, Point &p)
       x < center_x + pointer_detection_size_ / 2 &&
       y > center_y - pointer_detection_size_ / 2 &&
       y < center_y + pointer_detection_size_ / 2 &&
-      area < 10
+      area < 100
       ) {
       p.x = x;
       p.y = y;
@@ -138,11 +138,11 @@ bool CVision::DetectBlueBox(int & area, int & cx, int & cy)
       pointer_detection_size_,
       pointer_detection_size_
     ),
-    cv::Scalar(255, 0, 0), 1
+    cv::Scalar(0, 0, 255), 1
   );
   Point pointer;
   DetectPointer(frame_, hsv, pointer);
-  circle(output, pointer, 5, cv::Scalar(255, 0, 0), 2);
+  circle(output, pointer, 5, cv::Scalar(0, 0, 255), 2);
 
   int min_area = 500; // S1
   int largest_area = 0;
@@ -176,6 +176,11 @@ bool CVision::DetectBlueBox(int & area, int & cx, int & cy)
     }
     cv::circle(output, cv::Point(x, y), 3, cv::Scalar(0, 0, 255), -1);
     cv::resize(output, output, Size(), 2.0, 2.0);
+    {
+      std::stringstream pstr;
+      pstr << "x:" << pointer.x << " y: " << pointer.y;
+      putText(output, pstr.str(), Point(pointer.x * 2 + 5, pointer.x * 2 + 20), cv::FONT_HERSHEY_COMPLEX, 0.3, cv::Scalar(0, 255, 255), 1);
+    }
     cv::imshow("Output", output);
     return true;
   }
