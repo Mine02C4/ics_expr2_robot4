@@ -53,9 +53,9 @@ void CVision::DetectTargetBlue(cv::Mat &hsv, cv::Mat &mask)
   cv::Mat	m2(hsv.size(), CV_8UC1);
   cv::Mat	m3(hsv.size(), CV_8UC1);
   cv::threshold(hsv0[0], m0, 90, 255, CV_THRESH_BINARY);   // Hmin
-  cv::threshold(hsv0[0], m1, 120, 255, CV_THRESH_BINARY_INV);  // Hmax
-  cv::threshold(hsv0[1], m2, 49 - 1, 255, CV_THRESH_BINARY);  // Smin
-  cv::threshold(hsv0[2], m3, 28 - 1, 255, CV_THRESH_BINARY);  // Vmin
+  cv::threshold(hsv0[0], m1, 110, 255, CV_THRESH_BINARY_INV);  // Hmax
+  cv::threshold(hsv0[1], m2, 120, 255, CV_THRESH_BINARY);  // Smin
+  cv::threshold(hsv0[2], m3, 40, 255, CV_THRESH_BINARY);  // Vmin
   cv::bitwise_and(m0, m1, mask);
   cv::bitwise_and(mask, m2, mask);
   cv::bitwise_and(mask, m3, mask);
