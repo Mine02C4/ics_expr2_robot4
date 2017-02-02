@@ -58,12 +58,12 @@ void MainLogic::AdjustGunTurret()
         printf("MainLogic TurnByDegrees %d\n", angle);
       }
       else if (cy * KY < -MARGIN_EV_DEG) { // object is on upper
-        int degrees = -cy * KY;
+        int degrees = static_cast<double>(-cy * KY);
         gun_.TurretRelativeUp(degrees);
         printf("MainLogic TurretRelativeUp %d\n", degrees);
       }
       else if (cy * KY > MARGIN_EV_DEG) {
-        int degrees = -(cy * KY);
+        int degrees = static_cast<double>(-(cy * KY));
         gun_.TurretRelativeUp(degrees);
         printf("MainLogic TurretRelativeUp %d\n", degrees);
       }
@@ -185,16 +185,16 @@ void MainLogic::Wait_Voice_By_Code() {
   case VC_CODE_HOUTOU:
     printf("!Houtou\n");
     if (vc.num == 1) { //up
-      gun_.TurretAbsoluteElevate(30);
+//      gun_.TurretAbsoluteDegrees(30);
     }
     else if (vc.num == 2) { //down
-      gun_.TurretAbsoluteElevate(-20);
+//      gun_.TurretAbsoluteElevate(-20);
     }
     else if (vc.num == 3) {//right
-      gun_.TurretAbsoluteDegrees(45);
+//      gun_.TurretAbsoluteDegrees(45);
     }
     else if (vc.num == 4) { //left
-      gun_.TurretAbsoluteDegrees(-45);
+//      gun_.TurretAbsoluteDegrees(-45);
     }
     break;
   case VC_CODE_FIRE:
