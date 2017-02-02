@@ -7,6 +7,8 @@
 #include <cstring>
 #include <utility>
 #include <julius/juliuslib.h>
+#include <unistd.h>
+
 
 #ifdef MOD_MODE
 const std::string dictation_prefix = "voice_recognition/dictation-kit-v4.2.3/";
@@ -145,6 +147,7 @@ std::string Voicerec::Wait_One_Sentence(int seconds) {
   t1 = time(NULL);
   t2 = time(NULL);
   while (flag == 0 && (int)(t2-t1) <= seconds) {
+    sleep(1);
     t2 = time(NULL);
   }//waitcallback
   if (flag == 0) return "";
