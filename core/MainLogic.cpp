@@ -170,6 +170,15 @@ void MainLogic::Wait_Voice_By_Code() {
       break;
     case VC_CODE_HOUTOU:
       printf("!Houtou\n");
+      if (vc.num == 1) { //up
+        gun_.TurretAbsoluteElevate(30);
+      } else if (vc.num == 2) { //down
+        gun_.TurretAbsoluteElevate(-20);
+      }else if (vc.num == 3) {//right
+        gun_.TurretAbsoluteDegrees(45);
+      }else if (vc.num == 4) { //left
+        gun_.TurretAbsoluteDegrees(-45);
+      }
     break;
     case VC_CODE_FIRE:
       printf("!FIRE\n");
@@ -190,14 +199,17 @@ void MainLogic::Wait_Voice_By_Code() {
     case VC_CODE_LEFT:
       dist = vc.num;
       printf("!Left\n");
+      drive_.TurnRight(vc.num);
       break;
     case VC_CODE_RIGHT:
       dist = vc.num;
+      drive_.TurnRight(vc.num);
       printf("!Right\n");
       break;
     case VC_CODE_ROTATE:
       dist = vc.num;
       printf("!Rotate\n");
+      drive_.Turn(vc.num);
       break;
     case VC_CODE_STOP:
       dist = vc.num;

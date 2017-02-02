@@ -9,17 +9,8 @@ void setup_servo()
   delay(2000);
 	servo.attach(9);
   servo_pos = servo.read();
-  int i = servo_pos - 50;
-  while(i < 0){
-    delay(10);
-    servo.write(50 + i);
-    i--;
-  }
-  while(i > 0){
-    delay(10);
-    servo.write(50 + i);
-    i++;
-  }
+  servo.write(50);
+
   Serial.println("servo set up finished");
   Serial.println(servo_pos);
 }
