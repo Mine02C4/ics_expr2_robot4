@@ -1,5 +1,5 @@
 CXX := g++
-CXXFLAGS = -g -O2 -std=c++11
+CXXFLAGS = -g -O2 -std=c++11 -pthread
 OUTPUT := text_to_speech.out
 SRCS := $(wildcard *.cpp)
 OBJS := $(patsubst %.cpp,%.o,$(SRCS))
