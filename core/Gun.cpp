@@ -44,7 +44,8 @@ void Gun::TurretAbsoluteElevate(int degrees)
     degrees = kElevationUpperLimit;
   }
   elevate_by_degrees(degrees);
-  std::this_thread::sleep_for(std::chrono::seconds(1));
+  current_elevation_ = degrees;
+  std::this_thread::sleep_for(std::chrono::milliseconds(100));
 }
 
 void Gun::TurretRelativeUp(int degrees)
@@ -68,7 +69,7 @@ void Gun::TurnAbsoluteDegrees(int degrees) {
       td = kAngleLimit;
     }
     turn_by_degrees(td);
-    std::this_thread::sleep_for(std::chrono::seconds(5));
+    std::this_thread::sleep_for(std::chrono::seconds(1));
     turn_mtx_.unlock();
   }).detach();
 }

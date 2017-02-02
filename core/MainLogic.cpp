@@ -10,6 +10,11 @@
 
 #include "../voice_recognition/voicecode.hpp"
 
+#define MARGIN_EV_DEG 10
+#define MARGIN_ROT_DEG 15
+#define KY 0.01464
+#define KX 0.01953
+
 static int thold;
 
 MainLogic::MainLogic() :
@@ -51,15 +56,19 @@ void MainLogic::AdjustGunTurret()
       }
       else {
         //gun adjustment
-        if (cy < -512) {
-          int degrees = 3;
+        if (cy * KY < -MARGIN_EV_DEG) { // object is on upper
+          int degrees = - cy * KY;
           gun_.TurretRelativeUp(degrees);
           printf("MainLogic TurretRelativeUp %d\n", degrees);
         }
-        else if (cy > 512) {
-          int degrees = -3;
+        else if (cy * KY > MARGIN_EV_DEG) {
+          int degrees = -(cy * KY);
           gun_.TurretRelativeUp(degrees);
           printf("MainLogic TurretRelativeUp %d\n", degrees);
+        } else if (cy < 0) {
+         // gun_.TurretRelativeUp(degrees);
+        } else if (cy > 0) {
+        //  gun_.TurretRelativeUp(degrees);
         }
       }
   }
