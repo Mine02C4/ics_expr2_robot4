@@ -2,6 +2,7 @@
 #define ROBOT_CORE_CVISION_H_
 
 #include <mutex>
+#include <string>
 
 #include <opencv2/highgui/highgui.hpp>
 
@@ -29,7 +30,7 @@ private:
   std::mutex frame_mtx_;
   cv::VideoCapture cap_;
   void DetectTargetBlue(cv::Mat &hsv, cv::Mat &mask);
-  bool DetectPointer(cv::Mat &rgb, cv::Mat &hsv, cv::Point &p, int &parea);
+  bool DetectPointer(cv::Mat &rgb, cv::Mat &hsv, cv::Point &p, std::string &opt);
 };
 
 #endif  // ROBOT_CORE_CVISION_H_

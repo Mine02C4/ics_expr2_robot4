@@ -41,7 +41,7 @@ bool CVision::ReadFrame()
   }
 }
 
-bool  CVision::DetectPointer(Mat &rgb, Mat &hsv, Point &p, int &parea)
+bool  CVision::DetectPointer(Mat &rgb, Mat &hsv, Point &p, std::string &opt)
 {
   Size size = rgb.size();
   cv::Mat mask(size, rgb.type());
@@ -61,7 +61,6 @@ bool  CVision::DetectPointer(Mat &rgb, Mat &hsv, Point &p, int &parea)
   int n_label = cv::connectedComponentsWithStats(mask, labels, stats, centroids);
   int center_x = size.width / 2 + pointer_offset_.x;
   int center_y = size.height / 2 + pointer_offset_.y;
-  parea = 0;
   for (int i = 1; i < n_label; ++i) {
     int *param = stats.ptr<int>(i);
     double *centroid = centroids.ptr<double>(i);
@@ -73,11 +72,15 @@ bool  CVision::DetectPointer(Mat &rgb, Mat &hsv, Point &p, int &parea)
       x < center_x + pointer_detection_size_ / 2 &&
       y > center_y - pointer_detection_size_ / 2 &&
       y < center_y + pointer_detection_size_ / 2 &&
-      area < 100
+      area < 10
       ) {
       p.x = x;
       p.y = y;
-      parea = area;
+      auto val = hsv.at<Vec3b>(x, y);
+      opt = "area: " + std::to_string(area) +
+        " H" + std::to_string(val[0]) +
+        "S" + std::to_string(val[1]) +
+        "V" + std::to_string(val[2]);
       return true;
     }
   }
@@ -144,8 +147,8 @@ bool CVision::DetectBlueBox(int & area, int & cx, int & cy)
     cv::Scalar(0, 0, 255), 1
   );
   Point pointer;
-  int parea;
-  bool pointer_detected = DetectPointer(frame_, hsv, pointer, parea);
+  std::string opt;
+  bool pointer_detected = DetectPointer(frame_, hsv, pointer, opt);
   if (pointer_detected) {
     circle(output, pointer, 5, cv::Scalar(0, 0, 255), 2);
   }
@@ -184,7 +187,7 @@ bool CVision::DetectBlueBox(int & area, int & cx, int & cy)
     cv::resize(output, output, Size(), 2.0, 2.0);
     if (pointer_detected) {
       std::stringstream pstr;
-      pstr << "x:" << pointer.x << " y: " << pointer.y << " area:" << parea;
+      pstr << "x:" << pointer.x << " y: " << pointer.y << " " << opt;
       putText(output, pstr.str(), Point(pointer.x * 2 + 5, pointer.x * 2 + 20), cv::FONT_HERSHEY_COMPLEX, 1.0, cv::Scalar(0, 255, 255), 1);
     }
     cv::imshow("Output", output);
