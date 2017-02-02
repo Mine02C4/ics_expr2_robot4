@@ -52,8 +52,8 @@ bool  CVision::DetectPointer(Mat &rgb, Mat &hsv, Point &p, std::string &opt)
   split(hsv, hsv0);
   Mat	m0(hsv.size(), CV_8UC1);
   Mat	m1(hsv.size(), CV_8UC1);
-  threshold(hsv0[2], m0, 220, 255, CV_THRESH_BINARY);   // Vmin
-  threshold(hsv0[1], m1, 20, 255, CV_THRESH_BINARY_INV);  // Smax
+  threshold(hsv0[2], m0, 240, 255, CV_THRESH_BINARY);   // Vmin
+  threshold(hsv0[1], m1, 50, 255, CV_THRESH_BINARY_INV);  // Smax
   cv::bitwise_and(m0, m1, mask);
   cv::Mat labels;
   cv::Mat stats;
