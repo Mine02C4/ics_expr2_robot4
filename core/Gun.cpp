@@ -34,6 +34,7 @@ void Gun::FireBurst(int ntimes)
 
 void Gun::TurretAbsoluteElevate(int degrees)
 {
+  std::lock_guard<std::mutex> lock(elevate_mtx_);
   if (degrees < kElevationLowerLimit) {
     std::cerr << "Core Gun: Elevate too lower " << degrees << std::endl;
     degrees = kElevationLowerLimit;
