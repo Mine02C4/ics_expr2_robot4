@@ -72,15 +72,15 @@ bool  CVision::DetectPointer(Mat &rgb, Mat &hsv, Point &p, std::string &opt)
       x < center_x + pointer_detection_size_ / 2 &&
       y > center_y - pointer_detection_size_ / 2 &&
       y < center_y + pointer_detection_size_ / 2 &&
-      area < 10
+      area < 40
       ) {
       p.x = x;
       p.y = y;
       auto val = hsv.at<Vec3b>(y, x);
       opt = "area: " + std::to_string(area) +
-        " H" + std::to_string(val[0]) +
-        "S" + std::to_string(val[1]) +
-        "V" + std::to_string(val[2]);
+        " H " + std::to_string(val[0]) +
+        " S " + std::to_string(val[1]) +
+        " V " + std::to_string(val[2]);
       return true;
     }
   }
