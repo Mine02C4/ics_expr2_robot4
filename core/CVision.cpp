@@ -76,7 +76,7 @@ bool  CVision::DetectPointer(Mat &rgb, Mat &hsv, Point &p, std::string &opt)
       ) {
       p.x = x;
       p.y = y;
-      auto val = hsv.at<Vec3b>(x, y);
+      auto val = hsv.at<Vec3b>(y, x);
       opt = "area: " + std::to_string(area) +
         " H" + std::to_string(val[0]) +
         "S" + std::to_string(val[1]) +
@@ -187,8 +187,8 @@ bool CVision::DetectBlueBox(int & area, int & cx, int & cy)
     cv::resize(output, output, Size(), 2.0, 2.0);
     if (pointer_detected) {
       std::stringstream pstr;
-      pstr << "x:" << pointer.x << " y: " << pointer.y << " " << opt;
-      putText(output, pstr.str(), Point(pointer.x * 2 + 5, pointer.x * 2 + 20), cv::FONT_HERSHEY_COMPLEX, 1.0, cv::Scalar(0, 255, 255), 1);
+      pstr << "x:" << pointer.x << " y: " << pointer.y << "\n" << opt;
+      putText(output, pstr.str(), Point(pointer.x * 2 + 5, pointer.x * 2 + 20), cv::FONT_HERSHEY_COMPLEX, 0.4, cv::Scalar(0, 255, 255), 1);
     }
     cv::imshow("Output", output);
     return true;
