@@ -44,21 +44,21 @@ void MainLogic::AdjustGunTurret()
     gun_.TurnAbsoluteDegrees(angle);
     printf("MainLogic TurnByDegrees %d\n", angle);
       if (area < 3000) {
-        drive_.RunForward(150);
+        //drive_.RunForward(150);
       }
       if (area > 5000) {
-        drive_.RunForward(-150);
+        //drive_.RunForward(-150);
       }
       else {
         //gun adjustment
         if (cy < -512) {
-          int degrees = 1 - cy / 10;
-          gun_.TurretRelativeUp(1 - cy / 10);
+          int degrees = 3;
+          gun_.TurretRelativeUp(degrees);
           printf("MainLogic TurretRelativeUp %d\n", degrees);
         }
         else if (cy > 512) {
-          int degrees = -1 - cy / 10;
-          gun_.TurretRelativeUp(-1 - cy / 10);
+          int degrees = -3;
+          gun_.TurretRelativeUp(degrees);
           printf("MainLogic TurretRelativeUp %d\n", degrees);
         }
       }

@@ -12,7 +12,7 @@
 #define BUFSIE 255
 #define ANGLE_LIMIT 85
 
-const static char *arduino_dev = "/dev/ttyACM0";
+const static char *arduino_dev = "/dev/ttyUSB0";
 static int fd;
 struct termios oldtio, newtio;
 
