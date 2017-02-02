@@ -29,7 +29,7 @@ private:
   std::mutex frame_mtx_;
   cv::VideoCapture cap_;
   void DetectTargetBlue(cv::Mat &hsv, cv::Mat &mask);
-  void DetectPointer(cv::Mat &rgb, cv::Mat &hsv, cv::Point &p);
+  bool DetectPointer(cv::Mat &rgb, cv::Mat &hsv, cv::Point &p, int &parea);
 };
 
 #endif  // ROBOT_CORE_CVISION_H_

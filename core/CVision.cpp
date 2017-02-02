@@ -41,7 +41,7 @@ bool CVision::ReadFrame()
   }
 }
 
-void  CVision::DetectPointer(Mat &rgb, Mat &hsv, Point &p)
+bool  CVision::DetectPointer(Mat &rgb, Mat &hsv, Point &p, int &parea)
 {
   Size size = rgb.size();
   cv::Mat mask(size, rgb.type());
@@ -53,7 +53,7 @@ void  CVision::DetectPointer(Mat &rgb, Mat &hsv, Point &p)
   Mat	m0(hsv.size(), CV_8UC1);
   Mat	m1(hsv.size(), CV_8UC1);
   threshold(hsv0[2], m0, 220, 255, CV_THRESH_BINARY);   // Vmin
-  threshold(hsv0[1], m1, 10, 255, CV_THRESH_BINARY_INV);  // Smax
+  threshold(hsv0[1], m1, 20, 255, CV_THRESH_BINARY_INV);  // Smax
   cv::bitwise_and(m0, m1, mask);
   cv::Mat labels;
   cv::Mat stats;
@@ -61,6 +61,7 @@ void  CVision::DetectPointer(Mat &rgb, Mat &hsv, Point &p)
   int n_label = cv::connectedComponentsWithStats(mask, labels, stats, centroids);
   int center_x = size.width / 2 + pointer_offset_.x;
   int center_y = size.height / 2 + pointer_offset_.y;
+  parea = 0;
   for (int i = 1; i < n_label; ++i) {
     int *param = stats.ptr<int>(i);
     double *centroid = centroids.ptr<double>(i);
@@ -76,9 +77,11 @@ void  CVision::DetectPointer(Mat &rgb, Mat &hsv, Point &p)
       ) {
       p.x = x;
       p.y = y;
-      break;;
+      parea = area;
+      return true;
     }
   }
+  return false;
 }
 
 void CVision::DetectTargetBlue(cv::Mat &hsv, cv::Mat &mask)
@@ -141,8 +144,11 @@ bool CVision::DetectBlueBox(int & area, int & cx, int & cy)
     cv::Scalar(0, 0, 255), 1
   );
   Point pointer;
-  DetectPointer(frame_, hsv, pointer);
-  circle(output, pointer, 5, cv::Scalar(0, 0, 255), 2);
+  int parea;
+  bool pointer_detected = DetectPointer(frame_, hsv, pointer, parea);
+  if (pointer_detected) {
+    circle(output, pointer, 5, cv::Scalar(0, 0, 255), 2);
+  }
 
   int min_area = 500; // S1
   int largest_area = 0;
@@ -176,9 +182,9 @@ bool CVision::DetectBlueBox(int & area, int & cx, int & cy)
     }
     cv::circle(output, cv::Point(x, y), 3, cv::Scalar(0, 255, 0), -1);
     cv::resize(output, output, Size(), 2.0, 2.0);
-    {
+    if (pointer_detected) {
       std::stringstream pstr;
-      pstr << "x:" << pointer.x << " y: " << pointer.y;
+      pstr << "x:" << pointer.x << " y: " << pointer.y << " area:" << parea;
       putText(output, pstr.str(), Point(pointer.x * 2 + 5, pointer.x * 2 + 20), cv::FONT_HERSHEY_COMPLEX, 1.0, cv::Scalar(0, 255, 255), 1);
     }
     cv::imshow("Output", output);
