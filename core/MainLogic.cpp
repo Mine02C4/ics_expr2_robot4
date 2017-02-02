@@ -8,8 +8,8 @@
 
 #include "../voice_recognition/voicecode.hpp"
 
-#define MARGIN_EV_DEG 2
-#define MARGIN_ROT_DEG 2
+#define MARGIN_EV_DEG 1
+#define MARGIN_ROT_DEG 1
 #define KY 0.01464
 #define KX 0.01953
 
@@ -110,7 +110,7 @@ void MainLogic::Launch()
     int leftfront, rightfront;
     leftfront = sensor_.GetDistance(SensorID::LeftFront);
     rightfront = sensor_.GetDistance(SensorID::RightFront);
-    if (leftfront < 50 || rightfront < 50) {
+    if (leftfront < 20 || rightfront < 20) {
       printf("stop\n");
       drive_.RunForward(-50);
     }
@@ -170,6 +170,7 @@ void MainLogic::Wait_Voice_By_Code() {
   int num, dist;
   switch (vc.code) {
   case VC_CODE_EXIT:
+    speech_.Speak("終了します");
     fprintf(stderr, "MainLogic: exit by voice");
     // no finalize() function in class.
     exit(1);
@@ -196,7 +197,6 @@ void MainLogic::Wait_Voice_By_Code() {
     }
     speech_.Speak("操作モードに戻ります");
     voice_.ChangeMode(MINEJCONF);
-    return;
   }
   case VC_CODE_MODECHANGE:
     mode++;
