@@ -196,6 +196,7 @@ void MainLogic::Wait_Voice_By_Code() {
     }
     speech_.Speak("操作モードに戻ります");
     voice_.ChangeMode(MINEJCONF);
+    return;
   }
   case VC_CODE_MODECHANGE:
     mode++;
