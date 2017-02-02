@@ -8,8 +8,8 @@
 
 #include "../voice_recognition/voicecode.hpp"
 
-#define MARGIN_EV_DEG 5
-#define MARGIN_ROT_DEG 5
+#define MARGIN_EV_DEG 2
+#define MARGIN_ROT_DEG 2
 #define KY 0.01464
 #define KX 0.01953
 
@@ -112,7 +112,7 @@ void MainLogic::Launch()
     rightfront = sensor_.GetDistance(SensorID::RightFront);
     if (leftfront < 50 || rightfront < 50) {
       printf("stop\n");
-      drive_.RunForward(-500);
+      drive_.RunForward(-50);
     }
     printf("get_distance(left) : %d\n", sensor_.GetDistance(SensorID::LeftFront));
     printf("get_distance(right) : %d\n", sensor_.GetDistance(SensorID::RightFront));

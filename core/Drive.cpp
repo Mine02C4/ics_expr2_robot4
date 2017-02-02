@@ -46,21 +46,23 @@ void Drive::SetCurrentPosition(int val[2])
 	cval[2] = th;
 }
 
-void Drive::RunForward(double rot)
+void Drive::RunForward(double dist)
 {
 	/* TODO: check cval */
-  int rotv[2] = {static_cast<int>(rot * CONV_TO_MTR), 
-  static_cast<int>(rot * CONV_TO_MTR)};
-  static int currentrot;
-  std::cout << "currentrot:" << currentrot;
+  int rotv[2] = {static_cast<int>(dist * CONV_TO_MTR), static_cast<int>(dist * CONV_TO_MTR)};
+	if (rotv[0] < -400 || 400 < rotv[0]) {
+		return;
+	}
   SetCurrentPosition(rotv);
-  currentrot += rot;
-  run_forward(rot);
+  run_forward(rotv[0]);
   return;
 }
 
 void Drive::Turn(double angle)
 {
+	if (180 < angle || angle < -180) {
+		return;
+	}
 	if (angle > 0.0) {
 		TurnLeft(angle);
 	} else if (angle < 0.0) {
