@@ -68,9 +68,20 @@ void Gun::TurnAbsoluteDegrees(int degrees) {
       td = kAngleLimit;
     }
     turn_by_degrees(td);
+    current_angle_ = degrees;
     std::this_thread::sleep_for(std::chrono::seconds(5));
     turn_mtx_.unlock();
   }).detach();
+}
+
+void Gun::TurretRelativeTurn(int degrees)
+{
+  TurnAbsoluteDegrees(current_angle_ + degrees);
+}
+
+int Gun::GetCurrentAngle()
+{
+  return current_angle_;
 }
 
 Gun::Gun()

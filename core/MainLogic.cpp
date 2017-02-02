@@ -39,29 +39,30 @@ void MainLogic::AdjustGunTurret()
   int area, cx, cy;
   if (vision_.getInstance().DetectBlueBox(area, cx, cy)) {
     printf("area = %d, cx = %d, cy = %d\n", area, cx, cy);
-    
-    int angle = cx / 1024 * 60;
-    gun_.TurnAbsoluteDegrees(angle);
-    printf("MainLogic TurnByDegrees %d\n", angle);
-      if (area < 3000) {
-        //drive_.RunForward(150);
+    if (area < 3000) {
+      //drive_.RunForward(150);
+    }
+    if (area > 5000) {
+      //drive_.RunForward(-150);
+    }
+    else {
+      //gun adjustment
+      if (cx < -512 || cx > 512) {
+        int angle = static_cast<double>(cx) / 1024.0 * 15.0;
+        gun_.TurretRelativeTurn(angle);
+        printf("MainLogic TurnByDegrees %d\n", angle);
       }
-      if (area > 5000) {
-        //drive_.RunForward(-150);
+      else if (cy < -512) {
+        int degrees = 3;
+        gun_.TurretRelativeUp(degrees);
+        printf("MainLogic TurretRelativeUp %d\n", degrees);
       }
-      else {
-        //gun adjustment
-        if (cy < -512) {
-          int degrees = 3;
-          gun_.TurretRelativeUp(degrees);
-          printf("MainLogic TurretRelativeUp %d\n", degrees);
-        }
-        else if (cy > 512) {
-          int degrees = -3;
-          gun_.TurretRelativeUp(degrees);
-          printf("MainLogic TurretRelativeUp %d\n", degrees);
-        }
+      else if (cy > 512) {
+        int degrees = -3;
+        gun_.TurretRelativeUp(degrees);
+        printf("MainLogic TurretRelativeUp %d\n", degrees);
       }
+    }
   }
 }
 
@@ -142,82 +143,87 @@ void MainLogic::Launch()
 
 #ifndef _MSC_VER
 void MainLogic::Wait_Voice_By_Code() {
-	static int mode = 0;
+  static int mode = 0;
   struct voicecode vc;
   voice_.Wait_One_Code(5, vc);
   fprintf(stderr, "Voicerec:last sentence: %s\n", voice_.getString().c_str());
   fprintf(stderr, "Voicerec:code:%d num:%d\n", vc.code, vc.num);
   int num, dist;
   switch (vc.code) {
-    case VC_CODE_MODECHANGE:
-			mode++;
-      printf("!Modechange\n");
-			speech_.Speak("モード変更");
-			if (mode%2 == 0) {
-				speech_.Speak("モード。シングルファイヤ");
-			} else if (mode%2 == 1) {
-				speech_.Speak("モード。バースト");
-			}
-      break;
-    case VC_CODE_UCHIKATA:
-      speech_.Speak("目標を殲滅", ANGRY_FEEL);
-			if (mode%2 == 0) {
-				gun_.FireNum(1);
-			} else if (mode%2 == 1) {
-				gun_.FireBurst(1);
-			}
-      printf("!Uchikata\n");
-      break;
-    case VC_CODE_HOUTOU:
-      printf("!Houtou\n");
-      if (vc.num == 1) { //up
-        gun_.TurretAbsoluteElevate(30);
-      } else if (vc.num == 2) { //down
-        gun_.TurretAbsoluteElevate(-20);
-      }else if (vc.num == 3) {//right
-        gun_.TurretAbsoluteDegrees(45);
-      }else if (vc.num == 4) { //left
-        gun_.TurretAbsoluteDegrees(-45);
-      }
+  case VC_CODE_MODECHANGE:
+    mode++;
+    printf("!Modechange\n");
+    speech_.Speak("モード変更");
+    if (mode % 2 == 0) {
+      speech_.Speak("モード。シングルファイヤ");
+    }
+    else if (mode % 2 == 1) {
+      speech_.Speak("モード。バースト");
+    }
     break;
-    case VC_CODE_FIRE:
-      printf("!FIRE\n");
-      num  = vc.num;
-      if (num >= 6) gun_.FireBurst(num/3);
-      else gun_.FireNum(num);
-      break;
-    case VC_CODE_FORWARD:
-      dist = vc.num;
-      printf("RunForward:%d\n", dist);
-      drive_.RunForward(dist * 10);
-      break;
-    case VC_CODE_BACK:
-      dist = vc.num;
-      printf("RunBack\n");
-      drive_.RunForward(dist * -10);
-      break;
-    case VC_CODE_LEFT:
-      dist = vc.num;
-      printf("!Left\n");
-      drive_.TurnRight(vc.num);
-      break;
-    case VC_CODE_RIGHT:
-      dist = vc.num;
-      drive_.TurnRight(vc.num);
-      printf("!Right\n");
-      break;
-    case VC_CODE_ROTATE:
-      dist = vc.num;
-      printf("!Rotate\n");
-      drive_.Turn(vc.num);
-      break;
-    case VC_CODE_STOP:
-      dist = vc.num;
-      printf("!STOP\n");
-      break;
-    default:
-      printf("UNDEFINED\n");
-      break; 
+  case VC_CODE_UCHIKATA:
+    speech_.Speak("目標を殲滅", ANGRY_FEEL);
+    if (mode % 2 == 0) {
+      gun_.FireNum(1);
+    }
+    else if (mode % 2 == 1) {
+      gun_.FireBurst(1);
+    }
+    printf("!Uchikata\n");
+    break;
+  case VC_CODE_HOUTOU:
+    printf("!Houtou\n");
+    if (vc.num == 1) { //up
+      gun_.TurretAbsoluteElevate(30);
+    }
+    else if (vc.num == 2) { //down
+      gun_.TurretAbsoluteElevate(-20);
+    }
+    else if (vc.num == 3) {//right
+      gun_.TurretAbsoluteDegrees(45);
+    }
+    else if (vc.num == 4) { //left
+      gun_.TurretAbsoluteDegrees(-45);
+    }
+    break;
+  case VC_CODE_FIRE:
+    printf("!FIRE\n");
+    num = vc.num;
+    if (num >= 6) gun_.FireBurst(num / 3);
+    else gun_.FireNum(num);
+    break;
+  case VC_CODE_FORWARD:
+    dist = vc.num;
+    printf("RunForward:%d\n", dist);
+    drive_.RunForward(dist * 10);
+    break;
+  case VC_CODE_BACK:
+    dist = vc.num;
+    printf("RunBack\n");
+    drive_.RunForward(dist * -10);
+    break;
+  case VC_CODE_LEFT:
+    dist = vc.num;
+    printf("!Left\n");
+    drive_.TurnRight(vc.num);
+    break;
+  case VC_CODE_RIGHT:
+    dist = vc.num;
+    drive_.TurnRight(vc.num);
+    printf("!Right\n");
+    break;
+  case VC_CODE_ROTATE:
+    dist = vc.num;
+    printf("!Rotate\n");
+    drive_.Turn(vc.num);
+    break;
+  case VC_CODE_STOP:
+    dist = vc.num;
+    printf("!STOP\n");
+    break;
+  default:
+    printf("UNDEFINED\n");
+    break;
   }
   return;
 }
