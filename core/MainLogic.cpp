@@ -48,8 +48,8 @@ void MainLogic::AdjustGunTurret()
     }
     else {
       //gun adjustment
-      if (cx < -512 || cx > 512) {
-        int angle = static_cast<double>(cx) / 1024.0 * 15.0;
+      if (cx * KX < -MARGIN_ROT_DEG || cx * KX > MARGIN_ROT_DEG) {
+        int angle = static_cast<double>(cx * KX) ;
         gun_.TurretRelativeTurn(-angle);
         printf("MainLogic TurnByDegrees %d\n", angle);
       }
