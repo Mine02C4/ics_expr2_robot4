@@ -106,7 +106,7 @@ void MainLogic::Launch()
   cv_task_flag_ = true;
   StartCameraLoop();
   StartPursuingBox();
-  for (int i = 0; i < 1000; ++i) {
+  for (;;) {
     int leftfront, rightfront;
     leftfront = sensor_.GetDistance(SensorID::LeftFront);
     rightfront = sensor_.GetDistance(SensorID::RightFront);
@@ -153,7 +153,7 @@ void MainLogic::Launch()
     printf("get_distance(left) : %d\n", sensor_.GetDistance(SensorID::LeftFront));
     printf("get_distance(right) : %d\n", sensor_.GetDistance(SensorID::RightFront));
     printf("End loop\n");
-    }
+  }
   cv_task_flag_ = false;
   cv_thread_.join();
   camera_thread_.join();
