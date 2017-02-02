@@ -23,8 +23,9 @@ void CVision::FetchFrame()
   if (cap_.grab() == false)
     return;
   std::lock_guard<std::mutex> lock(frame_mtx_);
-  if (cap_.retrieve(last_frame_, 0) == false) {
+  if (cap_.retrieve(last_frame_, 0) == true) {
     frame_updated_ = true;
+    imshow("Camera", last_frame_);
   }
 }
 
