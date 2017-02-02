@@ -27,7 +27,7 @@ void Drive::SetCurrentPosition(int val[2])
   double y = cval[1];
 	double th = cval[2];		// current theta [deg]
 
-	std::cout << "Old Pos [x, y, th] = " << x << y << th <<"\n";
+	//std::cout << "Old Pos [x, y, th] = " << x << y << th <<"\n";
 
   dsl = val[0] * CONV_TO_DIST;		// LEFT
 	dsr = val[1] * CONV_TO_DIST;		// RIGHT
@@ -40,7 +40,7 @@ void Drive::SetCurrentPosition(int val[2])
 	x = x + dx;
 	y = y + dy;
 	th = th + dth;
-	std::cout << "Current Pos [x, y, th] = " << x << y << th << "\n";
+	//std::cout << "Current Pos [x, y, th] = " << x << y << th << "\n";
 	cval[0] = x;
 	cval[1] = y;
 	cval[2] = th;
