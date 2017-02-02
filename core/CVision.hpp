@@ -18,13 +18,15 @@ public:
   bool DetectBlueBox(int &area, int& cx, int& cy);
   void FetchFrame();
 private:
+  const int pointer_detection_size_ = 10;
   CVision();
   bool frame_updated_;
   cv::Mat frame_;
   cv::Mat last_frame_;
   std::mutex frame_mtx_;
   cv::VideoCapture cap_;
-  void DetectTargetBlue(cv::Mat & hsv, cv::Mat & mask);
+  void DetectTargetBlue(cv::Mat &hsv, cv::Mat &mask);
+  void DetectPointer(cv::Mat &rgb, cv::Mat &hsv, cv::Point &p);
 };
 
 #endif  // ROBOT_CORE_CVISION_H_
