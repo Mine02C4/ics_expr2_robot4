@@ -11,8 +11,8 @@ int CVision::Init()
   cap_.open(0);
   if (!cap_.isOpened())
     return 1;
-  cap_.set(CV_CAP_PROP_FRAME_WIDTH, 320);
-  cap_.set(CV_CAP_PROP_FRAME_HEIGHT, 240);
+  cap_.set(CV_CAP_PROP_FRAME_WIDTH, camera_width_);
+  cap_.set(CV_CAP_PROP_FRAME_HEIGHT, camera_height_);
   cap_.read(frame_);
   frame_updated_ = false;
   return 0;
@@ -59,8 +59,8 @@ void  CVision::DetectPointer(Mat &rgb, Mat &hsv, Point &p)
   cv::Mat stats;
   cv::Mat centroids;
   int n_label = cv::connectedComponentsWithStats(mask, labels, stats, centroids);
-  int center_x = size.width / 2;
-  int center_y = size.height / 2;
+  int center_x = size.width / 2 + pointer_offset_.x;
+  int center_y = size.height / 2 + pointer_offset_.y;
   for (int i = 1; i < n_label; ++i) {
     int *param = stats.ptr<int>(i);
     double *centroid = centroids.ptr<double>(i);
@@ -72,7 +72,7 @@ void  CVision::DetectPointer(Mat &rgb, Mat &hsv, Point &p)
       x < center_x + pointer_detection_size_ / 2 &&
       y > center_y - pointer_detection_size_ / 2 &&
       y < center_y + pointer_detection_size_ / 2 &&
-      area < 10
+      area < 100
       ) {
       p.x = x;
       p.y = y;
@@ -128,8 +128,8 @@ bool CVision::DetectBlueBox(int & area, int & cx, int & cy)
   cv::bitwise_and(bgr0[2], mask, bgr0[2]);
 
   cv::merge(bgr0, 3, output);
-  int center_x = size.width / 2;
-  int center_y = size.height / 2;
+  int center_x = size.width / 2 + pointer_offset_.x;
+  int center_y = size.height / 2 + pointer_offset_.y;
   rectangle(
     output,
     cv::Rect(
@@ -138,11 +138,11 @@ bool CVision::DetectBlueBox(int & area, int & cx, int & cy)
       pointer_detection_size_,
       pointer_detection_size_
     ),
-    cv::Scalar(255, 0, 0), 1
+    cv::Scalar(0, 0, 255), 1
   );
   Point pointer;
   DetectPointer(frame_, hsv, pointer);
-  circle(output, pointer, 5, cv::Scalar(255, 0, 0), 2);
+  circle(output, pointer, 5, cv::Scalar(0, 0, 255), 2);
 
   int min_area = 500; // S1
   int largest_area = 0;
@@ -174,8 +174,13 @@ bool CVision::DetectBlueBox(int & area, int & cx, int & cy)
       num << largest_area << " cx:" << cx << " cy:" << cy;
       putText(output, num.str(), Point(x + 5, y + 20), cv::FONT_HERSHEY_COMPLEX, 0.5, cv::Scalar(0, 255, 255), 1);
     }
-    cv::circle(output, cv::Point(x, y), 3, cv::Scalar(0, 0, 255), -1);
+    cv::circle(output, cv::Point(x, y), 3, cv::Scalar(0, 255, 0), -1);
     cv::resize(output, output, Size(), 2.0, 2.0);
+    {
+      std::stringstream pstr;
+      pstr << "x:" << pointer.x << " y: " << pointer.y;
+      putText(output, pstr.str(), Point(pointer.x * 2 + 5, pointer.x * 2 + 20), cv::FONT_HERSHEY_COMPLEX, 1.0, cv::Scalar(0, 255, 255), 1);
+    }
     cv::imshow("Output", output);
     return true;
   }
