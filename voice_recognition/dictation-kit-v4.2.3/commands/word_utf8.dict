@@ -31,6 +31,10 @@
 5	[さがれ]	s a g a r u
 5	[さがれ]	b a q k u
 5	[モード変更]	m o: d o h e N k o u
+5	[言った言葉を当てて]	i q t a k o t o b a w o a t e t e
+5	[正解]	s e i k a i
+5	[はずれ]	h a z u r e
+5	[終われ]	o w a r e
 6	[うて]	u t e
 6	[発射]	h a q sh a
 6	[撃ち方はじめ]	u ch i k a t a h a j i m e
@@ -74,3 +78,11 @@
 8	[度]	d o
 9	[発]	h a t u
 10	[砲塔]	h o u t o u
+11	[青]	a o
+11	[赤]	a k a
+11	[黄色]	k i i r o
+11	[黒]	k u r o
+11	[白]	s i r o
+11	[緑]	m i d o r i
+12	[色]	i r o
+13	[狙え]	n e r a e
