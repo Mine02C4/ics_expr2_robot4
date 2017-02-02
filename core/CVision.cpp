@@ -11,8 +11,8 @@ int CVision::Init()
   cap_.open(0);
   if (!cap_.isOpened())
     return 1;
-  cap_.set(CV_CAP_PROP_FRAME_WIDTH, 320);
-  cap_.set(CV_CAP_PROP_FRAME_HEIGHT, 240);
+  cap_.set(CV_CAP_PROP_FRAME_WIDTH, camera_width_);
+  cap_.set(CV_CAP_PROP_FRAME_HEIGHT, camera_height_);
   cap_.read(frame_);
   frame_updated_ = false;
   return 0;
@@ -174,12 +174,12 @@ bool CVision::DetectBlueBox(int & area, int & cx, int & cy)
       num << largest_area << " cx:" << cx << " cy:" << cy;
       putText(output, num.str(), Point(x + 5, y + 20), cv::FONT_HERSHEY_COMPLEX, 0.5, cv::Scalar(0, 255, 255), 1);
     }
-    cv::circle(output, cv::Point(x, y), 3, cv::Scalar(0, 0, 255), -1);
+    cv::circle(output, cv::Point(x, y), 3, cv::Scalar(0, 255, 0), -1);
     cv::resize(output, output, Size(), 2.0, 2.0);
     {
       std::stringstream pstr;
       pstr << "x:" << pointer.x << " y: " << pointer.y;
-      putText(output, pstr.str(), Point(pointer.x * 2 + 5, pointer.x * 2 + 20), cv::FONT_HERSHEY_COMPLEX, 0.3, cv::Scalar(0, 255, 255), 1);
+      putText(output, pstr.str(), Point(pointer.x * 2 + 5, pointer.x * 2 + 20), cv::FONT_HERSHEY_COMPLEX, 1.0, cv::Scalar(0, 255, 255), 1);
     }
     cv::imshow("Output", output);
     return true;

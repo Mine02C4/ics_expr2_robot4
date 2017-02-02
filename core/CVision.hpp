@@ -18,8 +18,10 @@ public:
   bool DetectBlueBox(int &area, int& cx, int& cy);
   void FetchFrame();
 private:
-  const int pointer_detection_size_ = 40;
-  const cv::Point pointer_offset_ = cv::Point(0, 50);
+  const int camera_width_ = 320;
+  const int camera_height_ = 240;
+  const int pointer_detection_size_ = 80;
+  const cv::Point pointer_offset_ = cv::Point(0, 40);
   CVision();
   bool frame_updated_;
   cv::Mat frame_;
