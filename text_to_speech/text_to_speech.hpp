@@ -2,6 +2,8 @@
 #define TEXT_TO_SPEECH_H_
 
 #include <iostream>
+#include <thread>
+#include <utility>
 //define feelings
 #define NORMAL_FEEL 0
 #define ANGRY_FEEL 1
