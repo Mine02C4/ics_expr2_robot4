@@ -176,22 +176,24 @@ void MainLogic::Wait_Voice_By_Code() {
     {
     speech_.Speak_Through("文章あてゲーム!パチパチパチ！");
     voice_.ChangeMode(FASTJCONF);
-    speech_.Speak("君の喋った文章を当てるよ！");
-    std::string sen = voice_.Wait_One_Sentence(10);
-    speech_.Speak("もしかして君の喋った文章は");
-    speech_.Speak(sen);
-    speech_.Speak("ですか？");
-    voice_.Wait_One_Code(5, vc);
-    switch (vc.code) {
-      case VC_CODE_CORRECT:
-      speech_.Speak("やったー!");
-      break;
-      case VC_CODE_INCORRECT:
-      speech_.Speak("え〜マジかー", SAD_FEEL);
-      break;
-      default:
+    for (int i = 0; i < 2;i++) {
+      speech_.Speak("君の喋った文章を当てるよ！");
+      std::string sen = voice_.Wait_One_Sentence(10);
+      speech_.Speak("もしかして君の喋った文章は");
+      speech_.Speak(sen);
+      speech_.Speak("ですか？");
+      voice_.Wait_One_Code(5, vc);
+      switch (vc.code) {
+        case VC_CODE_CORRECT:
+        speech_.Speak("やったー!");
+        break;
+        case VC_CODE_INCORRECT:
+        speech_.Speak("え〜マジかー", SAD_FEEL);
+        break;
+        default:
         speech_.Speak("どうでしたか?");
-      break;
+        break;
+      }
     }
     speech_.Speak_Through("操作モードに戻ります");
     voice_.ChangeMode(MINEJCONF);
