@@ -20,20 +20,20 @@
 5	[行け]	i k e
 5	[行け]	i k u
 5	[行け]	g o:
-5	[まわれ]	m a w a r e
-5	[とまれ]	t o m a r e
-5	[とまれ]	t o m a r u
-5	[とまれ]	s u t o q p u
 5	[さがれ]	s a g a r e
 5	[さがれ]	s a g a r u
 5	[さがれ]	b a q k u
 6	[モード変更]	m o: d o h e N k o u
 6	[言った言葉を当てて]	i q t a k o t o b a w o a t e t e
-6	[文章当てゲーム]	b u N sy o u a t e g e: m u
+6	[文章当てゲーム]	b u N sh o u a t e g e: m u
 6	[正解]	s e i k a i
 6	[はずれ]	h a z u r e
 6	[終われ]	o w a r e
-6	[作戦終了]	s a k u s e N sy u: ry o:
+6	[作戦終了]	s a k u s e N sh u: ry o:
+6	[とまれ]	t o m a r e
+6	[とまれ]	t o m a r u
+6	[とまれ]	s u t o q p u
+6	[まわれ]	m a w a r e
 7	[うて]	u t e
 7	[発射]	h a q sh a
 7	[撃ち方はじめ]	u ch i k a t a h a j i m e
