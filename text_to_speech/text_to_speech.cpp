@@ -1,9 +1,10 @@
 #include <cstdlib>
 #include <cstdio>
 #include <iostream>
+#include <cstring>
 #include "text_to_speech.hpp"
 #include <thread>
-
+#include <utility>
 #define VOICEDIR "./text_to_speech/voices/"
 const std::string dict = "/var/lib/mecab/dic/open-jtalk/naist-jdic/";
 //voice file places
@@ -27,7 +28,7 @@ int Speech::Speak(std::string s, int feeling){
   return 0;
 }
 
-int Speech::Speak_Through(std::string) {
+int Speech::Speak_Through(std::string s) {
   if (search_wav(s, NORMAL_FEEL) == -1) {
     if(make_wav(s, NORMAL_FEEL) != -1) play_wav_through(s, NORMAL_FEEL);
   } else {
@@ -36,7 +37,7 @@ int Speech::Speak_Through(std::string) {
   return 0;
 }
 
-int Speech::Speak_Through(std::string, int second) {
+int Speech::Speak_Through(std::string s, int second) {
   if (search_wav(s, NORMAL_FEEL) == -1) {
     if(make_wav(s, NORMAL_FEEL) != -1) play_wav_through_second(s, NORMAL_FEEL);
   } else {
