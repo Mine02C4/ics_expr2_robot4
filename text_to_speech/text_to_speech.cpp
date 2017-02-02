@@ -37,12 +37,14 @@ int Speech::Speak_Through(std::string s) {
   return 0;
 }
 
-int Speech::Speak_Through(std::string s, int second) {
-  if (search_wav(s, NORMAL_FEEL) == -1) {
-    if(make_wav(s, NORMAL_FEEL) != -1) play_wav_through_second(s, NORMAL_FEEL);
-  } else {
-    play_wav_through_second(s, NORMAL_FEEL);
-  }
+
+int Speech::Sing(std::string s, int second) {
+  std::string com = "aplay -d" + std::to_string(second) + " -D plughw:0,0 "+(std::string)VOICEDIR+s+".wav";
+  const char* cmd = com.c_str();
+  auto th = std::thread([cmd] {
+    system(cmd);
+    });
+  th.detach();
   return 0;
 }
 
@@ -97,7 +99,7 @@ int Speech::play_wav_through(std::string s, int feeling) {
   std::string voice_type = convert_feel_to_string(feeling);
   std::string com = "aplay -D plughw:0,0 "+(std::string)VOICEDIR+s+voice_type+".wav";
   const char* cmd = com.c_str();
-  auto th = std::thread([this] {
+  auto th = std::thread([cmd] {
     system(cmd);
     });
   th.detach();
@@ -107,7 +109,7 @@ int Speech::play_wav_through_second(std::string s, int feeling, int second) {
   std::string voice_type = convert_feel_to_string(feeling);
   std::string com = "aplay -d10 -D plughw:0,0 "+(std::string)VOICEDIR+s+voice_type+".wav";
   const char* cmd = com.c_str();
-  auto th = std::thread([this] {
+  auto th = std::thread([cmd] {
     system(cmd);
     });
   th.detach();

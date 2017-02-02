@@ -21,8 +21,8 @@ public:
   void Finalize();
   int Speak(std::string);
   int Speak(std::string, int feeling);
-  int Speak_Through(std::string);
-  int Speak_Through(std::string, int second);
+  int Speak_Through(std::string s);
+  int Sing(std::string s, int second);
 private:
   Speech();
   std::string convert_feel_to_string(int feeling);
