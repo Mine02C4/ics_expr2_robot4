@@ -59,8 +59,8 @@ void  CVision::DetectPointer(Mat &rgb, Mat &hsv, Point &p)
   cv::Mat stats;
   cv::Mat centroids;
   int n_label = cv::connectedComponentsWithStats(mask, labels, stats, centroids);
-  int center_x = size.width / 2;
-  int center_y = size.height / 2;
+  int center_x = size.width / 2 + pointer_offset_.x;
+  int center_y = size.height / 2 + pointer_offset_.y;
   for (int i = 1; i < n_label; ++i) {
     int *param = stats.ptr<int>(i);
     double *centroid = centroids.ptr<double>(i);
@@ -128,8 +128,8 @@ bool CVision::DetectBlueBox(int & area, int & cx, int & cy)
   cv::bitwise_and(bgr0[2], mask, bgr0[2]);
 
   cv::merge(bgr0, 3, output);
-  int center_x = size.width / 2;
-  int center_y = size.height / 2;
+  int center_x = size.width / 2 + pointer_offset_.x;
+  int center_y = size.height / 2 + pointer_offset_.y;
   rectangle(
     output,
     cv::Rect(
