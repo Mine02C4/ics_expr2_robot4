@@ -88,6 +88,13 @@ bool CVision::DetectBlueBox(int & area, int & cx, int & cy)
   }
 
   if (largest_area > min_area) {
+    area = largest_area;
+    double *param = centroids.ptr<double>(largest_id);
+    double x = static_cast<double>(param[0]);
+    double y = static_cast<double>(param[1]);
+    Size size = frame_.size();
+    cx = 2048 * (x / size.width) - 1024;
+    cy = 2048 * (y / size.height) - 1024;
     { // DEBUG BLOCK
       int *param = stats.ptr<int>(largest_id);
       int x = param[cv::ConnectedComponentsTypes::CC_STAT_LEFT];
@@ -96,17 +103,11 @@ bool CVision::DetectBlueBox(int & area, int & cx, int & cy)
       int width = param[cv::ConnectedComponentsTypes::CC_STAT_WIDTH];
       cv::rectangle(output, cv::Rect(x, y, width, height), cv::Scalar(0, 255, 0), 2);
       std::stringstream num;
-      num << largest_area;
-      cv::putText(output, num.str(), cv::Point(x + 5, y + 20), cv::FONT_HERSHEY_COMPLEX, 0.7, cv::Scalar(0, 255, 255), 2);
+      num << largest_area << " cx:" << cx << " cy:" << cy;
+      cv::putText(output, num.str(), cv::Point(x + 5, y + 20), cv::FONT_HERSHEY_COMPLEX, 0.5, cv::Scalar(0, 255, 255), 1);
     }
-    area = largest_area;
-    double *param = centroids.ptr<double>(largest_id);
-    double x = static_cast<double>(param[0]);
-    double y = static_cast<double>(param[1]);
-    Size size = frame_.size();
-    cx = 2048 * (x / size.width) - 1024;
-    cy = 2048 * (y / size.height) - 1024;
     cv::circle(output, cv::Point(x, y), 3, cv::Scalar(0, 0, 255), -1);
+    cv::resize(output, output, Size(), 2.0, 2.0);
     cv::imshow("Output", output);
     return true;
   }
