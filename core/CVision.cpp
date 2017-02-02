@@ -14,7 +14,7 @@ int CVision::Init()
   cap_.set(CV_CAP_PROP_FRAME_WIDTH, 320);
   cap_.set(CV_CAP_PROP_FRAME_HEIGHT, 240);
   cap_.read(frame_);
-  frame_updated_ = true;
+  frame_updated_ = false;
   return 0;
 }
 

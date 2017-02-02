@@ -104,6 +104,7 @@ void MainLogic::Launch()
 {
   // Get command from other interfaces.
   cv_task_flag_ = true;
+  StartCameraLoop();
   StartPursuingBox();
   for (int i = 0; i < 1000; ++i) {
     int leftfront, rightfront;
