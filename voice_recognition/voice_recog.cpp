@@ -176,12 +176,23 @@ int Voicerec::Convert_String_to_Code(std::string s, struct voicecode & vc) {
   else if (s == "うて")  {vc.code = VC_CODE_FIRE; vc.num = 1; return 0;}
   else if (s == "発射")  {vc.code = VC_CODE_FIRE; vc.num = 1; return 0;}
   else if (s == "撃ち方はじめ") {vc.code = VC_CODE_UCHIKATA; vc.num = 1; return 0;}
-  else if (s == "モード変更") {vc.code = VC_CODE_MODECHANGE; vc.num = 1; return 0;}
+  else if (s == "言った言葉を当てて") {vc.code = VC_CODE_QUIZ ; vc.num = 1; return 0;}
+  else if (s == "正解") {vc.code = VC_CODE_CORRECT; vc.num = 1; return 0;}
+  else if (s == "はずれ") {vc.code = VC_CODE_INCORRECT; vc.num = 1; return 0;}
+  else if (s == "終われ") {vc.code = VC_CODE_EXIT; vc.num = 1; return 0;}
   if ((int)s.find("発") >= 0) {
     sscanf(s.c_str(),"%d", &num);
     vc.num = num;
     vc.code = VC_CODE_FIRE;
     return 0;   
+  }
+  if ((int)s.find("狙え") >= 0){ 
+    if ((int)s.find("赤") >= 0) {vc.code = VC_CODE_RED; vc.num = 0; return 0;}
+    if ((int)s.find("青") >= 0) {vc.code = VC_CODE_BLUE; vc.num = 0; return 0;}
+    if ((int)s.find("緑") >= 0) {vc.code = VC_CODE_GREEN; vc.num = 0; return 0;}
+    if ((int)s.find("白") >= 0) {vc.code = VC_CODE_WHITE; vc.num = 0; return 0;}
+    if ((int)s.find("黄") >= 0) {vc.code = VC_CODE_YELLOW; vc.num = 0; return 0;}
+    if ((int)s.find("黒") >= 0) {vc.code = VC_CODE_BLACK; vc.num = 0; return 0;}
   }
   if ((int)s.find("砲塔") >= 0){
     if ((int)s.find("上") >= 0) {vc.code = VC_CODE_HOUTOU; vc.num = 1; return 0;}
