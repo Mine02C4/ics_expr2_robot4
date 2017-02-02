@@ -1,0 +1,167 @@
+Initializing motor...
+Found controller #0.
+wirteCMPL[0:0]
+Testing stepping motor
+input device ok
+wirteCMPL[4800:-4800]
+wirteCMPL[9600:-9600]
+wirteCMPL[14400:-14400]
+wirteCMPL[19200:-19200]
+wirteCMPL[24000:-24000]
+Voicerec:last sentence: 
+Voicerec:code:-1 num:-1
+wirteCMPL[8000:-8000]
+wirteCMPL[12800:-12800]
+wirteCMPL[17600:-17600]
+wirteCMPL[22400:-22400]
+wirteCMPL[17600:-17600]
+wirteCMPL[22400:-22400]
+wirteCMPL[27200:-27200]
+Voicerec:last sentence: 
+Voicerec:code:-1 num:-1
+wirteCMPL[32000:-32000]
+wirteCMPL[-28736:28736]
+wirteCMPL[32000:-32000]
+wirteCMPL[-28736:28736]
+wirteCMPL[-23936:23936]
+Voicerec:last sentence: 
+Voicerec:code:-1 num:-1
+wirteCMPL[25600:-25600]
+wirteCMPL[30400:-30400]
+wirteCMPL[-30336:30336]
+Start!
+Initializing motor, moving to inital pos...complete!
+Finish init devices.
+Finish init mainlogic.
+Core MainLogic: Start StartPursuingBox
+get_distance(left) : 194
+area = 511, cx = -467, cy = -1000
+MainLogic TurnByDegrees 0
+currentrot:0Old Pos [x, y, th] = 000
+Current Pos [x, y, th] = 149.06600
+get_distance(right) : 116
+MainLogic TurretRelativeUp 3
+area = 521, cx = -468, cy = -999
+MainLogic TurnByDegrees 0
+currentrot:150Old Pos [x, y, th] = 149.06600
+Current Pos [x, y, th] = 298.13300
+MainLogic TurretRelativeUp 3
+area = 501, cx = -469, cy = -999
+MainLogic TurnByDegrees 0
+currentrot:300Old Pos [x, y, th] = 298.13300
+Current Pos [x, y, th] = 447.19900
+MainLogic TurretRelativeUp 3
+area = 1636, cx = -414, cy = -836
+MainLogic TurnByDegrees 0
+currentrot:450Old Pos [x, y, th] = 447.19900
+Current Pos [x, y, th] = 596.26500
+MainLogic TurretRelativeUp 3
+area = 1572, cx = -412, cy = -831
+MainLogic TurnByDegrees 0
+currentrot:600Old Pos [x, y, th] = 596.26500
+Current Pos [x, y, th] = 745.33200
+UNDEFINED
+get_distance(left) : 194
+get_distance(right) : 95
+End loop
+stop
+currentrot:750Old Pos [x, y, th] = 745.33200
+Current Pos [x, y, th] = 246.53300
+get_distance(left) : 40
+get_distance(right) : 232
+MainLogic TurretRelativeUp 3
+area = 1578, cx = -409, cy = -834
+MainLogic TurnByDegrees 0
+currentrot:250Old Pos [x, y, th] = 246.53300
+Current Pos [x, y, th] = 395.59900
+MainLogic TurretRelativeUp 3
+area = 1595, cx = -415, cy = -835
+MainLogic TurnByDegrees 0
+currentrot:400Old Pos [x, y, th] = 395.59900
+Current Pos [x, y, th] = 544.66500
+MainLogic TurretRelativeUp 3
+area = 1625, cx = -412, cy = -835
+MainLogic TurnByDegrees 0
+currentrot:550Old Pos [x, y, th] = 544.66500
+Current Pos [x, y, th] = 693.73200
+MainLogic TurretRelativeUp 3
+area = 4710, cx = -35, cy = 182
+MainLogic TurnByDegrees 0
+area = 5937, cx = 6, cy = 356
+MainLogic TurnByDegrees 0
+currentrot:700Old Pos [x, y, th] = 693.73200
+Current Pos [x, y, th] = 544.66500
+area = 4645, cx = -79, cy = 639
+MainLogic TurnByDegrees 0
+MainLogic TurretRelativeUp -3
+area = 2869, cx = -112, cy = 794
+MainLogic TurnByDegrees 0
+currentrot:550Old Pos [x, y, th] = 544.66500
+Current Pos [x, y, th] = 693.73200
+MainLogic TurretRelativeUp -3
+area = 2665, cx = -156, cy = 813
+MainLogic TurnByDegrees 0
+currentrot:700Old Pos [x, y, th] = 693.73200
+Current Pos [x, y, th] = 842.79800
+UNDEFINED
+get_distance(left) : 166
+get_distance(right) : 83
+End loop
+get_distance(left) : 166
+get_distance(right) : 229
+MainLogic TurretRelativeUp -3
+area = 2648, cx = -159, cy = 815
+MainLogic TurnByDegrees 0
+currentrot:850Old Pos [x, y, th] = 842.79800
+Current Pos [x, y, th] = 991.86400
+MainLogic TurretRelativeUp -3
+area = 2655, cx = -161, cy = 814
+MainLogic TurnByDegrees 0
+currentrot:1000Old Pos [x, y, th] = 991.86400
+Current Pos [x, y, th] = 1140.9300
+MainLogic TurretRelativeUp -3
+area = 6010, cx = -150, cy = -219
+MainLogic TurnByDegrees 0
+currentrot:1150Old Pos [x, y, th] = 1140.9300
+Current Pos [x, y, th] = 991.86400
+area = 3290, cx = -171, cy = -787
+MainLogic TurnByDegrees 0
+MainLogic TurretRelativeUp 3
+area = 2831, cx = -130, cy = -818
+MainLogic TurnByDegrees 0
+currentrot:1000Old Pos [x, y, th] = 991.86400
+Current Pos [x, y, th] = 1140.9300
+MainLogic TurretRelativeUp 3
+area = 2293, cx = -132, cy = -857
+MainLogic TurnByDegrees 0
+currentrot:1150Old Pos [x, y, th] = 1140.9300
+Current Pos [x, y, th] = 129000
+UNDEFINED
+get_distance(left) : 32
+get_distance(right) : 224
+End loop
+stop
+currentrot:1300Old Pos [x, y, th] = 129000
+Current Pos [x, y, th] = 791.19800
+MainLogic TurretRelativeUp 3
+get_distance(left) : 31
+area = 2140, cx = -122, cy = -870
+MainLogic TurnByDegrees 0
+currentrot:800Old Pos [x, y, th] = 791.19800
+Current Pos [x, y, th] = 940.26400
+get_distance(right) : 79
+MainLogic TurretRelativeUp 3
+area = 2119, cx = -123, cy = -870
+MainLogic TurnByDegrees 0
+currentrot:950Old Pos [x, y, th] = 940.26400
+Current Pos [x, y, th] = 1089.3300
+MainLogic TurretRelativeUp 3
+area = 4817, cx = -194, cy = -776
+MainLogic TurnByDegrees 0
+MainLogic TurretRelativeUp 3
+area = 4127, cx = -224, cy = -809
+MainLogic TurnByDegrees 0
+MainLogic TurretRelatiError: Error turn by degrees
+veUp 3
+area = 4303, cx = -227, cy = -801
+MainLogic TurnByDegrees 0
