@@ -8,8 +8,8 @@
 
 #include "../voice_recognition/voicecode.hpp"
 
-#define MARGIN_EV_DEG 5
-#define MARGIN_ROT_DEG 5
+#define MARGIN_EV_DEG 1
+#define MARGIN_ROT_DEG 1
 #define KY 0.01464
 #define KX 0.01953
 
@@ -48,8 +48,8 @@ void MainLogic::AdjustGunTurret()
     }
     else {
       //gun adjustment
-      if (cx < -512 || cx > 512) {
-        int angle = static_cast<double>(cx) / 1024.0 * 15.0;
+      if (cx * KX < -MARGIN_ROT_DEG || cx * KX > MARGIN_ROT_DEG) {
+        int angle = static_cast<double>(cx * KX) ;
         gun_.TurretRelativeTurn(-angle);
         printf("MainLogic TurnByDegrees %d\n", angle);
       }
@@ -110,9 +110,9 @@ void MainLogic::Launch()
     int leftfront, rightfront;
     leftfront = sensor_.GetDistance(SensorID::LeftFront);
     rightfront = sensor_.GetDistance(SensorID::RightFront);
-    if (leftfront < 50 || rightfront < 50) {
+    if (leftfront < 20 || rightfront < 20) {
       printf("stop\n");
-      drive_.RunForward(-500);
+      drive_.RunForward(-50);
     }
     printf("get_distance(left) : %d\n", sensor_.GetDistance(SensorID::LeftFront));
     printf("get_distance(right) : %d\n", sensor_.GetDistance(SensorID::RightFront));
@@ -170,6 +170,7 @@ void MainLogic::Wait_Voice_By_Code() {
   int num, dist;
   switch (vc.code) {
   case VC_CODE_EXIT:
+    speech_.Speak("終了します");
     fprintf(stderr, "MainLogic: exit by voice");
     // no finalize() function in class.
     exit(1);
@@ -196,7 +197,6 @@ void MainLogic::Wait_Voice_By_Code() {
     }
     speech_.Speak_Through("操作モードに戻ります");
     voice_.ChangeMode(MINEJCONF);
-    return;
   }
   case VC_CODE_MODECHANGE:
     mode++;
