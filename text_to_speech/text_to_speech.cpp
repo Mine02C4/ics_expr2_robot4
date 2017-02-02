@@ -2,6 +2,7 @@
 #include <cstdio>
 #include <iostream>
 #include "text_to_speech.hpp"
+#include <thread>
 
 #define VOICEDIR "./text_to_speech/voices/"
 const std::string dict = "/var/lib/mecab/dic/open-jtalk/naist-jdic/";
@@ -22,6 +23,15 @@ int Speech::Speak(std::string s, int feeling){
     if(make_wav(s, feeling) != -1) play_wav(s, feeling);
   } else {
     play_wav(s, feeling);
+  }
+  return 0;
+}
+
+int Speech::Speak_Through(std::string) {
+  if (search_wav(s, NORMAL_FEEL) == -1) {
+    if(make_wav(s, NORMAL_FEEL) != -1) play_wav_through(s, NORMAL_FEEL);
+  } else {
+    play_wav_through(s, NORMAL_FEEL);
   }
   return 0;
 }
@@ -70,6 +80,17 @@ int Speech::play_wav(std::string s, int feeling) {
   std::string com = "aplay -D plughw:0,0 "+(std::string)VOICEDIR+s+voice_type+".wav";
   const char* cmd = com.c_str();
   system(cmd);
+  return 0;
+}
+
+int Speech::play_wav_through(std::string s, int feeling) {
+  std::string voice_type = convert_feel_to_string(feeling);
+  std::string com = "aplay -D plughw:0,0 "+(std::string)VOICEDIR+s+voice_type+".wav";
+  const char* cmd = com.c_str();
+  auto th = std::thread([this] {
+    system(cmd);
+    });
+  th.detach();
   return 0;
 }
 

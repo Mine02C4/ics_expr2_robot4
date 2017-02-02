@@ -176,6 +176,7 @@ int Voicerec::Convert_String_to_Code(std::string s, struct voicecode & vc) {
   else if (s == "うて")  {vc.code = VC_CODE_FIRE; vc.num = 1; return 0;}
   else if (s == "発射")  {vc.code = VC_CODE_FIRE; vc.num = 1; return 0;}
   else if (s == "撃ち方はじめ") {vc.code = VC_CODE_UCHIKATA; vc.num = 1; return 0;}
+  else if (s == "モード変更") {vc.code = VC_CODE_MODECHANGE; vc.num = 1; return 0;}
   else if (s == "言った言葉を当てて") {vc.code = VC_CODE_QUIZ ; vc.num = 1; return 0;}
   else if (s == "正解") {vc.code = VC_CODE_CORRECT; vc.num = 1; return 0;}
   else if (s == "はずれ") {vc.code = VC_CODE_INCORRECT; vc.num = 1; return 0;}
