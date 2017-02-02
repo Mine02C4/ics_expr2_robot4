@@ -36,6 +36,15 @@ int Speech::Speak_Through(std::string) {
   return 0;
 }
 
+int Speech::Speak_Through(std::string, int second) {
+  if (search_wav(s, NORMAL_FEEL) == -1) {
+    if(make_wav(s, NORMAL_FEEL) != -1) play_wav_through_second(s, NORMAL_FEEL);
+  } else {
+    play_wav_through_second(s, NORMAL_FEEL);
+  }
+  return 0;
+}
+
 int Speech::search_wav(std::string s, int feeling) {
   FILE * fp;
   std::string filename = (std::string)VOICEDIR + s + convert_feel_to_string(feeling)+".wav";
@@ -86,6 +95,16 @@ int Speech::play_wav(std::string s, int feeling) {
 int Speech::play_wav_through(std::string s, int feeling) {
   std::string voice_type = convert_feel_to_string(feeling);
   std::string com = "aplay -D plughw:0,0 "+(std::string)VOICEDIR+s+voice_type+".wav";
+  const char* cmd = com.c_str();
+  auto th = std::thread([this] {
+    system(cmd);
+    });
+  th.detach();
+  return 0;
+}
+int Speech::play_wav_through_second(std::string s, int feeling, int second) {
+  std::string voice_type = convert_feel_to_string(feeling);
+  std::string com = "aplay -d10 -D plughw:0,0 "+(std::string)VOICEDIR+s+voice_type+".wav";
   const char* cmd = com.c_str();
   auto th = std::thread([this] {
     system(cmd);
