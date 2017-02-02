@@ -6,16 +6,12 @@
 
 #include "CVision.hpp"
 
-#include "../stub_library/common.h" // TODO: Will be removed.
-
 #include "../voice_recognition/voicecode.hpp"
 
 #define MARGIN_EV_DEG 10
 #define MARGIN_ROT_DEG 15
 #define KY 0.01464
 #define KX 0.01953
-
-static int thold;
 
 MainLogic::MainLogic() :
   drive_(Drive::getInstance()),
