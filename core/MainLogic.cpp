@@ -8,8 +8,8 @@
 
 #include "../voice_recognition/voicecode.hpp"
 
-#define MARGIN_EV_DEG 10
-#define MARGIN_ROT_DEG 15
+#define MARGIN_EV_DEG 5
+#define MARGIN_ROT_DEG 5
 #define KY 0.01464
 #define KX 0.01953
 
@@ -41,16 +41,16 @@ void MainLogic::AdjustGunTurret()
   if (vision_.getInstance().DetectBlueBox(area, cx, cy)) {
     printf("area = %d, cx = %d, cy = %d\n", area, cx, cy);
     if (area < 3000) {
-      //drive_.RunForward(150);
+      drive_.RunForward(5);
     }
     if (area > 5000) {
-      //drive_.RunForward(-150);
+      drive_.RunForward(-5);
     }
     else {
       //gun adjustment
       if (cx < -512 || cx > 512) {
         int angle = static_cast<double>(cx) / 1024.0 * 15.0;
-        gun_.TurretRelativeTurn(angle);
+        gun_.TurretRelativeTurn(-angle);
         printf("MainLogic TurnByDegrees %d\n", angle);
       }
       else if (cy * KY < -MARGIN_EV_DEG) { // object is on upper
