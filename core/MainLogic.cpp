@@ -38,7 +38,7 @@ void MainLogic::AdjustGunTurret()
 {
   int area, cx, cy;
   if (vision_.getInstance().DetectBlueBox(area, cx, cy)) {
-    printf("area = %d, cx = %d, cy = %d\n", area, cx, cy);
+    printf("area = %d, cx = %d, cy = %d\r", area, cx, cy);
     
     int angle = cx / 1024 * 60;
     gun_.TurnAbsoluteDegrees(angle);
@@ -175,9 +175,9 @@ void MainLogic::Wait_Voice_By_Code() {
       } else if (vc.num == 2) { //down
         gun_.TurretAbsoluteElevate(-20);
       }else if (vc.num == 3) {//right
-        gun_.TurretAbsoluteDegrees(45);
+        gun_.TurnAbsoluteDegrees(45);
       }else if (vc.num == 4) { //left
-        gun_.TurretAbsoluteDegrees(-45);
+        gun_.TurnAbsoluteDegrees(-45);
       }
     break;
     case VC_CODE_FIRE:
