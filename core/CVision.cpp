@@ -76,7 +76,7 @@ bool  CVision::DetectPointer(Mat &rgb, Mat &hsv, Point &p, std::string &opt)
       ) {
       p.x = x;
       p.y = y;
-      auto val = hsv.at<Vec3b>(x, y);
+      auto val = hsv.at<Vec3b>(y, x);
       opt = "area: " + std::to_string(area) +
         " H" + std::to_string(val[0]) +
         "S" + std::to_string(val[1]) +
