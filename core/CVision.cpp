@@ -14,17 +14,32 @@ int CVision::Init()
   cap_.set(CV_CAP_PROP_FRAME_WIDTH, 320);
   cap_.set(CV_CAP_PROP_FRAME_HEIGHT, 240);
   cap_.read(frame_);
+  frame_updated_ = false;
   return 0;
+}
+
+void CVision::FetchFrame()
+{
+  if (cap_.grab() == false)
+    return;
+  std::lock_guard<std::mutex> lock(frame_mtx_);
+  if (cap_.retrieve(last_frame_, 0) == true) {
+    frame_updated_ = true;
+    imshow("Camera", last_frame_);
+  }
 }
 
 bool CVision::ReadFrame()
 {
-  if (cap_.grab() == false)
+  std::lock_guard<std::mutex> lock(frame_mtx_);
+  if (frame_updated_) {
+    frame_ = last_frame_.clone();
+    frame_updated_ = false;
+    return true;
+  }
+  else {
     return false;
-  if (cap_.retrieve(frame_, 0) == false)
-    return false;
-  //cv::imshow("VideoTest", frame_);
-  return true;
+  }
 }
 
 void CVision::DetectTargetBlue(cv::Mat &hsv, cv::Mat &mask)

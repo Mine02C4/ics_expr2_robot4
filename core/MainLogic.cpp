@@ -6,16 +6,12 @@
 
 #include "CVision.hpp"
 
-#include "../stub_library/common.h" // TODO: Will be removed.
-
 #include "../voice_recognition/voicecode.hpp"
 
 #define MARGIN_EV_DEG 10
 #define MARGIN_ROT_DEG 15
 #define KY 0.01464
 #define KX 0.01953
-
-static int thold;
 
 MainLogic::MainLogic() :
   drive_(Drive::getInstance()),
@@ -58,12 +54,12 @@ void MainLogic::AdjustGunTurret()
         printf("MainLogic TurnByDegrees %d\n", angle);
       }
       else if (cy * KY < -MARGIN_EV_DEG) { // object is on upper
-        int degrees = -cy * KY;
+        int degrees = static_cast<double>(-cy * KY);
         gun_.TurretRelativeUp(degrees);
         printf("MainLogic TurretRelativeUp %d\n", degrees);
       }
       else if (cy * KY > MARGIN_EV_DEG) {
-        int degrees = -(cy * KY);
+        int degrees = static_cast<double>(-(cy * KY));
         gun_.TurretRelativeUp(degrees);
         printf("MainLogic TurretRelativeUp %d\n", degrees);
       }
@@ -94,12 +90,23 @@ void MainLogic::StartPursuingBox()
   });
 }
 
+void MainLogic::StartCameraLoop()
+{
+  camera_thread_ = std::thread([this] {
+    while (cv_task_flag_) {
+      vision_.FetchFrame();
+      std::this_thread::sleep_for(std::chrono::milliseconds(10));
+    }
+  });
+}
+
 void MainLogic::Launch()
 {
   // Get command from other interfaces.
   cv_task_flag_ = true;
+  StartCameraLoop();
   StartPursuingBox();
-  for (int i = 0; i < 1000; ++i) {
+  for (;;) {
     int leftfront, rightfront;
     leftfront = sensor_.GetDistance(SensorID::LeftFront);
     rightfront = sensor_.GetDistance(SensorID::RightFront);
@@ -149,6 +156,7 @@ void MainLogic::Launch()
   }
   cv_task_flag_ = false;
   cv_thread_.join();
+  camera_thread_.join();
   cv::destroyAllWindows();
 }
 
@@ -185,16 +193,16 @@ void MainLogic::Wait_Voice_By_Code() {
   case VC_CODE_HOUTOU:
     printf("!Houtou\n");
     if (vc.num == 1) { //up
-      gun_.TurretAbsoluteElevate(30);
+//      gun_.TurretAbsoluteDegrees(30);
     }
     else if (vc.num == 2) { //down
-      gun_.TurretAbsoluteElevate(-20);
+//      gun_.TurretAbsoluteElevate(-20);
     }
     else if (vc.num == 3) {//right
-      gun_.TurretAbsoluteDegrees(45);
+//      gun_.TurretAbsoluteDegrees(45);
     }
     else if (vc.num == 4) { //left
-      gun_.TurretAbsoluteDegrees(-45);
+//      gun_.TurretAbsoluteDegrees(-45);
     }
     break;
   case VC_CODE_FIRE:
