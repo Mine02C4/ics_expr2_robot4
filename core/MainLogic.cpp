@@ -150,8 +150,6 @@ void MainLogic::Launch()
       break;
       }*/
 #endif
-    printf("get_distance(left) : %d\n", sensor_.GetDistance(SensorID::LeftFront));
-    printf("get_distance(right) : %d\n", sensor_.GetDistance(SensorID::RightFront));
     printf("End loop\n");
   }
   cv_task_flag_ = false;
