@@ -176,7 +176,7 @@ void MainLogic::Wait_Voice_By_Code() {
     exit(1);
   case VC_CODE_QUIZ:
     {
-    speech_.Speak("文章あてゲーム!パチパチパチ！", BASHFUL_FEEL);
+    speech_.Speak_Through("文章あてゲーム!パチパチパチ！", BASHFUL_FEEL);
     voice_.ChangeMode(FASTJCONF);
     speech_.Speak("君の喋った文章を当てるよ！");
     std::string sen = voice_.Wait_One_Sentence(10);
@@ -195,7 +195,7 @@ void MainLogic::Wait_Voice_By_Code() {
         speech_.Speak("どうでしたか?");
       break;
     }
-    speech_.Speak("操作モードに戻ります");
+    speech_.Speak_Through("操作モードに戻ります");
     voice_.ChangeMode(MINEJCONF);
     break;
   }
