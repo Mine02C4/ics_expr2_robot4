@@ -96,7 +96,7 @@ void MainLogic::StartPursuingBox()
   mode_ = Mode::PursuingBox;
   if (cv_thread_.joinable() == true)
     cv_thread_.join();
-  cv_thread_ = std::thread([this] {
+  std::thread([this] {
     printf("Core MainLogic: Start StartPursuingBox\n");
     while (cv_task_flag_ && mode_ == Mode::PursuingBox) {
       if (vision_.getInstance().ReadFrame()) {
@@ -108,7 +108,7 @@ void MainLogic::StartPursuingBox()
       }
     }
     printf("Core MainLogic: End StartPursuingBox\n");
-  });
+  }).detach();
 }
 
 void MainLogic::StartScanBox()
@@ -116,7 +116,7 @@ void MainLogic::StartScanBox()
   mode_ = Mode::ScanBox;
   if (cv_thread_.joinable() == true)
     cv_thread_.join();
-  cv_thread_ = std::thread([this] {
+  std::thread([this] {
     printf("Core MainLogic: Start StartScanBox\n");
     gun_.TurnAbsoluteDegrees(-90);
     while (cv_task_flag_ && mode_ == Mode::ScanBox) {
@@ -138,7 +138,7 @@ void MainLogic::StartScanBox()
       }
     }
     printf("Core MainLogic: End StartScanBox\n");
-  });
+  }).detach();
 }
 
 void MainLogic::StartCameraLoop()
