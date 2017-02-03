@@ -111,19 +111,20 @@ motor_init()
   if (ioctl(fd, URBTC_DESIRE_SET) < 0) report_error_and_exit("init: ioctl_DESIRE", ERR_URBTC_DESIRE_SET);
 
   for (i=0; i<4; i++) {
-    obuf.ch[i].x = 0 << 5;	// x
+    obuf.ch[i].x = 0x7fff << 5;	// x
     obuf.ch[i].d = 512 << 5; 	// v
-    obuf.ch[i].kp = 1;	// propotional
-    obuf.ch[i].kpx = 3;
-    obuf.ch[i].kd = 160;
+    obuf.ch[i].kp = 2;	// propotional
+    obuf.ch[i].kpx = 1;
+
+    obuf.ch[i].kd = 100;
     obuf.ch[i].kdx = 1;
     obuf.ch[i].ki = 1;
-    obuf.ch[i].kix = 1;
+    obuf.ch[i].kix = 10;
   }
   obuf.ch[MRIGHT].d = -150 << 5;
   obuf.ch[MLEFT].d = 150 << 5;
 	if (write(fd, &obuf, sizeof(obuf)) < 0) report_error_and_exit("motor_write_obuf", 3);
-  run_forward(0);
+  run_forward(350);
 }
 
 void set_stat (struct mstat *mstp) {

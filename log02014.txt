@@ -1,0 +1,18 @@
+Initializing motor...
+Found controller #0.
+wirteCMPL[0:0]
+Testing stepping motor
+input device ok
+wirteCMPL[-16000:16000]
+Error: Error turn by degrees
+Start!
+Initializing motor, moving to inital pos...complete!
+Finish init devices.
+Finish init mainlogic.
+Core MainLogic: Start StartPursuingBox
+stop
+currentrot:0Old Pos [x, y, th] = 000
+Current Pos [x, y, th] = -498.79900
+get_distance(left) : 65
+area = 3117, cx = -353, cy = 762
+MainLogic TurnByDegrees 0

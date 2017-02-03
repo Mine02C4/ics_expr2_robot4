@@ -34,6 +34,7 @@ void Gun::FireBurst(int ntimes)
 
 void Gun::TurretAbsoluteElevate(int degrees)
 {
+  std::lock_guard<std::mutex> lock(elevate_mtx_);
   if (degrees < kElevationLowerLimit) {
     std::cerr << "Core Gun: Elevate too lower " << degrees << std::endl;
     degrees = kElevationLowerLimit;
@@ -43,7 +44,8 @@ void Gun::TurretAbsoluteElevate(int degrees)
     degrees = kElevationUpperLimit;
   }
   elevate_by_degrees(degrees);
-  std::this_thread::sleep_for(std::chrono::seconds(1));
+  current_elevation_ = degrees;
+  std::this_thread::sleep_for(std::chrono::milliseconds(1000));
 }
 
 void Gun::TurretRelativeUp(int degrees)
@@ -67,9 +69,20 @@ void Gun::TurnAbsoluteDegrees(int degrees) {
       td = kAngleLimit;
     }
     turn_by_degrees(td);
-    std::this_thread::sleep_for(std::chrono::seconds(5));
+    current_angle_ = degrees;
+    std::this_thread::sleep_for(std::chrono::seconds(1));
     turn_mtx_.unlock();
   }).detach();
+}
+
+void Gun::TurretRelativeTurn(int degrees)
+{
+  TurnAbsoluteDegrees(current_angle_ + degrees);
+}
+
+int Gun::GetCurrentAngle()
+{
+  return current_angle_;
 }
 
 Gun::Gun()

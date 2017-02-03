@@ -31,17 +31,22 @@ silE	silE
 行け	i k e
 行け	i k u
 行け	g o:
-まわれ	m a w a r e
-まわれ	m a w a r u
-まわれ	m a g a r e
-まわれ	m a g a r u
-とまれ	t o m a r e
-とまれ	t o m a r u
-とまれ	s u t o q p u
 さがれ	s a g a r e
 さがれ	s a g a r u
 さがれ	b a q k u
+
+%SINGLE
 モード変更	m o: d o h e N k o u
+言った言葉を当てて	i q t a k o t o b a w o a t e t e
+文章当てゲーム	b u N sh o u a t e g e: m u
+正解	s e i k a i
+はずれ	h a z u r e
+終われ	o w a r e
+作戦終了 s a k u s e N sh u: ry o:
+とまれ	t o m a r e
+とまれ	t o m a r u
+とまれ	s u t o q p u
+まわれ	m a w a r e
 
 %FIRE
 うて	u t e
@@ -95,4 +100,19 @@ silE	silE
 
 %HOUTOU
 砲塔	h o u t o u
+
+%COLOR
+青	a o
+赤	a k a
+黄色	k i i r o
+黒	k u r o
+白	s i r o
+緑	m i d o r i
+
+%IRO
+色	i r o
+
+%COLORSUPPORT
+狙え	n e r a e
+
 

@@ -39,7 +39,7 @@ get_distance(enum sensor s)
     fprintf(stderr, "Error: Unknown distance sensor.\n");
     exit(1);
   }
-  printf("i2c_sensor: get_distance sensor = %d, dist = %d\n", id, range);
+  //printf("i2c_sensor: get_distance sensor = %d, dist = %d\n", id, range);
   return range;
 }
 

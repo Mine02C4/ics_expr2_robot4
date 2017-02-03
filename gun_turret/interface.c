@@ -12,7 +12,8 @@
 #define BUFSIE 255
 #define ANGLE_LIMIT 85
 
-const static char *arduino_dev = "/dev/ttyACM0";
+const static char *arduino_dev = "/dev/ttyUSB0";
+const static char *arduino_dev_sub = "/dev/ttyUSB1";
 static int fd;
 struct termios oldtio, newtio;
 
@@ -28,7 +29,10 @@ void turret_init()
   fd = open(arduino_dev, O_RDWR | O_NOCTTY | O_NONBLOCK);
   if (fd < 0) {
     fprintf(stderr, "Error: cannot open Arduino tty.\n");
-    exit(1);
+    fd = open(arduino_dev_sub, O_RDWR | O_NOCTTY | O_NONBLOCK);
+    if (fd < 0) {
+      exit(1);
+      }
   }
   if (ioctl(fd, TCGETS, &oldtio) < 0) {
     fprintf(stderr, "Error: cannot get termios.\n");

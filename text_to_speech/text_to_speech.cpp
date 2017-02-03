@@ -1,8 +1,10 @@
 #include <cstdlib>
 #include <cstdio>
 #include <iostream>
+#include <cstring>
 #include "text_to_speech.hpp"
-
+#include <thread>
+#include <utility>
 #define VOICEDIR "./text_to_speech/voices/"
 const std::string dict = "/var/lib/mecab/dic/open-jtalk/naist-jdic/";
 //voice file places
@@ -23,6 +25,26 @@ int Speech::Speak(std::string s, int feeling){
   } else {
     play_wav(s, feeling);
   }
+  return 0;
+}
+
+int Speech::Speak_Through(std::string s) {
+  if (search_wav(s, NORMAL_FEEL) == -1) {
+    if(make_wav(s, NORMAL_FEEL) != -1) play_wav_through(s, NORMAL_FEEL);
+  } else {
+    play_wav_through(s, NORMAL_FEEL);
+  }
+  return 0;
+}
+
+
+int Speech::Sing(std::string s, int second) {
+  std::string com = "aplay -d" + std::to_string(second) + " -D plughw:0,0 "+(std::string)VOICEDIR+s+".wav";
+  const char* cmd = com.c_str();
+  auto th = std::thread([cmd] {
+    system(cmd);
+    });
+  th.detach();
   return 0;
 }
 
@@ -70,6 +92,27 @@ int Speech::play_wav(std::string s, int feeling) {
   std::string com = "aplay -D plughw:0,0 "+(std::string)VOICEDIR+s+voice_type+".wav";
   const char* cmd = com.c_str();
   system(cmd);
+  return 0;
+}
+
+int Speech::play_wav_through(std::string s, int feeling) {
+  std::string voice_type = convert_feel_to_string(feeling);
+  std::string com = "aplay -D plughw:0,0 "+(std::string)VOICEDIR+s+voice_type+".wav";
+  const char* cmd = com.c_str();
+  auto th = std::thread([cmd] {
+    system(cmd);
+    });
+  th.detach();
+  return 0;
+}
+int Speech::play_wav_through_second(std::string s, int feeling, int second) {
+  std::string voice_type = convert_feel_to_string(feeling);
+  std::string com = "aplay -d10 -D plughw:0,0 "+(std::string)VOICEDIR+s+voice_type+".wav";
+  const char* cmd = com.c_str();
+  auto th = std::thread([cmd] {
+    system(cmd);
+    });
+  th.detach();
   return 0;
 }
 

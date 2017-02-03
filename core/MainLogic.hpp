@@ -24,6 +24,7 @@ private:
   Gun &gun_;
   CVision &vision_;
   std::thread cv_thread_;
+  std::thread camera_thread_;
 #ifndef _MSC_VER
   void Wait_Voice_By_Code();
   Voicerec &voice_;
@@ -31,6 +32,7 @@ private:
 #endif
   void AdjustGunTurret();
   void StartPursuingBox();
+  void StartCameraLoop();
 };
 
 #endif  // ROBOT_CORE_MAIN_LOGIC_H_

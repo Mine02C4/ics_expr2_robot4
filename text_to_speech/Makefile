@@ -1,5 +1,5 @@
 CXX := g++
-CXXFLAGS = -g -O2
+CXXFLAGS = -g -O2 -std=c++11 -pthread
 OUTPUT := text_to_speech.out
 SRCS := $(wildcard *.cpp)
 OBJS := $(patsubst %.cpp,%.o,$(SRCS))
@@ -18,7 +18,7 @@ mod.o: $(filter-out $(MAIN).o, $(OBJS))
 $(OUTPUT): $(filter-out $(STUB).o, $(OBJS))
 	$(CXX) $(CXXFLAGS) $(CPPFLAGS) -o $@ $^ $(LDFLAGS)
 %.o: %.cpp
-	$(CXX) $(CPPFLAGS) $(LDFLAGS) -c -MMD -o $@ $<
+	$(CXX) $(CXXFLAGS) $(LDFLAGS) -c -MMD -o $@ $<
 clean:
 	$(RM) *.o *.bak *~ core TAGS
 

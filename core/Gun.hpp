@@ -18,6 +18,8 @@ public:
   void TurretAbsoluteElevate(int degrees);
   void TurretRelativeUp(int degrees);
   void TurnAbsoluteDegrees(int degrees);
+  void TurretRelativeTurn(int degrees);
+  int GetCurrentAngle();
 private:
   Gun();
   int current_elevation_;

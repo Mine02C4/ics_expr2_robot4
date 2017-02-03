@@ -27,4 +27,17 @@ struct voicecode{
 
 #define VC_CODE_FIRE 21
 
+#define VC_CODE_QUIZ 100
+#define VC_CODE_CORRECT 101
+#define VC_CODE_INCORRECT 102
+
+#define VC_CODE_BLUE 103
+#define VC_CODE_RED 104
+#define VC_CODE_YELLOW 105
+#define VC_CODE_GREEN 106
+#define VC_CODE_WHITE 107
+#define VC_CODE_BLACK 108
+
+#define VC_CODE_EXIT 200
+
 #endif  // VOICE_RECOGNITION_VOICECODE_H_

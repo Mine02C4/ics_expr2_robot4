@@ -27,7 +27,7 @@ void Drive::SetCurrentPosition(int val[2])
   double y = cval[1];
 	double th = cval[2];		// current theta [deg]
 
-	std::cout << "Old Pos [x, y, th] = " << x << y << th <<"\n";
+	//std::cout << "Old Pos [x, y, th] = " << x << y << th <<"\n";
 
   dsl = val[0] * CONV_TO_DIST;		// LEFT
 	dsr = val[1] * CONV_TO_DIST;		// RIGHT
@@ -40,27 +40,29 @@ void Drive::SetCurrentPosition(int val[2])
 	x = x + dx;
 	y = y + dy;
 	th = th + dth;
-	std::cout << "Current Pos [x, y, th] = " << x << y << th << "\n";
+	//std::cout << "Current Pos [x, y, th] = " << x << y << th << "\n";
 	cval[0] = x;
 	cval[1] = y;
 	cval[2] = th;
 }
 
-void Drive::RunForward(double rot)
+void Drive::RunForward(double dist)
 {
 	/* TODO: check cval */
-  int rotv[2] = {static_cast<int>(rot * CONV_TO_MTR), 
-  static_cast<int>(rot * CONV_TO_MTR)};
-  static int currentrot;
-  std::cout << "currentrot:" << currentrot;
+  int rotv[2] = {static_cast<int>(dist * CONV_TO_MTR), static_cast<int>(dist * CONV_TO_MTR)};
+	if (rotv[0] < -400 || 400 < rotv[0]) {
+		return;
+	}
   SetCurrentPosition(rotv);
-  currentrot += rot;
-  run_forward(rot);
+  run_forward(rotv[0]);
   return;
 }
 
 void Drive::Turn(double angle)
 {
+	if (180 < angle || angle < -180) {
+		return;
+	}
 	if (angle > 0.0) {
 		TurnLeft(angle);
 	} else if (angle < 0.0) {
@@ -71,7 +73,7 @@ void Drive::Turn(double angle)
 
 void Drive::TurnRight(double angle)
 {
-	int mot = (int) angle * MOT_R;
+	int mot = ((int) angle * MOT_R) * CONV_TO_MTR;
 	int motv[2] = {mot, 0};
   turn_right(mot);
 	SetCurrentPosition(motv);
@@ -80,7 +82,7 @@ void Drive::TurnRight(double angle)
 
 void Drive::TurnLeft(double angle)
 {
-	int mot = (int) angle * MOT_R;
+	int mot = ((int) angle * MOT_R) * CONV_TO_MTR;
 	int motv[2] = {mot, 0};
 	turn_left(mot);
 	SetCurrentPosition(motv);
