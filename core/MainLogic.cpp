@@ -26,6 +26,7 @@ MainLogic::MainLogic() :
 #endif
 {
   cv_task_flag_ = false;
+  mode_ = Mode::NoCompute;
 }
 
 
@@ -93,9 +94,10 @@ void MainLogic::AdjustGunTurret()
 
 void MainLogic::StartPursuingBox()
 {
+  mode_ = Mode::PursuingBox;
   cv_thread_ = std::thread([this] {
     printf("Core MainLogic: Start StartPursuingBox\n");
-    while (cv_task_flag_) {
+    while (cv_task_flag_ && mode_ == Mode::PursuingBox) {
       if (vision_.getInstance().ReadFrame()) {
         AdjustGunTurret();
       }
@@ -124,7 +126,9 @@ void MainLogic::Launch()
   cv_task_flag_ = true;
   StartCameraLoop();
   StartPursuingBox();
+#ifndef _MSC_VER
   speech_.Sing("Terminator", 200);
+#endif
   for (;;) {
     int leftfront, rightfront;
     leftfront = sensor_.GetDistance(SensorID::LeftFront);
@@ -192,10 +196,10 @@ void MainLogic::Wait_Voice_By_Code() {
     // no finalize() function in class.
     exit(1);
   case VC_CODE_QUIZ:
-    {
+  {
     speech_.Speak_Through("文章あてゲーム!パチパチパチ！");
     voice_.ChangeMode(FASTJCONF);
-    for (int i = 0; i < 2;i++) {
+    for (int i = 0; i < 2; i++) {
       speech_.Speak("君の喋った文章を当てるよ！");
       std::string sen = voice_.Wait_One_Sentence(10);
       speech_.Speak("もしかして君の喋った文章は");
@@ -203,13 +207,13 @@ void MainLogic::Wait_Voice_By_Code() {
       speech_.Speak("ですか？");
       voice_.Wait_One_Code(5, vc);
       switch (vc.code) {
-        case VC_CODE_CORRECT:
+      case VC_CODE_CORRECT:
         speech_.Speak("やったー!");
         break;
-        case VC_CODE_INCORRECT:
+      case VC_CODE_INCORRECT:
         speech_.Speak("え〜マジかー", SAD_FEEL);
         break;
-        default:
+      default:
         speech_.Speak("どうでしたか?");
         break;
       }

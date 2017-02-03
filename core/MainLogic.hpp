@@ -10,6 +10,12 @@
 #include "../voice_recognition/voice_recog.hpp"
 #include "../text_to_speech/text_to_speech.hpp"
 
+enum class Mode {
+  NoCompute,
+  PursuingBox,
+  ScanBox,
+};
+
 class MainLogic
 {
 public:
@@ -25,6 +31,7 @@ private:
   CVision &vision_;
   std::thread cv_thread_;
   std::thread camera_thread_;
+  Mode mode_;
 #ifndef _MSC_VER
   void Wait_Voice_By_Code();
   Voicerec &voice_;
