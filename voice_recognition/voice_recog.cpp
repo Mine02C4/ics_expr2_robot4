@@ -178,9 +178,11 @@ int Voicerec::Convert_String_to_Code(std::string s, struct voicecode & vc) {
   else if (s == "撃ち方はじめ") {vc.code = VC_CODE_UCHIKATA; vc.num = 1; return 0;}
   else if (s == "モード変更") {vc.code = VC_CODE_MODECHANGE; vc.num = 1; return 0;}
   else if (s == "言った言葉を当てて") {vc.code = VC_CODE_QUIZ ; vc.num = 1; return 0;}
+  else if (s == "文章当てゲーム") {vc.code = VC_CODE_QUIZ ; vc.num = 1; return 0;}
   else if (s == "正解") {vc.code = VC_CODE_CORRECT; vc.num = 1; return 0;}
   else if (s == "はずれ") {vc.code = VC_CODE_INCORRECT; vc.num = 1; return 0;}
   else if (s == "終われ") {vc.code = VC_CODE_EXIT; vc.num = 1; return 0;}
+  else if (s == "作戦終了") {vc.code = VC_CODE_EXIT; vc.num = 1; return 0;}
   if ((int)s.find("発") >= 0) {
     sscanf(s.c_str(),"%d", &num);
     vc.num = num;
