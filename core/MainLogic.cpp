@@ -103,6 +103,7 @@ void MainLogic::StartCameraLoop()
 void MainLogic::Launch()
 {
   // Get command from other interfaces.
+  speech_.Sing("Terminator", 10);
   cv_task_flag_ = true;
   StartCameraLoop();
   StartPursuingBox();
