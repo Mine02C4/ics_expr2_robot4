@@ -82,10 +82,11 @@ void MainLogic::AdjustGunTurret()
       else {
 #ifndef _MSC_VER
         speech_.Speak("目標を殲滅", ANGRY_FEEL);
-        gun_.FireNum(1);
+        gun_.FireBurst(1);
 #endif
         printf("Core MainLogic NoCompute\n");
-        mode_ = Mode::NoCompute;
+        mode_ = Mode::ScanBox;
+        std::this_thread::sleep_for(std::chrono::seconds(3));
       }
     }
   }
@@ -108,6 +109,8 @@ void MainLogic::StartPursuingBox()
       }
     }
     printf("Core MainLogic: End StartPursuingBox\n");
+    if (mode_ == Mode::ScanBox)
+      StartScanBox();
   }).detach();
 }
 
