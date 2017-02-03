@@ -1,7 +1,7 @@
 MODULES := motor_control i2c_sensor gun_turret voice_recognition text_to_speech
 
 CXX := g++
-CXXFLAGS := -O2 -std=c++11 -Wall
+CXXFLAGS := -O2 -std=c++11 -Wall -g -D_GLIBCXX_DEBUG
 JULIUSDIR := julius-4.2.3
 LIBSENT := $(JULIUSDIR)/libsent
 LIBJULIUS := $(JULIUSDIR)/libjulius

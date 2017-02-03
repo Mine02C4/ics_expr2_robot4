@@ -39,7 +39,7 @@ int Speech::Speak_Through(std::string s) {
 
 
 int Speech::Sing(std::string s, int second) {
-  std::string com = "aplay -d" + std::to_string(second) + " -D plughw:0,0 "+(std::string)VOICEDIR+s+".wav";
+  std::string com = "aplay -d" + std::to_string(second) + " "+(std::string)VOICEDIR+s+".wav";
   const char* cmd = com.c_str();
   auto th = std::thread([cmd] {
     system(cmd);
@@ -89,7 +89,7 @@ int Speech::make_wav(std::string s, int feeling) {
 
 int Speech::play_wav(std::string s, int feeling) {
   std::string voice_type = convert_feel_to_string(feeling);
-  std::string com = "aplay -D plughw:0,0 "+(std::string)VOICEDIR+s+voice_type+".wav";
+  std::string com = "aplay  "+(std::string)VOICEDIR+s+voice_type+".wav";
   const char* cmd = com.c_str();
   system(cmd);
   return 0;
@@ -97,7 +97,7 @@ int Speech::play_wav(std::string s, int feeling) {
 
 int Speech::play_wav_through(std::string s, int feeling) {
   std::string voice_type = convert_feel_to_string(feeling);
-  std::string com = "aplay -D plughw:0,0 "+(std::string)VOICEDIR+s+voice_type+".wav";
+  std::string com = "aplay "+(std::string)VOICEDIR+s+voice_type+".wav";
   const char* cmd = com.c_str();
   auto th = std::thread([cmd] {
     system(cmd);
@@ -107,7 +107,7 @@ int Speech::play_wav_through(std::string s, int feeling) {
 }
 int Speech::play_wav_through_second(std::string s, int feeling, int second) {
   std::string voice_type = convert_feel_to_string(feeling);
-  std::string com = "aplay -d10 -D plughw:0,0 "+(std::string)VOICEDIR+s+voice_type+".wav";
+  std::string com = "aplay -d10  "+(std::string)VOICEDIR+s+voice_type+".wav";
   const char* cmd = com.c_str();
   auto th = std::thread([cmd] {
     system(cmd);
