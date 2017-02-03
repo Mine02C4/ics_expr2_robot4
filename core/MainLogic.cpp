@@ -59,7 +59,7 @@ void MainLogic::AdjustGunTurret()
 
         printf("MainLogic Turn %f\n", angle);
       }
-      else if (cx * KX < - MARGIN_LIMIT_SML && cx * KX > - MARGIN_LIMIT_BIG) {
+      else if (cx * KX < -MARGIN_LIMIT_SML && cx * KX > -MARGIN_LIMIT_BIG) {
         double angle = cx * KX;
         drive_.Turn(angle);
         printf("MainLogic Turn %f\n", angle);
@@ -68,7 +68,7 @@ void MainLogic::AdjustGunTurret()
 
       }
       else if (cx * KX < -MARGIN_ROT_DEG || cx * KX > MARGIN_ROT_DEG) {
-        int angle = static_cast<double>(cx * KX) ;
+        int angle = static_cast<double>(cx * KX);
         gun_.TurretRelativeTurn(-angle);
         printf("MainLogic TurnByDegrees %d\n", angle);
       }
@@ -107,6 +107,32 @@ void MainLogic::StartPursuingBox()
       }
     }
     printf("Core MainLogic: End StartPursuingBox\n");
+  });
+}
+
+void MainLogic::StartScanBox()
+{
+  mode_ = Mode::ScanBox;
+  cv_thread_.join();
+  cv_thread_ = std::thread([this] {
+    printf("Core MainLogic: Start StartScanBox\n");
+    gun_.TurnAbsoluteDegrees(-90);
+    while (cv_task_flag_ && mode_ == Mode::ScanBox) {
+      if (vision_.getInstance().ReadFrame()) {
+        int area, cx, cy;
+        if (vision_.getInstance().DetectBlueBox(area, cx, cy)) {
+          StartPursuingBox();
+        }
+        else {
+          gun_.TurretRelativeTurn(10);
+        }
+      }
+      int key = cv::waitKey(1) & 0xff;
+      if (key == 27) {
+        break;
+      }
+    }
+    printf("Core MainLogic: End StartScanBox\n");
   });
 }
 

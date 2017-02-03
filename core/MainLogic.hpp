@@ -39,6 +39,7 @@ private:
 #endif
   void AdjustGunTurret();
   void StartPursuingBox();
+  void StartScanBox();
   void StartCameraLoop();
 };
 
