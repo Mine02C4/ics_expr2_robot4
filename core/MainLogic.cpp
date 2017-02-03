@@ -79,11 +79,13 @@ void MainLogic::AdjustGunTurret()
         gun_.TurretRelativeUp(degrees);
         printf("MainLogic TurretRelativeUp %d\n", degrees);
       }
-      else if (cy < 0) {
-        // gun_.TurretRelativeUp(degrees);
-      }
-      else if (cy > 0) {
-        //  gun_.TurretRelativeUp(degrees);
+      else {
+#ifndef _MSC_VER
+        speech_.Speak("目標を殲滅", ANGRY_FEEL);
+        gun_.FireNum(1);
+#endif
+        printf("Core MainLogic NoCompute\n");
+        mode_ = Mode::NoCompute;
       }
     }
   }
