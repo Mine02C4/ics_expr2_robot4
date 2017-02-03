@@ -16,7 +16,7 @@ int main(int argc, char * argv[])
   if (argc > 1) {
     std::string arg1 = argv[1];
     if (arg1 == "nowindow") {
-      nowindow == true;
+      nowindow = true;
     }
   }
   printf("Start!\n");

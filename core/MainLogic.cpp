@@ -10,6 +10,8 @@
 
 #define MARGIN_EV_DEG 1
 #define MARGIN_ROT_DEG 1
+#define MARGIN_LIMIT_BIG 40
+#define MARGIN_LIMIT_SML 35
 #define KY 0.01464
 #define KX 0.01953
 
@@ -49,8 +51,24 @@ void MainLogic::AdjustGunTurret()
     }
     else {
       //gun adjustment
-      if (cx * KX < -MARGIN_ROT_DEG || cx * KX > MARGIN_ROT_DEG) {
-        int angle = static_cast<double>(cx * KX);
+      if (cx * KX > MARGIN_LIMIT_SML && cs * KX < MARGIN_LIMIT_BIG) {
+        double angle = cx * KX;
+        drive_.Turn(angle);
+        int angle_int = static_cast<double>(cx * KX);
+        gun_.TurretRelativeTurn(-angle_int);
+
+        printf("MainLogic Turn %f\n", angle);
+      }
+      else if (cx * KX < - MARGIN_LIMIT_SML && cs * KX > - MARGIN_LIMIT_BIG) {
+        double angle = cx * KX;
+        drive_.Turn(angle);
+        printf("MainLogic Turn %f\n", angle);
+        int angle_int = static_cast<double>(cx * KX);
+        gun_.TurretRelativeTurn(-angle_int);
+
+      }
+      else if (cx * KX < -MARGIN_ROT_DEG || cx * KX > MARGIN_ROT_DEG) {
+        int angle = static_cast<double>(cx * KX) ;
         gun_.TurretRelativeTurn(-angle);
         printf("MainLogic TurnByDegrees %d\n", angle);
       }
@@ -105,12 +123,12 @@ void MainLogic::StartCameraLoop()
 void MainLogic::Launch()
 {
   // Get command from other interfaces.
-#ifndef _MSC_VER
-  speech_.Sing("Terminator", 10);
-#endif
   cv_task_flag_ = true;
   StartCameraLoop();
   StartPursuingBox();
+#ifndef _MSC_VER
+  speech_.Sing("Terminator", 200);
+#endif
   for (;;) {
     int leftfront, rightfront;
     leftfront = sensor_.GetDistance(SensorID::LeftFront);
