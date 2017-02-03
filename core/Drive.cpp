@@ -73,9 +73,8 @@ void Drive::Turn(double angle)
 
 void Drive::TurnRight(double angle)
 {
-	int mot = ((int) angle * MOT_R) * CONV_TO_MTR;
-	int motv[2] = {mot, 0};
-  printf("%d", mot);
+	int mot = ((int) angle * (MOT_R / 2)) * CONV_TO_MTR * (PI/180);
+	int motv[2] = {0, mot};
   turn_right(mot);
 	SetCurrentPosition(motv);
   return;
@@ -83,7 +82,7 @@ void Drive::TurnRight(double angle)
 
 void Drive::TurnLeft(double angle)
 {
-	int mot = ((int) angle * MOT_R) * CONV_TO_MTR;
+	int mot = ((int) angle * (MOT_R / 2)) * CONV_TO_MTR * (PI/180);
 	int motv[2] = {mot, 0};
 	turn_left(mot);
 	SetCurrentPosition(motv);
