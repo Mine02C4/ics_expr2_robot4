@@ -10,7 +10,6 @@
 
 #define MARGIN_EV_DEG 1
 #define MARGIN_ROT_DEG 1
-#define MARGIN_LIMIT_BIG 20
 #define MARGIN_LIMIT_SML 15
 #define KY 0.01464
 #define KX 0.01953
@@ -51,7 +50,7 @@ void MainLogic::AdjustGunTurret()
     }
     else {
       //gun adjustment
-      if (cx * KX > MARGIN_LIMIT_SML && cx * KX < MARGIN_LIMIT_BIG) {
+      if (cx * KX > MARGIN_LIMIT_SML) {
         double angle = cx * KX;
         drive_.Turn(angle);
         int angle_int = static_cast<double>(cx * KX);
@@ -59,7 +58,7 @@ void MainLogic::AdjustGunTurret()
 
         printf("MainLogic Turn %f\n", angle);
       }
-      else if (cx * KX < - MARGIN_LIMIT_SML && cx * KX > - MARGIN_LIMIT_BIG) {
+      else if (cx * KX < - MARGIN_LIMIT_SML) {
         double angle = cx * KX;
         drive_.Turn(angle);
         printf("MainLogic Turn %f\n", angle);
