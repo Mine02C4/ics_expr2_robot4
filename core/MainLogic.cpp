@@ -54,15 +54,14 @@ void MainLogic::AdjustGunTurret()
         if (gun_.GetCurrentAngle() > MARGIN_LIMIT_SML) {
           double angle = gun_.GetCurrentAngle();
           drive_.Turn(angle);
-          gun_.TurretRelativeTurn(angle);
+          gun_.TurretRelativeTurn(-angle);
           printf("MainLogic Turn %f\n", angle);
         }
         else if (gun_.GetCurrentAngle() < -MARGIN_LIMIT_SML) {
           double angle = gun_.GetCurrentAngle();
           drive_.Turn(angle);
+          gun_.TurretRelativeTurn(-angle);
           printf("MainLogic Turn %f\n", angle);
-          gun_.TurretRelativeTurn(angle);
-
         }
       }
       else if (cx * KX < -MARGIN_ROT_DEG || cx * KX > MARGIN_ROT_DEG) {
@@ -255,7 +254,7 @@ void MainLogic::Wait_Voice_By_Code() {
   case VC_CODE_MODECHANGE:
     mode++;
     printf("!Modechange\n");
-   speech_.Speak("モード変更");
+    speech_.Speak("モード変更");
     if (mode % 2 == 0) {
       speech_.Speak("モード。シングルファイヤ");
     }

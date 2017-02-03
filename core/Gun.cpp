@@ -66,9 +66,10 @@ void Gun::TurnAbsoluteDegrees(int degrees) {
     td = kAngleLimit;
   }
   turn_by_degrees(td);
-  int d_angle = std::abs(degrees - current_angle_);
+  double d_angle = std::abs(degrees - current_angle_);
   current_angle_ = degrees;
-  std::this_thread::sleep_for(std::chrono::seconds(d_angle / 10 + 1));
+  std::cerr << "Core Gun: Turn " << current_angle_ << std::endl;
+  std::this_thread::sleep_for(std::chrono::seconds(static_cast<int>(d_angle / 11 + 1)));
 }
 
 void Gun::TurretRelativeTurn(int degrees)
