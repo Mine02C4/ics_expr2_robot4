@@ -94,6 +94,7 @@ void MainLogic::AdjustGunTurret()
 void MainLogic::StartPursuingBox()
 {
   mode_ = Mode::PursuingBox;
+  cv_thread_.join();
   cv_thread_ = std::thread([this] {
     printf("Core MainLogic: Start StartPursuingBox\n");
     while (cv_task_flag_ && mode_ == Mode::PursuingBox) {
@@ -150,7 +151,7 @@ void MainLogic::Launch()
   // Get command from other interfaces.
   cv_task_flag_ = true;
   StartCameraLoop();
-  StartPursuingBox();
+  StartScanBox();
 #ifndef _MSC_VER
   speech_.Sing("Terminator", 200);
 #endif
