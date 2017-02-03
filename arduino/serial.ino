@@ -70,6 +70,7 @@ void loop_motor() {
         Serial.println("turret command");
         if (minus_flag == 1)
           num = -num;
+
         servo.write(num + 50);
       }
       Serial.println("buff:");
