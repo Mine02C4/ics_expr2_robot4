@@ -246,7 +246,7 @@ Stereo::Stereo()
 }
 
 /* StereoCamera */
-
+/*
 void StereoCamera::Init()
 {
   int right_id, left_id;
@@ -313,3 +313,4 @@ void StereoCamera::Display()
 StereoCamera::StereoCamera()
 {
 }
+*/
