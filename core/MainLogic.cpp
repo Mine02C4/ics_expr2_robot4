@@ -161,7 +161,7 @@ void MainLogic::Launch()
   StartCameraLoop();
   StartScanBox();
 #ifndef _MSC_VER
-  speech_.Sing("Terminator", 15);
+  //speech_.Sing("Terminator", 15);
 #endif
   for (;;) {
     int leftfront, rightfront;
