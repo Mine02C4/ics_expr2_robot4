@@ -10,8 +10,8 @@
 
 #define MARGIN_EV_DEG 1
 #define MARGIN_ROT_DEG 1
-#define MARGIN_LIMIT_BIG 40
-#define MARGIN_LIMIT_SML 35
+#define MARGIN_LIMIT_BIG 20
+#define MARGIN_LIMIT_SML 15
 #define KY 0.01464
 #define KX 0.01953
 
