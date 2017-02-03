@@ -282,10 +282,10 @@ void MainLogic::Wait_Voice_By_Code() {
       gun_.TurretAbsoluteElevate(-10);
     }
     else if (vc.num == 3) {//right
-      gun_.TurnAbsoluteDegrees(25);
+      gun_.TurnAbsoluteDegrees(-25);
     }
     else if (vc.num == 4) { //left
-      gun_.TurnAbsoluteDegrees(-45);
+      gun_.TurnAbsoluteDegrees(25);
     }
     break;
   case VC_CODE_FIRE:
