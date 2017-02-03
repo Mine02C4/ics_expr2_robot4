@@ -85,7 +85,7 @@ void MainLogic::AdjustGunTurret()
         gun_.FireNum(1);
 #endif
         printf("Core MainLogic NoCompute\n");
-        mode_ = Mode::NoCompute;
+        mode_ = Mode::ScanBox;
       }
     }
   }
@@ -108,6 +108,8 @@ void MainLogic::StartPursuingBox()
       }
     }
     printf("Core MainLogic: End StartPursuingBox\n");
+    if (mode_ == Mode::ScanBox)
+      StartScanBox();
   }).detach();
 }
 
