@@ -68,6 +68,7 @@ void Gun::TurnAbsoluteDegrees(int degrees) {
   turn_by_degrees(td);
   double d_angle = std::abs(degrees - current_angle_);
   current_angle_ = degrees;
+  std::cerr << "Core Gun: Turn " << current_angle_ << std::endl;
   std::this_thread::sleep_for(std::chrono::seconds(static_cast<int>(d_angle / 11 + 1)));
 }
 
