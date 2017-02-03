@@ -158,7 +158,6 @@ void MainLogic::Launch()
   StartCameraLoop();
   StartScanBox();
 #ifndef _MSC_VER
-  speech_.Sing("Terminator", 10);
 #endif
   for (;;) {
     int leftfront, rightfront;
@@ -256,7 +255,7 @@ void MainLogic::Wait_Voice_By_Code() {
   case VC_CODE_MODECHANGE:
     mode++;
     printf("!Modechange\n");
-    speech_.Speak("モード変更");
+   speech_.Speak("モード変更");
     if (mode % 2 == 0) {
       speech_.Speak("モード。シングルファイヤ");
     }
@@ -277,16 +276,16 @@ void MainLogic::Wait_Voice_By_Code() {
   case VC_CODE_HOUTOU:
     printf("!Houtou\n");
     if (vc.num == 1) { //up
-//      gun_.TurretAbsoluteDegrees(30);
+      gun_.TurretAbsoluteElevate(20);
     }
     else if (vc.num == 2) { //down
-//      gun_.TurretAbsoluteElevate(-20);
+      gun_.TurretAbsoluteElevate(-10);
     }
     else if (vc.num == 3) {//right
-//      gun_.TurretAbsoluteDegrees(45);
+      gun_.TurnAbsoluteDegrees(25);
     }
     else if (vc.num == 4) { //left
-//      gun_.TurretAbsoluteDegrees(-45);
+      gun_.TurnAbsoluteDegrees(-45);
     }
     break;
   case VC_CODE_FIRE:
@@ -308,7 +307,7 @@ void MainLogic::Wait_Voice_By_Code() {
   case VC_CODE_LEFT:
     dist = vc.num;
     printf("!Left\n");
-    drive_.TurnRight(vc.num);
+    drive_.TurnRight(-vc.num);
     break;
   case VC_CODE_RIGHT:
     dist = vc.num;
