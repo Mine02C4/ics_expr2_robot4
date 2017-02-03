@@ -123,9 +123,11 @@ void MainLogic::StartScanBox()
       if (vision_.getInstance().ReadFrame()) {
         int area, cx, cy;
         if (vision_.getInstance().DetectBlueBox(area, cx, cy)) {
+          printf("Core MainLogic: Bluebox detected\n");
           StartPursuingBox();
         }
         else {
+          printf("Core MainLogic: TurretRelativeTurn\n");
           gun_.TurretRelativeTurn(10);
         }
       }
