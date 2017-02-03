@@ -13,7 +13,7 @@ public:
     static CVision singleton;
     return singleton;
   }
-  int Init();
+  int Init(bool nowindow);
   //void Finalize();
   bool ReadFrame();
   bool DetectBlueBox(int &area, int& cx, int& cy);
@@ -25,6 +25,7 @@ private:
   const cv::Point pointer_offset_ = cv::Point(0, 40);
   CVision();
   bool frame_updated_;
+  bool show_window_;
   cv::Mat frame_;
   cv::Mat last_frame_;
   std::mutex frame_mtx_;

@@ -6,8 +6,9 @@ using namespace cv;
 
 CVision::CVision() {}
 
-int CVision::Init()
+int CVision::Init(bool nowindow)
 {
+  show_window_ = !nowindow;
   cap_.open(0);
   if (!cap_.isOpened())
     return 1;
@@ -172,7 +173,7 @@ bool CVision::DetectBlueBox(int & area, int & cx, int & cy)
     double y = static_cast<double>(param[1]);
     cx = 2048 * (x / size.width) - 1024;
     cy = 2048 * (y / size.height) - 1024;
-    { // DEBUG BLOCK
+    if (show_window_) { // DEBUG BLOCK
       int *param = stats.ptr<int>(largest_id);
       int x = param[cv::ConnectedComponentsTypes::CC_STAT_LEFT];
       int y = param[cv::ConnectedComponentsTypes::CC_STAT_TOP];
@@ -182,15 +183,16 @@ bool CVision::DetectBlueBox(int & area, int & cx, int & cy)
       std::stringstream num;
       num << largest_area << " cx:" << cx << " cy:" << cy;
       putText(output, num.str(), Point(x + 5, y + 20), cv::FONT_HERSHEY_COMPLEX, 0.5, cv::Scalar(0, 255, 255), 1);
+
+      cv::circle(output, cv::Point(x, y), 3, cv::Scalar(0, 255, 0), -1);
+      cv::resize(output, output, Size(), 2.0, 2.0);
+      if (pointer_detected) {
+        std::stringstream pstr;
+        pstr << "x:" << pointer.x << " y: " << pointer.y << "\n" << opt;
+        putText(output, pstr.str(), Point(pointer.x * 2 + 5, pointer.x * 2 + 20), cv::FONT_HERSHEY_COMPLEX, 0.4, cv::Scalar(0, 255, 255), 1);
+      }
+      cv::imshow("Output", output);
     }
-    cv::circle(output, cv::Point(x, y), 3, cv::Scalar(0, 255, 0), -1);
-    cv::resize(output, output, Size(), 2.0, 2.0);
-    if (pointer_detected) {
-      std::stringstream pstr;
-      pstr << "x:" << pointer.x << " y: " << pointer.y << "\n" << opt;
-      putText(output, pstr.str(), Point(pointer.x * 2 + 5, pointer.x * 2 + 20), cv::FONT_HERSHEY_COMPLEX, 0.4, cv::Scalar(0, 255, 255), 1);
-    }
-    cv::imshow("Output", output);
     return true;
   }
   else {
