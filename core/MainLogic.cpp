@@ -50,21 +50,20 @@ void MainLogic::AdjustGunTurret()
     }
     else {
       //gun adjustment
-      if (cx * KX > MARGIN_LIMIT_SML) {
-        double angle = cx * KX;
-        drive_.Turn(angle);
-        int angle_int = static_cast<double>(cx * KX);
-        gun_.TurretRelativeTurn(angle_int);
+      if (std::abs(gun_.GetCurrentAngle()) > 60) {
+        if (gun_.GetCurrentAngle() > MARGIN_LIMIT_SML) {
+          double angle = gun_.GetCurrentAngle();
+          drive_.Turn(angle);
+          gun_.TurretRelativeTurn(angle);
+          printf("MainLogic Turn %f\n", angle);
+        }
+        else if (gun_.GetCurrentAngle() < -MARGIN_LIMIT_SML) {
+          double angle = gun_.GetCurrentAngle();
+          drive_.Turn(angle);
+          printf("MainLogic Turn %f\n", angle);
+          gun_.TurretRelativeTurn(angle);
 
-        printf("MainLogic Turn %f\n", angle);
-      }
-      else if (cx * KX < -MARGIN_LIMIT_SML) {
-        double angle = cx * KX;
-        drive_.Turn(angle);
-        printf("MainLogic Turn %f\n", angle);
-        int angle_int = static_cast<double>(cx * KX);
-        gun_.TurretRelativeTurn(angle_int);
-
+        }
       }
       else if (cx * KX < -MARGIN_ROT_DEG || cx * KX > MARGIN_ROT_DEG) {
         int angle = static_cast<double>(cx * KX);
