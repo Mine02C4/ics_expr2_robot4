@@ -171,8 +171,8 @@ bool CVision::DetectBlueBox(int & area, int & cx, int & cy)
     double *param = centroids.ptr<double>(largest_id);
     double x = static_cast<double>(param[0]);
     double y = static_cast<double>(param[1]);
-    cx = 2048 * (x / size.width) - 1024;
-    cy = 2048 * (y / size.height) - 1024;
+    cx = 2048 * (x - pointer_offset_.x / size.width) - 1024;
+    cy = 2048 * (y - pointer_offset_.y / size.height) - 1024;
     if (show_window_) { // DEBUG BLOCK
       int *param = stats.ptr<int>(largest_id);
       int x = param[cv::ConnectedComponentsTypes::CC_STAT_LEFT];
