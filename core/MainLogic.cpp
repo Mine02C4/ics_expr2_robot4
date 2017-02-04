@@ -187,7 +187,7 @@ void MainLogic::Launch()
       drive_.RunForward(200);
       break;
     case VC_CODE_BACK:
-      printf("RunBack\n");
+o      printf("RunBack\n");
       drive_.RunForward(-200);
       break;
     case VC_CODE_LEFT:
@@ -232,10 +232,11 @@ void MainLogic::Wait_Voice_By_Code() {
   case VC_CODE_QUIZ:
   {
     speech_.Speak_Through("文章あてゲーム!パチパチパチ！");
-    voice_.ChangeMode(FASTJCONF);
     for (int i = 0; i < 2; i++) {
+      voice_.ChangeMode(FASTJCONF);
       speech_.Speak("君の喋った文章を当てるよ！");
       std::string sen = voice_.Wait_One_Sentence(10);
+      voice_.ChangeMode(MINEJCONF);
       speech_.Speak("もしかして君の喋った文章は");
       speech_.Speak(sen);
       speech_.Speak("ですか？");
@@ -253,7 +254,6 @@ void MainLogic::Wait_Voice_By_Code() {
       }
     }
     speech_.Speak_Through("操作モードに戻ります");
-    voice_.ChangeMode(MINEJCONF);
     break;
   }
   case VC_CODE_MODECHANGE:
